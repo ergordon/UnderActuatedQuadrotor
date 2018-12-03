@@ -9,7 +9,7 @@ function u=Inner(t,x,u_outer)
 %%% FEEDBACK CONTROL
 % POSITION CONTROL
 %%{
-persistent K
+persistent K Kroll Kpitch Kyaw
 dt = 0.001;
 th = x(7:9); 
 w = x(10:12);
@@ -17,7 +17,8 @@ J = diag([4093e-6, 3944e-6, 7593e-6]);
 
 xe = [0;0;-1;0;0;0;0;0;0;0;0;0;];
 
-if isempty(K)
+if isempty(Kroll)
+    %{
     syms o1 o2 o3 th1 th2 th3 v1 v2 v3 w1 w2 w3 u1 u2 u3 u4 real;
 
     xs = [o1 o2 o3 v1 v2 v3 th1 th2 th3 w1 w2 w3]';
@@ -57,8 +58,64 @@ if isempty(K)
          0 0 0 5];
      
     K = dlqr(Ad, Bd, Q, R);
+    %}
+    
+    %LQR CONTROLLER ROLL(THETA3)
+    dt = 0.001;
+    A = [0,1;0,0];
+    B = [0; 1/J(1,1)];
+    Q = [2,0;0,.1];
+    R = 5;
+
+    A = eye(2) + dt*A;
+    B = dt*B;
+
+    [P,E,Kroll] = dare(A,B,Q,R);
+
+
+    %LQR CONTROLLER PITCH(THETA2)
+    dt = 0.001;
+    A = [0,1;0,0];
+    B = [0; 1/J(2,2)];
+    Q = [2,0;0,.1];
+    R = 5;
+
+    A = eye(2) + dt*A;
+    B = dt*B;
+    [P,E,Kpitch] = dare(A,B,Q,R);
+
+
+
+    %LQR CONTROLLER YAW(THETA1)
+    dt = 0.001;
+    A = [0,1;0,0]; 
+    B = [0; 1/J(3,3)];
+    Q = [5,0;0,.1];
+    R = 5;
+
+    A = eye(2) + dt*A;
+    B = dt*B;
+    [P,E,Kyaw]=dare(A,B,Q,R);
+
+    Kroll
+    Kpitch
+    Kyaw
 end
 
-u = -K*(x(7:12)-xe(7:12))+u_outer;
+u = [0;0;0;0];
+
+a = u_outer(3);
+b = u_outer(2);
+c = u_outer(1);
+
+xroll = [th(1)-c; w(1)];
+xpitch = [th(2)-b; w(2)];
+xyaw = [th(3)-a; w(3)];
+
+u(1) = -Kroll*xroll;
+u(2) = -Kpitch*xpitch;
+u(3) = -Kyaw*xyaw;
+u(4) = u_outer(4);
+%u = -K*(x(7:12)-xe(7:12))+u_outer;
 
 %}

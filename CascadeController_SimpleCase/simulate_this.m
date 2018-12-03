@@ -1,17 +1,17 @@
 close all
 clear all
-clc
+%clc
 
 % Initial conditions
 dt = (1/50);
 t0 = 0;
-t1 = 6.9;
+t1 = 5;
 
 tspan=[t0 t1]; 
 dt_inner=0.001; 
 dt_outer=0.01;
 x0=zeros(12,1); 
-x0(1:3)=[0;0;-2];
+x0(1:3)=[0;0;-1];
 
 % Identify your EOM function, policy functions and a force disturbance. 
 eom=@(t,x,u) Quad_EOM(x,u);
