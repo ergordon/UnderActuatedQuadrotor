@@ -6,38 +6,43 @@ function xdot=Quad_EOM(x,u)
 %         NOTE: theta_1 = roll, theta_2 = pitch, theta_3 = yaw
 
 %% Physical Parameters
-J = diag([4093e-6, 3944e-6, 7593e-6]);    % moment of inertia matrix in body frame
-g = 9.81;  % gravity
-m = 0.715;                  % mass
+params = GetParameters;
+J = params.J;
+g = params.g;
+m = params.m;
 
-o = x(1:3);
-v = x(4:6);
-t = x(7:9);
-w = x(10:12);
+xdot=zeros(12,1);
 
-what = [0 -w(3) w(2);
-        w(3) 0 -w(1);
-        -w(2) w(1) 0];
-%ZYX
-R = Rz(t(1))*Ry(t(2))*Rx(t(3));
-N = [Rx(t(3))'*Ry(t(2))'*[0;0;1] Rx(t(3))'*[0;1;0] [1;0;0]]^(-1);
+vx=x(4);
+vy=x(5);
+vz=x(6);
 
-odot = v;
-tdot = N*w;
-vdot = 1/m*([0;0;m*g] + R*[0;0;-u(4)]);
-wdot = J^(-1)*(u(1:3) - what*J*w);
+theta_3=x(7);
+theta_2=x(8);
+theta_1=x(9);
 
-xdot = [odot;vdot;tdot;wdot];
-end
+p=x(10);
+q=x(11);
+r=x(12);
 
-function R = Rz(t)
-    R = [cos(t) -sin(t) 0; sin(t) cos(t) 0; 0 0 1];
-end
+xdot(1)=vx;
+xdot(2)=vy;
+xdot(3)=vz;
 
-function R = Ry(t)
-    R = [cos(t) 0  sin(t); 0 1 0; -sin(t) 0 cos(t)];
-end
+u1=u(1);
+u2=u(2);
+u3=u(3);
+u4=u(4);
 
-function R = Rx(t)
-    R = [1 0 0; 0 cos(t) -sin(t); 0 sin(t) cos(t)];
-end
+xdot(4)=(-(cos(theta_1)*sin(theta_2)*cos(theta_3)+sin(theta_1)*sin(theta_3))*u4)/m;
+xdot(5)=(-(sin(theta_1)*sin(theta_2)*cos(theta_3)-cos(theta_1)*sin(theta_3))*u4)/m;
+xdot(6)=(m*g-(cos(theta_2)*cos(theta_3)*u4))/m;
+
+xdot(10:12)=inv(J)*([u1; u2; u3]-[0,-r, q; r, 0, -p; -q, p, 0]*J*[p; q; r]);
+
+m=[0, sin(theta_3)/cos(theta_2), cos(theta_3)/cos(theta_2); 0, cos(theta_3), -sin(theta_3);...
+           1, tan(theta_2)*sin(theta_3), tan(theta_2)*cos(theta_3)]*[p;q;r];
+       
+xdot(7)=m(3);
+xdot(8)=m(2);
+xdot(9)=m(1);
