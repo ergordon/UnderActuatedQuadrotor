@@ -4,7 +4,6 @@ clear all
 clc
 
 % Fetch Parameters
-%{
 params = GetParameters;
 o_des = params.odes;
 dt_inner = params.dt_inner;
@@ -12,20 +11,7 @@ dt_outer = params.dt_outer;
 t0 = params.t0;
 t1 = params.t1;
 x0 = params.x0;
-%}
-params.odes = [0 0 -1];
-params.dt_inner=0.001; 
-params.dt_outer=0.01;
-params.t0 = 0;
-params.t1 = 5;
-x0=zeros(12,1); 
-x0(1:3)=[0;0;-1];
-params.x0 = x0;
-params.m = 0.715; 
-params.g = 9.81;
-params.goal = [2;0;-1];
-params.J = diag([4093e-6, 3944e-6, 7593e-6]);
-GetParameters
+
 
 % Initial conditions
 tspan=[t0 t1]; 
@@ -54,8 +40,7 @@ Visualizer(T', X(:,1:3)', X(:,7:9)', odes', 'Test.mp4')
 close all;
 
 % Plot results
-%plot_basic(T,X',Ui_T,Ui,Uo_T,Uo)
+plot_basic(T,X',Ui_T,Ui,Uo_T,Uo)
 
 % Clear persistent variables
 clear functions
-
