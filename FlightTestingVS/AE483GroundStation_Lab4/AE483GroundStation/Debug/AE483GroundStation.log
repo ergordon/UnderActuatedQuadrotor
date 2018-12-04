@@ -1,0 +1,77 @@
+﻿Build started 11/14/2018 9:44:18 AM.
+     1>Project "\\ad.uillinois.edu\engr-ews\stier2\Documents\MATLAB\AE483\lab 4\AE483GroundStation_Lab4\AE483GroundStation\AE483GroundStation.vcxproj" on node 2 (rebuild target(s)).
+       Project file contains ToolsVersion="12.0". This toolset may be unknown or missing, in which case you may be able to resolve this by installing the appropriate version of MSBuild, or the build may have been forced to a particular ToolsVersion for policy reasons. Treating the project as if it had ToolsVersion="4.0". For more information, please see http://go.microsoft.com/fwlink/?LinkId=291333.
+     1>_PrepareForClean:
+         Deleting file "Debug\AE483GroundStation.lastbuildstate".
+       InitializeBuildStatus:
+         Creating "Debug\AE483GroundStation.unsuccessfulbuild" because "AlwaysCreate" was specified.
+       ClCompile:
+         c:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _CONSOLE /D _LIB /D _CRT_SECURE_NO_WARNINGS /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc100.pdb" /Gd /TC /analyze- /errorReport:prompt asctecCommIntf.c main.c planner.c
+         planner.c
+     1>\\ad.uillinois.edu\engr-ews\stier2\documents\matlab\ae483\lab 4\ae483groundstation_lab4\ae483groundstation\planner.c(31): warning C4305: 'initializing' : truncation from 'double' to 'float'
+     1>\\ad.uillinois.edu\engr-ews\stier2\documents\matlab\ae483\lab 4\ae483groundstation_lab4\ae483groundstation\planner.c(32): warning C4305: 'initializing' : truncation from 'double' to 'float'
+     1>\\ad.uillinois.edu\engr-ews\stier2\documents\matlab\ae483\lab 4\ae483groundstation_lab4\ae483groundstation\planner.c(35): warning C4305: 'initializing' : truncation from 'double' to 'float'
+     1>\\ad.uillinois.edu\engr-ews\stier2\documents\matlab\ae483\lab 4\ae483groundstation_lab4\ae483groundstation\planner.c(41): warning C4305: 'initializing' : truncation from 'double' to 'float'
+     1>\\ad.uillinois.edu\engr-ews\stier2\documents\matlab\ae483\lab 4\ae483groundstation_lab4\ae483groundstation\planner.c(117): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
+     1>\\ad.uillinois.edu\engr-ews\stier2\documents\matlab\ae483\lab 4\ae483groundstation_lab4\ae483groundstation\planner.c(146): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
+     1>\\ad.uillinois.edu\engr-ews\stier2\documents\matlab\ae483\lab 4\ae483groundstation_lab4\ae483groundstation\planner.c(153): warning C4244: '+=' : conversion from 'double' to 'float', possible loss of data
+     1>\\ad.uillinois.edu\engr-ews\stier2\documents\matlab\ae483\lab 4\ae483groundstation_lab4\ae483groundstation\planner.c(154): warning C4244: '+=' : conversion from 'double' to 'float', possible loss of data
+     1>\\ad.uillinois.edu\engr-ews\stier2\documents\matlab\ae483\lab 4\ae483groundstation_lab4\ae483groundstation\planner.c(155): warning C4244: '+=' : conversion from 'double' to 'float', possible loss of data
+     1>\\ad.uillinois.edu\engr-ews\stier2\documents\matlab\ae483\lab 4\ae483groundstation_lab4\ae483groundstation\planner.c(174): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
+     1>\\ad.uillinois.edu\engr-ews\stier2\documents\matlab\ae483\lab 4\ae483groundstation_lab4\ae483groundstation\planner.c(74): warning C4101: 'i' : unreferenced local variable
+         main.c
+     1>\\ad.uillinois.edu\engr-ews\stier2\documents\matlab\ae483\lab 4\ae483groundstation_lab4\ae483groundstation\main.c(146): warning C4305: 'initializing' : truncation from 'double' to 'float'
+     1>\\ad.uillinois.edu\engr-ews\stier2\documents\matlab\ae483\lab 4\ae483groundstation_lab4\ae483groundstation\main.c(147): warning C4305: 'initializing' : truncation from 'double' to 'float'
+     1>\\ad.uillinois.edu\engr-ews\stier2\documents\matlab\ae483\lab 4\ae483groundstation_lab4\ae483groundstation\main.c(148): warning C4305: 'initializing' : truncation from 'double' to 'float'
+     1>\\ad.uillinois.edu\engr-ews\stier2\documents\matlab\ae483\lab 4\ae483groundstation_lab4\ae483groundstation\main.c(292): warning C4129: '%' : unrecognized character escape sequence
+     1>\\ad.uillinois.edu\engr-ews\stier2\documents\matlab\ae483\lab 4\ae483groundstation_lab4\ae483groundstation\main.c(293): warning C4129: '%' : unrecognized character escape sequence
+     1>\\ad.uillinois.edu\engr-ews\stier2\documents\matlab\ae483\lab 4\ae483groundstation_lab4\ae483groundstation\main.c(294): warning C4129: '%' : unrecognized character escape sequence
+     1>\\ad.uillinois.edu\engr-ews\stier2\documents\matlab\ae483\lab 4\ae483groundstation_lab4\ae483groundstation\main.c(295): warning C4129: '%' : unrecognized character escape sequence
+     1>\\ad.uillinois.edu\engr-ews\stier2\documents\matlab\ae483\lab 4\ae483groundstation_lab4\ae483groundstation\main.c(296): warning C4129: '%' : unrecognized character escape sequence
+     1>\\ad.uillinois.edu\engr-ews\stier2\documents\matlab\ae483\lab 4\ae483groundstation_lab4\ae483groundstation\main.c(297): warning C4129: '%' : unrecognized character escape sequence
+     1>\\ad.uillinois.edu\engr-ews\stier2\documents\matlab\ae483\lab 4\ae483groundstation_lab4\ae483groundstation\main.c(443): warning C4101: 'MsgText' : unreferenced local variable
+     1>\\ad.uillinois.edu\engr-ews\stier2\documents\matlab\ae483\lab 4\ae483groundstation_lab4\ae483groundstation\main.c(1028): warning C4113: 'void (__cdecl *)()' differs in parameter lists from 'void (__cdecl *)(void)'
+     1>\\ad.uillinois.edu\engr-ews\stier2\documents\matlab\ae483\lab 4\ae483groundstation_lab4\ae483groundstation\main.c(1029): warning C4113: 'void (__cdecl *)()' differs in parameter lists from 'void (__cdecl *)(void)'
+     1>\\ad.uillinois.edu\engr-ews\stier2\documents\matlab\ae483\lab 4\ae483groundstation_lab4\ae483groundstation\main.c(1070): warning C4995: 'strcat': name was marked as #pragma deprecated
+     1>\\ad.uillinois.edu\engr-ews\stier2\documents\matlab\ae483\lab 4\ae483groundstation_lab4\ae483groundstation\main.c(1071): warning C4995: 'strcat': name was marked as #pragma deprecated
+     1>\\ad.uillinois.edu\engr-ews\stier2\documents\matlab\ae483\lab 4\ae483groundstation_lab4\ae483groundstation\main.c(1072): warning C4995: 'strcat': name was marked as #pragma deprecated
+         asctecCommIntf.c
+     1>\\ad.uillinois.edu\engr-ews\stier2\documents\matlab\ae483\lab 4\ae483groundstation_lab4\ae483groundstation\ascteccommintf.c(370): warning C4244: '=' : conversion from 'unsigned short' to 'unsigned char', possible loss of data
+     1>\\ad.uillinois.edu\engr-ews\stier2\documents\matlab\ae483\lab 4\ae483groundstation_lab4\ae483groundstation\ascteccommintf.c(371): warning C4244: '=' : conversion from 'unsigned short' to 'unsigned char', possible loss of data
+     1>\\ad.uillinois.edu\engr-ews\stier2\documents\matlab\ae483\lab 4\ae483groundstation_lab4\ae483groundstation\ascteccommintf.c(394): warning C4244: '=' : conversion from 'unsigned short' to 'unsigned char', possible loss of data
+     1>\\ad.uillinois.edu\engr-ews\stier2\documents\matlab\ae483\lab 4\ae483groundstation_lab4\ae483groundstation\ascteccommintf.c(396): warning C4244: '=' : conversion from 'unsigned short' to 'unsigned char', possible loss of data
+     1>\\ad.uillinois.edu\engr-ews\stier2\documents\matlab\ae483\lab 4\ae483groundstation_lab4\ae483groundstation\ascteccommintf.c(418): warning C4244: '=' : conversion from 'unsigned short' to 'unsigned char', possible loss of data
+     1>\\ad.uillinois.edu\engr-ews\stier2\documents\matlab\ae483\lab 4\ae483groundstation_lab4\ae483groundstation\ascteccommintf.c(419): warning C4244: '=' : conversion from 'unsigned short' to 'unsigned char', possible loss of data
+     1>\\ad.uillinois.edu\engr-ews\stier2\documents\matlab\ae483\lab 4\ae483groundstation_lab4\ae483groundstation\ascteccommintf.c(811): warning C4244: '=' : conversion from 'unsigned short' to 'unsigned char', possible loss of data
+     1>\\ad.uillinois.edu\engr-ews\stier2\documents\matlab\ae483\lab 4\ae483groundstation_lab4\ae483groundstation\ascteccommintf.c(820): warning C4244: '=' : conversion from 'unsigned short' to 'unsigned char', possible loss of data
+     1>\\ad.uillinois.edu\engr-ews\stier2\documents\matlab\ae483\lab 4\ae483groundstation_lab4\ae483groundstation\ascteccommintf.c(848): warning C4244: '=' : conversion from 'unsigned short' to 'unsigned char', possible loss of data
+     1>\\ad.uillinois.edu\engr-ews\stier2\documents\matlab\ae483\lab 4\ae483groundstation_lab4\ae483groundstation\ascteccommintf.c(858): warning C4244: '=' : conversion from 'unsigned short' to 'unsigned char', possible loss of data
+     1>\\ad.uillinois.edu\engr-ews\stier2\documents\matlab\ae483\lab 4\ae483groundstation_lab4\ae483groundstation\ascteccommintf.c(885): warning C4244: '=' : conversion from 'unsigned short' to 'unsigned char', possible loss of data
+     1>\\ad.uillinois.edu\engr-ews\stier2\documents\matlab\ae483\lab 4\ae483groundstation_lab4\ae483groundstation\ascteccommintf.c(894): warning C4244: '=' : conversion from 'unsigned short' to 'unsigned char', possible loss of data
+         Generating Code...
+     1>\\ad.uillinois.edu\engr-ews\stier2\documents\matlab\ae483\lab 4\ae483groundstation_lab4\ae483groundstation\main.c(821): warning C4716: 'RecData' : must return a value
+       ManifestResourceCompile:
+         C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\bin\rc.exe /nologo /fo"Debug\AE483GroundStation.exe.embed.manifest.res" Debug\AE483GroundStation_manifest.rc 
+       Link:
+         c:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"\\ad.uillinois.edu\engr-ews\stier2\Documents\MATLAB\AE483\lab 4\AE483GroundStation_Lab4\Debug\AE483GroundStation.exe" /INCREMENTAL /NOLOGO ftd2xx.lib ws2_32.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /ManifestFile:"Debug\AE483GroundStation.exe.intermediate.manifest" /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /DEBUG /PDB:"\\ad.uillinois.edu\engr-ews\stier2\Documents\MATLAB\AE483\lab 4\AE483GroundStation_Lab4\Debug\AE483GroundStation.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"\\ad.uillinois.edu\engr-ews\stier2\Documents\MATLAB\AE483\lab 4\AE483GroundStation_Lab4\Debug\AE483GroundStation.lib" /MACHINE:X86 Debug\AE483GroundStation.exe.embed.manifest.res
+         Debug\asctecCommIntf.obj
+         Debug\main.obj
+         Debug\planner.obj
+       Manifest:
+         Deleting file "Debug\AE483GroundStation.exe.embed.manifest".
+         C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\bin\mt.exe /nologo /verbose /out:"Debug\AE483GroundStation.exe.embed.manifest" /manifest Debug\AE483GroundStation.exe.intermediate.manifest
+         C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\bin\rc.exe /nologo /fo"Debug\AE483GroundStation.exe.embed.manifest.res" Debug\AE483GroundStation_manifest.rc 
+       LinkEmbedManifest:
+         c:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"\\ad.uillinois.edu\engr-ews\stier2\Documents\MATLAB\AE483\lab 4\AE483GroundStation_Lab4\Debug\AE483GroundStation.exe" /INCREMENTAL /NOLOGO ftd2xx.lib ws2_32.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /ManifestFile:"Debug\AE483GroundStation.exe.intermediate.manifest" /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /DEBUG /PDB:"\\ad.uillinois.edu\engr-ews\stier2\Documents\MATLAB\AE483\lab 4\AE483GroundStation_Lab4\Debug\AE483GroundStation.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"\\ad.uillinois.edu\engr-ews\stier2\Documents\MATLAB\AE483\lab 4\AE483GroundStation_Lab4\Debug\AE483GroundStation.lib" /MACHINE:X86 Debug\AE483GroundStation.exe.embed.manifest.res
+         Debug\asctecCommIntf.obj
+         Debug\main.obj
+         Debug\planner.obj
+         AE483GroundStation.vcxproj -> \\ad.uillinois.edu\engr-ews\stier2\Documents\MATLAB\AE483\lab 4\AE483GroundStation_Lab4\Debug\AE483GroundStation.exe
+       FinalizeBuildStatus:
+         Deleting file "Debug\AE483GroundStation.unsuccessfulbuild".
+         Touching "Debug\AE483GroundStation.lastbuildstate".
+     1>Done Building Project "\\ad.uillinois.edu\engr-ews\stier2\Documents\MATLAB\AE483\lab 4\AE483GroundStation_Lab4\AE483GroundStation\AE483GroundStation.vcxproj" (rebuild target(s)).
+
+Build succeeded.
+
+Time Elapsed 00:00:04.44

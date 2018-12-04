@@ -51,6 +51,10 @@ if isempty(Kroll)
     A = eye(2) + dt*A;
     B = dt*B;
     [P,E,Kyaw]=dare(A,B,Q,R);
+    
+    Kroll
+    Kyaw
+    Kpitch
 end
 
 u = [0;0;0;0];

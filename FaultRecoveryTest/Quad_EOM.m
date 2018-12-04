@@ -7,9 +7,14 @@ function xdot=Quad_EOM(x,u)
 
 %% Physical Parameters
 params = GetParameters;
-J = params.J;
+JT = params.JT;
+JP = params.JP;
+JB = params.JB;
 g = params.g;
 m = params.m;
+gamma = params.gamma;
+kT = params.kT;
+kF = params.kF;
 
 xdot=zeros(12,1);
 
@@ -29,6 +34,8 @@ xdot(1)=vx;
 xdot(2)=vy;
 xdot(3)=vz;
 
+vdot = 1/m*([0;0;-m*g] + R*[0;0;kF*(u(1)^2+u(2)^2+u(3)^2+u(4)^2)]);
+
 u1=u(1);
 u2=u(2);
 u3=u(3);
@@ -38,10 +45,15 @@ xdot(4)=(-(cos(theta_1)*sin(theta_2)*cos(theta_3)+sin(theta_1)*sin(theta_3))*u4)
 xdot(5)=(-(sin(theta_1)*sin(theta_2)*cos(theta_3)-cos(theta_1)*sin(theta_3))*u4)/m;
 xdot(6)=(m*g-(cos(theta_2)*cos(theta_3)*u4))/m;
 
-xdot(10:12)=inv(J)*([u1; u2; u3]-[0,-r, q; r, 0, -p; -q, p, 0]*J*[p; q; r]);
+%xdot(10:12)=inv(J)*([u1; u2; u3]-[0,-r, q; r, 0, -p; -q, p, 0]*J*[p; q; r]);
 
 m=[0, sin(theta_3)/cos(theta_2), cos(theta_3)/cos(theta_2); 0, cos(theta_3), -sin(theta_3);...
            1, tan(theta_2)*sin(theta_3), tan(theta_2)*cos(theta_3)]*[p;q;r];
+   
+pdot = 1/JB(1,1)*(kF*(u(2)^2-u(4)^2)*l - (JT(3,3) - JT(1,1))*q*r - JP(3,3)*q*(u(1)+u(2)+u(3)+u(4)));
+qdot = 1/JB(1,1)*(kF*(u(3)^2-u(1)^2)*l + (JT(3,3) - JT(1,1))*p*r + JP(3,3)*p*(u(1)+u(2)+u(3)+u(4)));
+rdot = 1/JB(3,3)*(-gamma*r + kT*kF*(u(1)^2-u(2)^2+u(3)^2-u(4)^2));
+xdot(10:12) = [pdot;qdot;rdot];
        
 xdot(7)=m(3);
 xdot(8)=m(2);

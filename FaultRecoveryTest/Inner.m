@@ -66,4 +66,4 @@ xyaw = [th(3)-a; w(3)];
 u(1) = -Kroll*xroll;
 u(2) = -Kpitch*xpitch;
 u(3) = -Kyaw*xyaw;
-u(4) = u_outer(4);
+u(4) = 0;%u_outer(4);

@@ -1,7 +1,6 @@
 function u=Outer(t,x,dt)
 %%% NOMINAL CONTROL - This is the baseline control which we used when we
 % linearized the system
-
 persistent Kout Kx Ky Kz
 params = GetParameters;
 dt_outer = params.dt_outer;
@@ -47,6 +46,10 @@ if isempty(Kx)
     A = eye(2) + dt*A;
     B = dt*B;
     [P,E,Kz]=dare(A,B,Q,R);
+    
+    Kx
+    Ky
+    Kz
 end
 
 [x_des, y_des, z_des, yaw_des] = planner(x,t);
@@ -62,8 +65,8 @@ delta_thrust = -Kz*(x3-[z_des;0]);
 
 % YAW CONTROL
 delta_yaw = yaw_des;
-delta_pitch = (a_x*cos(x(9))-a_y*sin(x(9)));
-delta_roll =  (a_x*sin(x(7))+a_y*cos(x(7)));
+delta_pitch = ax*cos(x(9)) - ay*sin(x(9));
+delta_roll =   ax*sin(x(9)) + ay*cos(x(9));
 
 %delta_u = [delta_roll; delta_pitch; delta_yaw; delta_thrust];
 delta_u = [delta_roll; delta_pitch; delta_yaw; delta_thrust];
