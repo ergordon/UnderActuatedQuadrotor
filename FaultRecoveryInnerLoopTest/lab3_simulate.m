@@ -1,15 +1,8 @@
-function [t, o, theta, omega, odes] = lab3_simulate()
+function [t, o, theta, v, omega, odes] = lab3_simulate()
 
-    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-    %
-    %   MODIFY
-    %
-    %   - Change parameter values and sample time to match your quadrotor (see
-    %     your results from Labs #1 and #2)
-    %   - Change initial time, final time, and initial conditions as you like
-    %
-
+    %%%%%%%%%%%%%%
     % Parameters
+    %%%%%%%%%%%%%%
     JT = diag([3.2e-3 3.2e-3 5.5e-3]);
     JP = diag([0 0 1.5e-5]);
     JB = JT - 4.*JP;
@@ -24,45 +17,38 @@ function [t, o, theta, omega, odes] = lab3_simulate()
 
     sigmamax = 1000;
     
-
+    %load the stored equilibrium values
+    load('equilib.mat')
+    
     %initial conditions
      o0 = [0; 0; -1];
     theta0 = [0; 0; 0];
     v0 = [0; 0; 0];
-    w0 = [0;5.69;18.89];
+    w0 = [p_eq;q_eq;r_eq];
     
     % time
     dt = (1/50);
     t0 = 0;
     t1 = 6;
+   
+    %equilibrium reduced attitude and input
+    se = [p_eq;q_eq;nx_eq;ny_eq]; %[p;q;nx;ny]
+    ue = [f1_eq-f3_eq;f2_eq]; %[f1-f3;f2]
+   
+   
+   %%%%%%%%%%%%%%%%%%%%
+   %controller gains
+   %%%%%%%%%%%%%%%%%%%%
+   
+   %this is used for the inner loop
+   K = [-0.0000    1.0639   -3.6615   -2.5678;
+        1.0639   -0.0000   -2.5678    3.6615];
 
-    
-    
-    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-    %
-    %   Patching in my controller
-    %
-    %
-%         load('equilib.mat')
-%     
-%         se = [p q nx ny]';
-%         ue = [w1 w2 w3 w4]';
-%     
-%         K = [-0.0267   -0.9105   -0.0367    0.8731;
-%              0.6702   -0.0075   -0.6651    0.0696;
-%              -0.0472    0.9114    0.1101   -0.8807;
-%              -0.0370    0.0004    0.0367   -0.0038];
-
-
-           se = [0;5.69;0;.289]; %[p;q;nx;ny]
-           ue = [0;1.02]; %[f1-f3;f2]
-           
-           K = [-0.0000    1.0640   -3.6615   -2.5677;
-                1.0640   -0.0000   -2.5677    3.6615];
-
-
-    %
-    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+   %these are used for the outter loop
+   %damping ratio
+   sigma = 0.7;
+   %natural frequency
+   omega_n = 1;
 
     
     % Create variables to keep track of time, state, input, and desired position
@@ -71,6 +57,8 @@ function [t, o, theta, omega, odes] = lab3_simulate()
     u = [];
     odes = [];
 
+    
+    %set the desired positon for each time step here
      times = t0:dt:t1;
      for i=1:length(times)
          odes = [odes [0;0;-1]];
@@ -79,81 +67,110 @@ function [t, o, theta, omega, odes] = lab3_simulate()
     % Iterate over t1/dt sample intervals.
     for i = 1:(t1/dt)
 
+        
         % Get time and state at start of i'th sample interval
         ti = t(:, i);
         xi = x(:, i);
 
-        %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-        %
-        %   MODIFY
-        %
-        %   - Get desired position at start of i'th sample interval
-        %
-        %     (You may also need to redefine your equilibrium point!)
-        %
-
+        %current desired position
         odesi = odes(:,i);
 
-        %
-        %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%         odes(:, i) = odesi;
-
-        %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-        %
-        %   MODIFY
-        %
-        %   - Get input that will be applied throughout the i'th sample
-        %     interval (in other words, implement your control policy)
-        %   - Don't forget to make sure that this input can be realized by
-        %     spin rates that are between 0 and sigmamax
-        %
         
-%         xe = [odesi;xe(4:12)];
-%         u_desired = -K*(xi-xe) + ue;
-%         ui = GetBoundedInputs( u_desired , kF, kM, l, sigmamax);
+        %run the outter loop at the beginning of every kth step
+        k = 10;
+        if(mod(i-1,k)==0)
+           %%%%%%%%%%%%%%%
+           % outter loop
+           %%%%%%%%%%%%%%%
+           
+           
+           %equilibrium acceleration is zero
+           a_eq = [0;0;0];
+           %set the desired position and velocity 
+           d_des = odesi;
+           ddot_des = [0;0;0]; %just setting this to zero for now
+           
+           theta = xi(4:6);
+           d = xi(1:3);
+           ddot = xi(7:9);
+           
+           %u = -K_d*deltaxdot - Kd*deltax
+           a_des = -2*sigma*omega_n*(ddot-ddot_des) - omega_n^2*(d-d_des) + a_eq;
+           
+           %these are wrong i think. I thnk the n from one paper is in the
+           %inertial frame and the n in another paper is in the body frame
+           %i could be wrong though
+%            %innner loop set point!!!!
+%            n_des = (a_des-[0;0;-g])/norm(a_des-[0;0;-g]);
+%            %inner loop set point!!!
+%            fsum_des = m*norm(a_des - [0;0;-g])/nz_eq;
+          
 
+           %setpoints were derived from (45) and the fact that n_des is a
+           %unit vector
+           R = Rz(theta(1))*Ry(theta(2))*Rx(theta(3));
+           
+           %inner loop set points!!!
+           %fsum gets passed into the getbounded inputs function to enforce
+           %the total force condition
+           fsum_des = m/nz_eq*norm(R^(-1)*(a_des-[0;0;-g]));
+           
+           %n_des is set as the equilibrium for the inner loop reduced
+           %attitude state. 
+           n_des = m/(nz_eq*fsum_des)*R^(-1)*(a_des-[0;0;-g]);
+           
+           
+        end
+        
+        
+        %%%%%%%%%%%%%%%%%
+        % inner loop
+        %%%%%%%%%%%%%%%%%
+        
+         %i might need to change the equilibrium forces values??????? 
+         %dont think so, this is the only way to enforce rho, which is a 
+         %tuning factor.
+%         se = [p_eq;q_eq;nx_eq;ny_eq]; %[p;q;nx;ny]
+%         ue = [f1_eq-f3_eq;f2_eq]; %[f1-f3;f2] 
+        
+        %set equilibrium nx and ny so the inner loop input can try to align
+        %the body n with the n_des set in the outter loop
+        se(3) = n_des(1);
+        se(4) = n_des(2);
+        
+        
+        %current angular velocity
         wB = [xi(10); xi(11); xi(12)];
-        
-%         n = JT*wB/norm(JT*wB);
+        %current primary axis of rotation
         n = wB/norm(wB);
         
+        %current reduced attitude state
         si = [wB(1); wB(2); n(1); n(2)];
-        
-%         si = [xi(5) xi(6) nx ny]';
 
-        
         u_desired = -K*(si-se) + ue;
-        ui = GetBoundedInputs2( u_desired , kF, kT, l, sigmamax, n);
+        ui = GetBoundedInputs(u_desired, fsum_des, kF, sigmamax);
         
-        
-%         ui = -K*(si-se) + ue
-%         ui = [0 0 0 0]';
-
-        %
-        %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
         u(:, i) = ui;
 
         % Get time and state at start of (i+1)'th sample interval
         [tsol, xsol] = ode45(@(t, x) h(t, x, ui, g, m, JB, JP, gamma, kF, kT, l), [ti ti+dt], xi);
+   
         t(:, i+1) = tsol(end, :)';
         x(:, i+1) = xsol(end, :)';
-%         xsol(10:12)
+
     end
 
-    % Get position and orientation
+    
+    % store/output state values over time 
     o = x(1:3, :);
     theta = x(4:6, :);
+    v = x(7:9, :);
     omega = x(10:12, :);
 
 end
 
 function xdot = h(t, x, u, g, m, JB, JP, gamma, kF, kT, l)
 
-    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-    %
-    %   MODIFY
-    %
-    %   - Compute xdot given x, u, and other parameters (see HW2.2)
     
     JT = JB + 4*JP;
     
@@ -164,20 +181,12 @@ function xdot = h(t, x, u, g, m, JB, JP, gamma, kF, kT, l)
     q = x(11);
     r = x(12);
     
-    
-    
-    %XYZ
-    R = Rx(t(1))*Ry(t(2))*Rz(t(3));
-    
-    
-    N = [Rz(t(3))'*Ry(t(2))'*[1;0;0] Rz(t(3))'*[0;1;0] [0;0;1]]^(-1);
-    
+    %ZYX
+    R = Rz(t(1))*Ry(t(2))*Rx(t(3));
+    N = [Rx(t(3))'*Ry(t(2))'*[0;0;1] Rx(t(3))'*[0;1;0] [1;0;0]]^(-1);
+
     odot = v;
     tdot = N*[p;q;r];
-    
-    
-%      neq = [0;.289;.958];
-%      vdot = 1/m*([0;0;-m*g] + R*kF*(u(1)^2+u(2)^2+u(3)^2+u(4)^2)*neq(3)*neq);
     
     vdot = 1/m*([0;0;-m*g] + R*[0;0;kF*(u(1)^2+u(2)^2+u(3)^2+u(4)^2)]);
    
@@ -188,90 +197,40 @@ function xdot = h(t, x, u, g, m, JB, JP, gamma, kF, kT, l)
     
     xdot = [odot;tdot;vdot;wdot];
 
-    %
-    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-end
-
-function [u, sigma] = GetBoundedInputs(u_desired, kF, kM, l, sigmamax)
-
-    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-    %
-    %   MODIFY
-    %
-    %   - Compute an input u (4x1) that is close to the input u_desired but
-    %     that can be realized by spin rates that are between 0 and sigmamax
-    %   - Compute the spin rates sigma (4x1) - these are not used by the rest
-    %     of the simulation code, but will be necessary in your onboard C code,
-    %     so it is useful to make sure you know how to compute them here
-    %
-    %     (See HW2.1.2)
-
-%     u = u_desired;
-%     W = [l*kF -l*kF 0 0;
-%         0 0 l*kF -l*kF;
-%         kM kM -kM -kM;
-%         kF kF kF kF];
-%     sigma_d = W^-1*u;
-%     sigma_d(sigma_d > sigmamax^2) =  sigmamax^2;
-%     sigma_d(sigma_d < 0) =  0;
-%     sigma = sigma_d;
-%     u = W*sigma;    
-
-
-    W = [l*kF -l*kF 0 0;
-        0 0 l*kF -l*kF;
-        kM kM -kM -kM;
-        kF kF kF kF];
-    
-%     sigma_d = (W'*W)^(-1)*W'*u;
-    u_desired(u_desired > sigmamax) =  sigmamax;
-    u_desired(u_desired < 0) =  0;
-    
-    for i=1:4
-       u_desired(i) = u_desired(i)^2; 
-    end
-    
-    u = W*u_desired;
-    
-    
-    
-    %
-    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
 end
 
 
-function [u, sigma] = GetBoundedInputs2(u_desired, kF, kM, l, sigmamax, n)
+function [u, sigma] = GetBoundedInputs(u_desired, fsum_des, kF, sigmamax)
 
-   
-	%u comes in as [f3-f1;f2]
+	%u comes in as [f3-f1;f2] (the equilibriums offsets were already removed before being passed in)   
     
-
-    if(u_desired(1) < 0)
-        u_desired(1) = 0;
-    end
-    if(u_desired(2) < 0)
-        u_desired(2) = 0;
-    end
-    
-    syms f1 f2 f3 f4 real
-    
-    feqsum = 5.12;
-%     eq1 = u_desired(1) == f3 - f1;
-%     eq2 = f2 == u_desired(2);
-%     eq3 = f1 + f2 + f3 == feqsum;
-% %     eq3 = f1 + f2 + f3 == u_desired(1)+u_desired(2);
-%     
-%     sol = solve([eq1 eq2 eq3],[f1 f2 f3]);
-%     f1 = double(sol.f1);
-%     f2 = double(sol.f2);
-%     f3 = double(sol.f3);
-    
+    %these are derived from equations (29)(30)(31)
     f2 = u_desired(2);
-    f3 = 1/2*(feqsum + u_desired(1) - f2);
-    f1 = feqsum - f2 - f3;
+    f3 = 1/2*(fsum_des + u_desired(1) - f2);
+    f1 = fsum_des - f2 - f3;
     
+
+    %should i do this before calculating the f values or just floor the f
+    %values after calculaitng them?
+%     if(u_desired(1) < 0)
+%         u_desired(1) = 0;
+%     end
+%     if(u_desired(2) < 0)
+%         u_desired(2) = 0;
+%     end
+    
+
+    if(f1 < 0)
+        f1 = 0;
+    end
+    if(f2 < 0)
+        f2 = 0;
+    end
+    if(f3 < 0)
+        f3 = 0;
+    end
+
+
     s1 = sqrt(f1/kF);
     if(s1 > sigmamax)
         s1 = sigmamax;
@@ -295,16 +254,8 @@ function [u, sigma] = GetBoundedInputs2(u_desired, kF, kM, l, sigmamax, n)
     if(s3 < 0)
         s3 = 0;
     end
-    
-%     totaleq = sqrt(5.12/kF);
 
-%     leftover = 5.12 - kF*s2^2;
-%     s1and3 = sqrt(.5*leftover/kF);
-    
-%     totalf = kF*(s1and3^2 + s2^2 + s1and3^2)
-%     totalf = (s1and3^2 + s2^2 + s1and3^2)
-    
     
     u = [s1; s2; s3; 0];
-
+    
 end
