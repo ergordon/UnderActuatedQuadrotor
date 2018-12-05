@@ -126,10 +126,11 @@ if isempty(fig)
     
     % Create an axis for the view from the room frame
     axes();
+    set(gcf,'Renderer','zbuffer');
+    axis([-4 4 -4 4 -1 3.5]);
     axis equal;
-    axis([-4 4 -4 4 -3.5 0.1]);
-    axis manual;
     hold on;
+
     
     % Reverse the y and z axes to get the "z down" view
     set(gca, 'ydir', 'reverse');
