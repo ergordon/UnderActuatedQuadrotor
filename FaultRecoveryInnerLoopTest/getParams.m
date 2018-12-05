@@ -11,7 +11,7 @@ function params = getParams(eq)
     
     %time
     params.t0 = 0;  %simulation start time
-    params.t1 = 10; %simulation stop time
+    params.t1 = 5; %simulation stop time
     params.dt = 1/1000; %frequency of inner loop
     
     

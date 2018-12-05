@@ -7,7 +7,7 @@ function eq = getEquilibrium()
     eq.f1 = f1_eq;
     eq.f2 = f2_eq;
     eq.f3 = f3_eq;
-    eq.f3 = f4_eq;
+    eq.f4 = f4_eq;
     eq.n = [nx_eq;ny_eq;nz_eq];
     eq.wB = [p_eq;q_eq;r_eq];
     eq.w1 = w1_eq;
@@ -17,7 +17,7 @@ function eq = getEquilibrium()
   
     %equilibrium reduced attitude and input
     eq.s = [p_eq;q_eq;nx_eq;ny_eq]; %[p;q;nx;ny]
-    eq.u = [f1_eq-f3_eq;f2_eq]; %equilibrium (force) input for inner loop reduced state
+    eq.u = [f3_eq-f1_eq;f2_eq]; %equilibrium (force) input for inner loop reduced state
     eq.a = [0;0;0]; %equilibrium input (acceleration) for outter loop
     
     
