@@ -14,7 +14,7 @@ function gains = getGains(params,eq)
                                   0 0];
     [Ad, Bd] = make_discrete(A,B,params.dt);
 
-    Q = diag([1 1 20 20]);
+    Q = diag([1 1 2 2])^4;
     R = diag([1 1]);
     gains.K_i = dlqr(Ad,Bd,Q,R);
 
@@ -39,8 +39,8 @@ function gains = getGains(params,eq)
 % 
 %     [Ad, Bd] = make_discrete(A,B,params.dt);
 % 
-%     Q = 1*eye(3);
-%     R = 1*eye(3);
+%     Q = .01*eye(3);
+%     R = 5*eye(3);
 %     gains.K_o = dlqr(Ad,Bd,Q,R);
     
     gains.K_p = 2*params.sigma*params.omega_n;

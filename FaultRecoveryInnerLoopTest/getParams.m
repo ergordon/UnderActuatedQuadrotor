@@ -30,8 +30,8 @@ function params = getParams(eq)
     
     
     %PID gains used for the outter loop (actually only PD)
-    params.sigma = .7;%damping ratio
-    params.omega_n = 1;%natural frequency
+    params.sigma = 1.7;%damping ratio
+    params.omega_n = 11;%natural frequency
     
 
 end

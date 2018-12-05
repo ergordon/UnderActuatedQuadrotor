@@ -34,6 +34,7 @@ function [t, o, theta, v, omega, u, odes] = lab3_simulate()
         
         %run the outter loop at the beginning of every kth step
         if(mod(i-1,params.frequencyRatio)==0)
+           
            %%%%%%%%%%%%%%%
            % outter loop
            %%%%%%%%%%%%%%%
@@ -61,7 +62,7 @@ function [t, o, theta, v, omega, u, odes] = lab3_simulate()
            
            %n_des is set as the equilibrium for the inner loop reduced
            %attitude state. 
-           n_des = params.m/(eq.n(3)*fsum_des)*R^(-1)*(a_des-[0;0;-params.g]);
+           n_des = -params.m/(eq.n(3)*fsum_des)*R^(-1)*(a_des-[0;0;-params.g]);
            
            
         end
@@ -110,8 +111,6 @@ function [t, o, theta, v, omega, u, odes] = lab3_simulate()
 %         u_desired = -gains.K_i_ext*(si_ext) + eq.u;
 % 
 %         ui = GetBoundedInputs(u_desired, fsum_des, params);
-
-        ui = [0;0;0;0];
 
         u(:, i) = ui;
 
