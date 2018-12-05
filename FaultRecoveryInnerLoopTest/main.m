@@ -4,12 +4,14 @@ clc; clear; close all;
 
 %%
 close all;
+%uncomment these to keep the quadrotor in place so you can look at it spin
 % o(3,:) = -1;
 % o(2,:) = 0;
 % o(1,:) = 0;
 lab3_visualize(t, o, theta, odes, [])
 
 %%
+close all;
 figure()
 plot(t,o(1,:),t,o(2,:),t,o(3,:))
 legend('x','y','z')
