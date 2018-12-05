@@ -19,8 +19,8 @@ d = .8;
 % 
 % K = [-eye(3)*wn^2,-2*d*wn*eye(3)];
 % a_des = K*(x-x_goal)+ue;
-% targetn = (a_des*m/sumf)/norm(a_des*m/sumf);
-% targetf = norm(a_des*m/sumf);
+% targetn = (a_des*m)/norm(a_des*m);
+% targetf = (a_des(3)-norm(g))*m/targetn(3);
 % output [targets]
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% Testing the positional controlller to see if a_des=ui is correctly chosen
