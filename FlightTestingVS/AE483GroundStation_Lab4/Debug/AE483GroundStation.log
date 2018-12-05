@@ -1,0 +1,24 @@
+﻿Build started 5/13/2015 3:00:38 PM.
+     1>Project "C:\Users\OptiTrack\Documents\Visual Studio 2013\Projects\AE483GroundStation\AE483GroundStation\AE483GroundStation.vcxproj" on node 2 (Build target(s)).
+     1>ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /sdl /Od /Oy- /D WIN32 /D _DEBUG /D _CONSOLE /D _LIB /D _CRT_SECURE_NO_WARNINGS /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TC /analyze- /errorReport:prompt main.c
+         main.c
+     1>c:\users\optitrack\documents\visual studio 2013\projects\ae483groundstation\ae483groundstation\main.c(241): warning C4129: '%' : unrecognized character escape sequence
+     1>c:\users\optitrack\documents\visual studio 2013\projects\ae483groundstation\ae483groundstation\main.c(242): warning C4129: '%' : unrecognized character escape sequence
+     1>c:\users\optitrack\documents\visual studio 2013\projects\ae483groundstation\ae483groundstation\main.c(243): warning C4129: '%' : unrecognized character escape sequence
+     1>c:\users\optitrack\documents\visual studio 2013\projects\ae483groundstation\ae483groundstation\main.c(244): warning C4129: '%' : unrecognized character escape sequence
+     1>c:\users\optitrack\documents\visual studio 2013\projects\ae483groundstation\ae483groundstation\main.c(245): warning C4129: '%' : unrecognized character escape sequence
+     1>c:\users\optitrack\documents\visual studio 2013\projects\ae483groundstation\ae483groundstation\main.c(246): warning C4129: '%' : unrecognized character escape sequence
+     1>c:\users\optitrack\documents\visual studio 2013\projects\ae483groundstation\ae483groundstation\main.c(369): warning C4101: 'MsgText' : unreferenced local variable
+     1>c:\users\optitrack\documents\visual studio 2013\projects\ae483groundstation\ae483groundstation\main.c(902): warning C4113: 'void (__cdecl *)()' differs in parameter lists from 'void (__cdecl *)(void)'
+     1>c:\users\optitrack\documents\visual studio 2013\projects\ae483groundstation\ae483groundstation\main.c(713): warning C4716: 'RecData' : must return a value
+       Link:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\OptiTrack\Documents\Visual Studio 2013\Projects\AE483GroundStation\Debug\AE483GroundStation.exe" /INCREMENTAL /NOLOGO ftd2xx.lib ws2_32.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:\Users\OptiTrack\Documents\Visual Studio 2013\Projects\AE483GroundStation\Debug\AE483GroundStation.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\OptiTrack\Documents\Visual Studio 2013\Projects\AE483GroundStation\Debug\AE483GroundStation.lib" /MACHINE:X86 Debug\asctecCommIntf.obj
+         Debug\main.obj
+         Debug\planner.obj
+         AE483GroundStation.vcxproj -> C:\Users\OptiTrack\Documents\Visual Studio 2013\Projects\AE483GroundStation\Debug\AE483GroundStation.exe
+     1>Done Building Project "C:\Users\OptiTrack\Documents\Visual Studio 2013\Projects\AE483GroundStation\AE483GroundStation\AE483GroundStation.vcxproj" (Build target(s)).
+
+Build succeeded.
+
+Time Elapsed 00:00:00.57

@@ -1,0 +1,22 @@
+﻿  planner.c
+\\ad.uillinois.edu\engr-ews\stier2\documents\matlab\ae483\lab 4\matlab_vs2015_c\matlab_vs2015_c\planner.c(49): warning C4305: 'initializing': truncation from 'double' to 'float'
+\\ad.uillinois.edu\engr-ews\stier2\documents\matlab\ae483\lab 4\matlab_vs2015_c\matlab_vs2015_c\planner.c(50): warning C4305: 'initializing': truncation from 'double' to 'float'
+\\ad.uillinois.edu\engr-ews\stier2\documents\matlab\ae483\lab 4\matlab_vs2015_c\matlab_vs2015_c\planner.c(53): warning C4305: 'initializing': truncation from 'double' to 'float'
+\\ad.uillinois.edu\engr-ews\stier2\documents\matlab\ae483\lab 4\matlab_vs2015_c\matlab_vs2015_c\planner.c(59): warning C4305: 'initializing': truncation from 'double' to 'float'
+\\ad.uillinois.edu\engr-ews\stier2\documents\matlab\ae483\lab 4\matlab_vs2015_c\matlab_vs2015_c\planner.c(136): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+\\ad.uillinois.edu\engr-ews\stier2\documents\matlab\ae483\lab 4\matlab_vs2015_c\matlab_vs2015_c\planner.c(165): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+\\ad.uillinois.edu\engr-ews\stier2\documents\matlab\ae483\lab 4\matlab_vs2015_c\matlab_vs2015_c\planner.c(172): warning C4244: '+=': conversion from 'double' to 'float', possible loss of data
+\\ad.uillinois.edu\engr-ews\stier2\documents\matlab\ae483\lab 4\matlab_vs2015_c\matlab_vs2015_c\planner.c(173): warning C4244: '+=': conversion from 'double' to 'float', possible loss of data
+\\ad.uillinois.edu\engr-ews\stier2\documents\matlab\ae483\lab 4\matlab_vs2015_c\matlab_vs2015_c\planner.c(174): warning C4244: '+=': conversion from 'double' to 'float', possible loss of data
+\\ad.uillinois.edu\engr-ews\stier2\documents\matlab\ae483\lab 4\matlab_vs2015_c\matlab_vs2015_c\planner.c(193): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+\\ad.uillinois.edu\engr-ews\stier2\documents\matlab\ae483\lab 4\matlab_vs2015_c\matlab_vs2015_c\planner.c(93): warning C4101: 'i': unreferenced local variable
+  matlab_vs2015_c.c
+\\ad.uillinois.edu\engr-ews\stier2\documents\matlab\ae483\lab 4\matlab_vs2015_c\matlab_vs2015_c\matlab_vs2015_c.c(28): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+\\ad.uillinois.edu\engr-ews\stier2\documents\matlab\ae483\lab 4\matlab_vs2015_c\matlab_vs2015_c\matlab_vs2015_c.c(51): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+\\ad.uillinois.edu\engr-ews\stier2\documents\matlab\ae483\lab 4\matlab_vs2015_c\matlab_vs2015_c\matlab_vs2015_c.c(122): warning C4244: 'function': conversion from 'double' to 'float', possible loss of data
+\\ad.uillinois.edu\engr-ews\stier2\documents\matlab\ae483\lab 4\matlab_vs2015_c\matlab_vs2015_c\matlab_vs2015_c.c(135): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+\\ad.uillinois.edu\engr-ews\stier2\documents\matlab\ae483\lab 4\matlab_vs2015_c\matlab_vs2015_c\matlab_vs2015_c.c(136): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+\\ad.uillinois.edu\engr-ews\stier2\documents\matlab\ae483\lab 4\matlab_vs2015_c\matlab_vs2015_c\matlab_vs2015_c.c(159): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+  Generating Code...
+  matlab_vs2015_c.vcxproj -> \\ad.uillinois.edu\engr-ews\stier2\Documents\MATLAB\AE483\lab 4\matlab_vs2015_c\x64\Debug\matlab_vs2015_c.exe
+  matlab_vs2015_c.vcxproj -> \\ad.uillinois.edu\engr-ews\stier2\Documents\MATLAB\AE483\lab 4\matlab_vs2015_c\x64\Debug\matlab_vs2015_c.pdb (Full PDB)

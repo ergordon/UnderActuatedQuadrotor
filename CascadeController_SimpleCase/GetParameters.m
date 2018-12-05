@@ -2,7 +2,7 @@ function [params] = GetParameters(params)
 %% Position Paramaters
 params.odes = [0 0 -1];     % oDesired
 x0=zeros(12,1); 
-x0(1:3)=[0;-2;-1];           % Initial Position
+x0(1:3)=[20;-2;-1];           % Initial Position
 params.x0 = x0;         
 params.goal = [2;0;-2];     % Goal Position
 
@@ -10,7 +10,7 @@ params.goal = [2;0;-2];     % Goal Position
 params.dt_inner=0.001;      % Inner Loop dt
 params.dt_outer=0.01;       % Outer Loop dt
 params.t0 = 0;              % Start Time
-params.t1 = 10;              % End Time
+params.t1 = 20;              % End Time
 
 %% QuadRotor Parameters
 params.m = 0.715;           % Mass

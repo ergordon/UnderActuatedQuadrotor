@@ -1,0 +1,10 @@
+﻿Build started 11/26/2017 10:06:14 PM.
+     1>Project "U:\Desktop\AE483\Lab 4\Week 3\AE483GroundStation_Lab4\AE483GroundStation\AE483GroundStation.vcxproj" on node 2 (clean target(s)).
+       Project file contains ToolsVersion="12.0". This toolset may be unknown or missing, in which case you may be able to resolve this by installing the appropriate version of MSBuild, or the build may have been forced to a particular ToolsVersion for policy reasons. Treating the project as if it had ToolsVersion="4.0". For more information, please see http://go.microsoft.com/fwlink/?LinkId=291333.
+     1>_PrepareForClean:
+         Deleting file "Debug\AE483GroundStation.lastbuildstate".
+     1>Done Building Project "U:\Desktop\AE483\Lab 4\Week 3\AE483GroundStation_Lab4\AE483GroundStation\AE483GroundStation.vcxproj" (clean target(s)).
+
+Build succeeded.
+
+Time Elapsed 00:00:00.73
