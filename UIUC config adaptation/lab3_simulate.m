@@ -94,29 +94,21 @@ function [t, o, theta, v, omega, u, odes] = lab3_simulate()
         %%%%%%%%%%%%%%%%%%%%%%%%%%
         %not extended motor states
         %%%%%%%%%%%%%%%%%%%%%%%%%%
-        u_desired = -gains.K_i*(si-eq.s) + eq.u;
-        ui = GetBoundedInputs(u_desired, fsum_des, params);
+%         u_desired = -gains.K_i*(si-eq.s) + eq.u;
+%         ui = GetBoundedInputs(u_desired, fsum_des, params);
         
        %%%%%%%%%%%%%%%%%%%%%%%%%%
         %extended motor states
         %%%%%%%%%%%%%%%%%%%%%%%%%%
         
-%         %should i calc u this way or store the u from the last step and use
-%         %that???
-%         u_desired = -gains.K_i*(si-eq.s);               
-% %         %extended state
-%         si_ext = [wB(1); wB(2); n(1); n(2); u_desired(1); u_desired(2)];
-%         
-%         if(i==1)
-%             u_prev = [0;0];
-%         else
-%             u_prev = u(:,i-1);
-%         end
-        
-%         si_ext = [wB(1); wB(2); n(1); n(2); u_prev(1); u_prev(2)];
-        
-%         u_desired = -gains.K_i_ext*(si_ext);% + eq.u;
-%         ui = GetBoundedInputs(u_desired(1:2), fsum_des, params);
+        %should i calc u this way or store the u from the last step and use
+        %that???
+        u_desired = -gains.K_i*(si-eq.s);               
+%         %extended state
+        si_ext = [wB(1); wB(2); n(1); n(2); u_desired(1); u_desired(2)];
+
+        u_desired = -gains.K_i_ext*(si_ext) + eq.u;
+        ui = GetBoundedInputs(u_desired(1:2), fsum_des, params);
 
 
         u(:, i) = ui;

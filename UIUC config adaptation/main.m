@@ -2,7 +2,7 @@ clc; clear; close all;
 disp('started')
 [t, o, theta, v, omega, u, odes] = lab3_simulate();
 disp('finished')
-%%
+
 close all;
 %uncomment these to keep the quadrotor in place so you can look at it spin
 %  o(3,:) = -1;
@@ -49,3 +49,9 @@ figure()
 plot(t,n(1,:),t,n(2,:),t,n(3,:))
 legend('nx','ny','nz')
 title('n')
+set(gcf,'paperorientation','landscape');
+    set(gca,'fontsize',18)
+    set(gcf,'paperunits','normalized');
+    set(gcf,'paperposition',[0 0 1 1]);
+    set(gca,'linewidth',1.5);
+    print(gcf,'-dpdf',"gains4");

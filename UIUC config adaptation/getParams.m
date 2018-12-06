@@ -6,7 +6,7 @@ function params = getParams(eq)
     params.o0 = [0; 0; -5];
     params.theta0 = [pi/2; 0; 0];
     params.v0 = [0; 0; 0];
-    params.w0 = [.001;.001;.001];
+    params.w0 = [.1;.1;.1];
     params.x0 = [params.o0; params.theta0; params.v0; params.w0];
     
     %time
