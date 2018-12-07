@@ -1,0 +1,595 @@
+   1              		.file	"lpc_aci_eeprom.c"
+   9              	.Ltext0:
+  10              		.align	2
+  11              		.global	lpc_aci_WriteParatoFlash
+  13              	lpc_aci_WriteParatoFlash:
+  14              	.LFB5:
+  15              		.file 1 "lpc_aci_eeprom.c"
+   1:lpc_aci_eeprom.c **** #include "lpc_aci_eeprom.h"
+   2:lpc_aci_eeprom.c **** 
+   3:lpc_aci_eeprom.c **** int anz_param_saved = 0;
+   4:lpc_aci_eeprom.c **** 
+   5:lpc_aci_eeprom.c **** struct ee_data content[COUNT_PAGES];
+   6:lpc_aci_eeprom.c **** 
+   7:lpc_aci_eeprom.c **** void lpc_aci_init(void)
+   8:lpc_aci_eeprom.c **** {
+   9:lpc_aci_eeprom.c **** 	int j=0;
+  10:lpc_aci_eeprom.c **** 	int i=0;
+  11:lpc_aci_eeprom.c **** 	for( j=0;j<COUNT_PAGES; j++)
+  12:lpc_aci_eeprom.c **** 		for(i=0; i<254 ; i++) content[j].data[i]=0xFF;
+  13:lpc_aci_eeprom.c **** 	aciSetSaveParaCallback(lpc_aci_SavePara);
+  14:lpc_aci_eeprom.c **** 	aciSetReadParafromFlashCallback(lpc_aci_ReadParafromFlash);
+  15:lpc_aci_eeprom.c **** 	aciSetWriteParatoFlashCallback(lpc_aci_WriteParatoFlash);
+  16:lpc_aci_eeprom.c **** }
+  17:lpc_aci_eeprom.c **** 
+  18:lpc_aci_eeprom.c **** short lpc_aci_ReadParafromFlash(void)
+  19:lpc_aci_eeprom.c **** {
+  20:lpc_aci_eeprom.c **** 	unsigned int command_ee,response_ee[2];
+  21:lpc_aci_eeprom.c **** 	int cnt=0;
+  22:lpc_aci_eeprom.c **** 	short temp_id;
+  23:lpc_aci_eeprom.c **** 	unsigned char temp_vartype;
+  24:lpc_aci_eeprom.c **** 	struct ee_data *ee_data_ptr;
+  25:lpc_aci_eeprom.c **** 	int para_load = 0;
+  26:lpc_aci_eeprom.c **** 	int k = 0;
+  27:lpc_aci_eeprom.c **** 	command_ee=0;
+  28:lpc_aci_eeprom.c **** 	ee_readn(command_ee,response_ee);
+  29:lpc_aci_eeprom.c **** 
+  30:lpc_aci_eeprom.c **** 	short counting = 0;
+  31:lpc_aci_eeprom.c **** 
+  32:lpc_aci_eeprom.c **** 	ee_data_ptr= (struct ee_data *) response_ee[1];
+  33:lpc_aci_eeprom.c **** 	memcpy(&content[0],ee_data_ptr,sizeof(struct ee_data));
+  34:lpc_aci_eeprom.c **** 	para_load++;
+  35:lpc_aci_eeprom.c **** 	while((!content[0].next_side) && (para_load<COUNT_PAGES)  )
+  36:lpc_aci_eeprom.c **** 	{
+  37:lpc_aci_eeprom.c **** 
+  38:lpc_aci_eeprom.c **** 		ee_readn(para_load,response_ee);
+  39:lpc_aci_eeprom.c **** 		if(response_ee[0]!=0) break;
+  40:lpc_aci_eeprom.c **** 		ee_data_ptr= (struct ee_data *) response_ee[1];
+  41:lpc_aci_eeprom.c **** 		memcpy(&(content[para_load]),ee_data_ptr,sizeof(struct ee_data));
+  42:lpc_aci_eeprom.c **** 		para_load++;
+  43:lpc_aci_eeprom.c **** 	}
+  44:lpc_aci_eeprom.c **** 	if((content[0].next_side!=1) && (content[0].next_side!=0) ) return (short) content[0].next_side ;
+  45:lpc_aci_eeprom.c **** 	para_load=0;
+  46:lpc_aci_eeprom.c **** 	unsigned char next_side_byte = 0;
+  47:lpc_aci_eeprom.c **** 	while((!next_side_byte)){
+  48:lpc_aci_eeprom.c **** 		cnt=0;
+  49:lpc_aci_eeprom.c **** 
+  50:lpc_aci_eeprom.c **** 		while(cnt<content[para_load].data_count)
+  51:lpc_aci_eeprom.c **** 		{
+  52:lpc_aci_eeprom.c **** 			memcpy(&temp_id,&content[para_load].data[cnt],2);
+  53:lpc_aci_eeprom.c **** 			cnt+=2;
+  54:lpc_aci_eeprom.c **** 			memcpy(&temp_vartype,&content[para_load].data[cnt],1);
+  55:lpc_aci_eeprom.c **** 			cnt+=1;
+  56:lpc_aci_eeprom.c **** 
+  57:lpc_aci_eeprom.c **** 			for(k=0;k<aciListParCount;k++){
+  58:lpc_aci_eeprom.c **** 				if(aciListPar[k].id==temp_id)
+  59:lpc_aci_eeprom.c **** 				{
+  60:lpc_aci_eeprom.c **** 					if(aciListPar[k].varType==temp_vartype)
+  61:lpc_aci_eeprom.c **** 					{
+  62:lpc_aci_eeprom.c **** 						memcpy(aciListPar[k].ptrToVar,&content[para_load].data[cnt],temp_vartype >> 2);
+  63:lpc_aci_eeprom.c **** 						counting++;
+  64:lpc_aci_eeprom.c **** 					}
+  65:lpc_aci_eeprom.c **** 					break;
+  66:lpc_aci_eeprom.c **** 				}
+  67:lpc_aci_eeprom.c **** 			}
+  68:lpc_aci_eeprom.c **** 			cnt+=temp_vartype >> 2;
+  69:lpc_aci_eeprom.c **** 		}
+  70:lpc_aci_eeprom.c **** 		next_side_byte=content[para_load].next_side;
+  71:lpc_aci_eeprom.c **** 		para_load++;
+  72:lpc_aci_eeprom.c **** 	}
+  73:lpc_aci_eeprom.c **** 
+  74:lpc_aci_eeprom.c **** 	return counting;
+  75:lpc_aci_eeprom.c **** }
+  76:lpc_aci_eeprom.c **** 
+  77:lpc_aci_eeprom.c **** void lpc_aci_SavePara(void)
+  78:lpc_aci_eeprom.c **** {
+  79:lpc_aci_eeprom.c **** 	int cnt = 0;
+  80:lpc_aci_eeprom.c **** 	anz_param_saved=0;
+  81:lpc_aci_eeprom.c **** 	int para_load=0;
+  82:lpc_aci_eeprom.c **** 	int k=0;
+  83:lpc_aci_eeprom.c **** 
+  84:lpc_aci_eeprom.c **** 	for(k=0;k<aciListParCount;k++) {
+  85:lpc_aci_eeprom.c **** 		if((cnt+4+(aciListPar[k].varType >> 2))>253)
+  86:lpc_aci_eeprom.c **** 		{
+  87:lpc_aci_eeprom.c **** 			content[para_load].data_count=cnt;
+  88:lpc_aci_eeprom.c **** 			content[para_load].next_side=0;
+  89:lpc_aci_eeprom.c **** 			para_load++;
+  90:lpc_aci_eeprom.c **** 			if(para_load==COUNT_PAGES) break;
+  91:lpc_aci_eeprom.c **** 			cnt=0;
+  92:lpc_aci_eeprom.c **** 		}
+  93:lpc_aci_eeprom.c **** 		memcpy(&content[para_load].data[cnt], &aciListPar[k].id, 2);
+  94:lpc_aci_eeprom.c **** 		cnt += 2;
+  95:lpc_aci_eeprom.c **** 		memcpy(&content[para_load].data[cnt], &aciListPar[k].varType, 1);
+  96:lpc_aci_eeprom.c **** 		cnt += 1;
+  97:lpc_aci_eeprom.c **** 		memcpy(&content[para_load].data[cnt], aciListPar[k].ptrToVar, aciListPar[k].varType >> 2);
+  98:lpc_aci_eeprom.c **** 		cnt += 	aciListPar[k].varType >> 2;
+  99:lpc_aci_eeprom.c **** 		anz_param_saved++;
+ 100:lpc_aci_eeprom.c **** 	}
+ 101:lpc_aci_eeprom.c **** 
+ 102:lpc_aci_eeprom.c **** 	content[para_load].data_count=cnt;
+ 103:lpc_aci_eeprom.c **** 	content[para_load].next_side=1;
+ 104:lpc_aci_eeprom.c **** }
+ 105:lpc_aci_eeprom.c **** 
+ 106:lpc_aci_eeprom.c **** short lpc_aci_WriteParatoFlash(void)
+ 107:lpc_aci_eeprom.c **** {
+  16              	@ Function supports interworking.
+  17              		@ args = 0, pretend = 0, frame = 8
+  18              		@ frame_needed = 0, uses_anonymous_args = 0
+  19              		stmfd	sp!, {r4, r5, r6, lr}
+  20 0000 70402DE9 	.LCFI0:
+  21              		sub	sp, sp, #8
+  22 0004 08D04DE2 	.LCFI1:
+  23              		.loc 1 110 0
+ 108:lpc_aci_eeprom.c **** atoFlash(void)
+ 109:lpc_aci_eeprom.c **** {
+ 110:lpc_aci_eeprom.c **** 	unsigned int command_ee=0,response_ee[2];
+  24              	 #0
+  25 0008 0000A0E3 		mov	r1, sp
+  26 000c 0D10A0E1 		bl	ee_erase
+  27 0010 FEFFFFEB 		mov	r5, #500
+  28 0014 7D5FA0E3 		ldr	r4, .L11
+  29 0018 48409FE5 		mov	r6, sp
+  30 001c 0D60A0E1 		add	r5, r5, #1
+  31 0020 015085E2 	.LVL0:
+  32              	.L2:
+  33              		.loc 1 117 0
+ 111:lpc_aci_eeprom.c **** response_ee[2];
+ 112:lpc_aci_eeprom.c **** 	//erase eeprom
+ 113:lpc_aci_eeprom.c **** 	ee_erase(command_ee,response_ee);
+ 114:lpc_aci_eeprom.c **** 
+ 115:lpc_aci_eeprom.c **** 	int para_load = 0;
+ 116:lpc_aci_eeprom.c **** 	unsigned char next_side_byte = 0;
+ 117:lpc_aci_eeprom.c **** 
+  34              	L11
+  35 0024 3C009FE5 	.LVL1:
+  36              		mov	r1, sp
+  37 0028 0D10A0E1 		bl	ee_write
+  38 002c FEFFFFEB 	.LVL2:
+  39              		.loc 1 118 0
+ 118:lpc_aci_eeprom.c **** yte = 0;
+  40              	0, [sp, #0]
+  41 0030 00009DE5 		cmp	r0, r5
+  42 0034 050050E1 		beq	.L5
+  43 0038 0700000A 	.LVL3:
+  44              		.loc 1 119 0
+ 119:lpc_aci_eeprom.c **** _byte = 0;
+  45              		r3, [r4, #255]	@ zero_extendqisi2
+  46 003c FF30D4E5 	.LVL4:
+  47              		.loc 1 115 0
+  48              		cmp	r3, #0
+  49 0040 000053E3 		.loc 1 119 0
+  50              		add	r4, r4, #256
+  51 0044 014C84E2 		.loc 1 115 0
+  52              		beq	.L2
+  53 0048 F5FFFF0A 		.loc 1 123 0
+ 120:lpc_aci_eeprom.c **** _byte = 0;
+ 121:lpc_aci_eeprom.c **** 
+ 122:lpc_aci_eeprom.c **** 	while((!next_side_byte)){
+ 123:lpc_aci_eeprom.c **** 		command_ee=(unsigned int) (&content[0]);
+  54              	.L11+4
+  55 004c 18209FE5 		ldr	r3, [r2, #0]
+  56 0050 003092E5 	.LVL5:
+  57              		mov	r3, r3, asl #16
+  58 0054 0338A0E1 		mov	r0, r3, asr #16
+  59 0058 4308A0E1 	.LVL6:
+  60              	.L5:
+  61              		.loc 1 124 0
+ 124:lpc_aci_eeprom.c **** nt[0]);
+  62              	 sp, #8
+  63 005c 08D08DE2 		ldmfd	sp!, {r4, r5, r6, lr}
+  64 0060 7040BDE8 		bx	lr
+  65 0064 1EFF2FE1 	.L12:
+  66              		.align	2
+  67              	.L11:
+  68              		.word	content
+  69 0068 00000000 		.word	anz_param_saved
+  70 006c 00000000 	.LFE5:
+  72              		.align	2
+  73              		.global	lpc_aci_SavePara
+  75              	lpc_aci_SavePara:
+  76              	.LFB4:
+  77              		.loc 1 78 0
+  78              		@ Function supports interworking.
+  79              		@ args = 0, pretend = 0, frame = 0
+  80              		@ frame_needed = 0, uses_anonymous_args = 0
+  81              		.loc 1 84 0
+  82              		ldr	r1, .L28
+  83 0070 28119FE5 		ldr	r3, [r1, #0]
+  84 0074 003091E5 		.loc 1 78 0
+  85              		stmfd	sp!, {r4, r5, r6, r7, r8, r9, sl, fp, lr}
+  86 0078 F04F2DE9 	.LCFI2:
+  87              		.loc 1 80 0
+  88              		ldr	r9, .L28+4
+  89 007c 20919FE5 		.loc 1 84 0
+  90              		cmp	r3, #0
+  91 0080 000053E3 		.loc 1 80 0
+  92              		mov	r0, #0
+  93 0084 0000A0E3 		str	r0, [r9, #0]
+  94 0088 000089E5 		ldrle	fp, .L28+8
+  95 008c 14B19FD5 		.loc 1 84 0
+  96              		movle	r2, r0
+  97 0090 0020A0D1 	.LVL7:
+  98              		ble	.L16
+  99 0094 340000DA 		.loc 1 85 0
+ 100              		ldr	sl, .L28+12
+ 101 0098 0CA19FE5 		ldrb	r3, [sl, #14]	@ zero_extendqisi2
+ 102 009c 0E30DAE5 		mov	r3, r3, lsr #2
+ 103 00a0 2331A0E1 		cmp	r3, #249
+ 104 00a4 F90053E3 		ldrgt	fp, .L28+8
+ 105 00a8 F8B09FC5 		bgt	.L19
+ 106 00ac 360000CA 		ldr	fp, .L28+8
+ 107 00b0 F0B09FE5 		.loc 1 90 0
+ 108              		mov	r6, r0
+ 109 00b4 0060A0E1 	.LVL8:
+ 110              		mov	r8, sl
+ 111 00b8 0A80A0E1 		mov	r7, r0
+ 112 00bc 0070A0E1 	.LVL9:
+ 113              		b	.L21
+ 114 00c0 030000EA 	.LVL10:
+ 115              	.L20:
+ 116              		.loc 1 85 0
+ 117              		ldrb	r3, [r3, #33]	@ zero_extendqisi2
+ 118 00c4 2130D3E5 		add	r3, r6, r3, lsr #2
+ 119 00c8 233186E0 		cmp	r3, #249
+ 120 00cc F90053E3 		bgt	.L27
+ 121 00d0 2C0000CA 	.LVL11:
+ 122              	.L21:
+ 123              		.loc 1 93 0
+ 124              		add	r4, r7, r7, asl #3
+ 125 00d4 874187E0 	.LVL12:
+ 126              		add	r4, r7, r4, asl #1
+ 127 00d8 844087E0 		add	r5, r4, sl
+ 128 00dc 0A5084E0 		mov	r1, r5
+ 129 00e0 0510A0E1 		add	r0, r6, fp
+ 130 00e4 0B0086E0 		mov	r2, #2
+ 131 00e8 0220A0E3 	.LVL13:
+ 132              		.loc 1 95 0
+ 133              		add	r4, r4, sl
+ 134 00ec 0A4084E0 		.loc 1 93 0
+ 135              		bl	memcpy
+ 136 00f0 FEFFFFEB 		.loc 1 95 0
+ 137              		ldrb	r2, [r4, #14]	@ zero_extendqisi2
+ 138 00f4 0E20D4E5 		.loc 1 94 0
+ 139              		add	r3, r6, #2
+ 140 00f8 023086E2 	.LVL14:
+ 141              		.loc 1 95 0
+ 142              		strb	r2, [r3, fp]
+ 143 00fc 0B20C3E7 		.loc 1 97 0
+ 144              		add	r5, r5, #12
+ 145 0100 0C5085E2 		ldrb	r3, [r5, #4]	@ zero_extendqisi2
+ 146 0104 0430D5E5 	.LVL15:
+ 147              		ldrb	r1, [r5, #3]	@ zero_extendqisi2
+ 148 0108 0310D5E5 		ldrb	r0, [r5, #5]	@ zero_extendqisi2
+ 149 010c 0500D5E5 		orr	r1, r1, r3, asl #8
+ 150 0110 031481E1 		ldrb	r2, [r8, #14]	@ zero_extendqisi2
+ 151 0114 0E20D8E5 		ldrb	ip, [r5, #6]	@ zero_extendqisi2
+ 152 0118 06C0D5E5 		orr	r1, r1, r0, asl #16
+ 153 011c 001881E1 		.loc 1 96 0
+ 154              		add	r4, r6, #3
+ 155 0120 034086E2 	.LVL16:
+ 156              		.loc 1 97 0
+ 157              		orr	r1, r1, ip, asl #24
+ 158 0124 0C1C81E1 		mov	r2, r2, lsr #2
+ 159 0128 2221A0E1 		add	r0, r4, fp
+ 160 012c 0B0084E0 		bl	memcpy
+ 161 0130 FEFFFFEB 		.loc 1 84 0
+ 162              		ldr	r1, .L28
+ 163 0134 64109FE5 		.loc 1 99 0
+ 164              		ldr	r3, [r9, #0]
+ 165 0138 003099E5 		.loc 1 84 0
+ 166              		ldr	r2, [r1, #0]
+ 167 013c 002091E5 		add	r7, r7, #1
+ 168 0140 017087E2 		.loc 1 98 0
+ 169              		ldrb	r1, [r8, #14]	@ zero_extendqisi2
+ 170 0144 0E10D8E5 		.loc 1 99 0
+ 171              		add	r3, r3, #1
+ 172 0148 013083E2 		.loc 1 84 0
+ 173              		cmp	r2, r7
+ 174 014c 070052E1 		.loc 1 99 0
+ 175              		str	r3, [r9, #0]
+ 176 0150 003089E5 		.loc 1 98 0
+ 177              		add	r6, r4, r1, lsr #2
+ 178 0154 216184E0 		.loc 1 78 0
+ 179              		mov	r3, r8
+ 180 0158 0830A0E1 		.loc 1 85 0
+ 181              		add	r8, r8, #19
+ 182 015c 138088E2 		.loc 1 84 0
+ 183              		bgt	.L20
+ 184 0160 D7FFFFCA 		and	r0, r6, #255
+ 185 0164 FF0006E2 		mov	r2, #0
+ 186 0168 0020A0E3 	.LVL17:
+ 187              	.L16:
+ 188              		.loc 1 102 0
+ 189              		add	r3, fp, r2, asl #8
+ 190 016c 02348BE0 		add	r3, r3, #252
+ 191 0170 FC3083E2 		.loc 1 103 0
+ 192              		mov	r2, #1
+ 193 0174 0120A0E3 	.LVL18:
+ 194              		strb	r2, [r3, #3]
+ 195 0178 0320C3E5 		.loc 1 102 0
+ 196              		strb	r0, [r3, #2]
+ 197 017c 0200C3E5 		.loc 1 104 0
+ 198              		ldmfd	sp!, {r4, r5, r6, r7, r8, r9, sl, fp, lr}
+ 199 0180 F04FBDE8 		bx	lr
+ 200 0184 1EFF2FE1 	.L27:
+ 201              		.loc 1 85 0
+ 202              		and	r0, r6, #255
+ 203 0188 FF0006E2 	.LVL19:
+ 204              	.L19:
+ 205              		.loc 1 88 0
+ 206              		mov	r3, #0
+ 207 018c 0030A0E3 		mov	r2, #1
+ 208 0190 0120A0E3 		strb	r3, [fp, #255]
+ 209 0194 FF30CBE5 		.loc 1 87 0
+ 210              		strb	r0, [fp, #254]
+ 211 0198 FE00CBE5 		b	.L16
+ 212 019c F2FFFFEA 	.L29:
+ 213              		.align	2
+ 214              	.L28:
+ 215              		.word	aciListParCount
+ 216 01a0 00000000 		.word	anz_param_saved
+ 217 01a4 00000000 		.word	content
+ 218 01a8 00000000 		.word	aciListPar
+ 219 01ac 00000000 	.LFE4:
+ 221              		.align	2
+ 222              		.global	lpc_aci_ReadParafromFlash
+ 224              	lpc_aci_ReadParafromFlash:
+ 225              	.LFB3:
+ 226              		.loc 1 19 0
+ 227              		@ Function supports interworking.
+ 228              		@ args = 0, pretend = 0, frame = 16
+ 229              		@ frame_needed = 0, uses_anonymous_args = 0
+ 230              		stmfd	sp!, {r4, r5, r6, r7, r8, r9, sl, fp, lr}
+ 231 01b0 F04F2DE9 	.LCFI3:
+ 232              		sub	sp, sp, #16
+ 233 01b4 10D04DE2 	.LCFI4:
+ 234              		.loc 1 28 0
+ 235              		add	r1, sp, #4
+ 236 01b8 04108DE2 		mov	r0, #0
+ 237 01bc 0000A0E3 		bl	ee_readn
+ 238 01c0 FEFFFFEB 		.loc 1 33 0
+ 239              		mov	r2, #256
+ 240 01c4 012CA0E3 		ldr	r0, .L52
+ 241 01c8 7C019FE5 	.LVL20:
+ 242              		ldr	r1, [sp, #8]
+ 243 01cc 08109DE5 		bl	memcpy
+ 244 01d0 FEFFFFEB 		.loc 1 35 0
+ 245              		ldr	r2, .L52
+ 246 01d4 70219FE5 		ldrb	r0, [r2, #255]	@ zero_extendqisi2
+ 247 01d8 FF00D2E5 		.loc 1 44 0
+ 248              		cmp	r0, #1
+ 249 01dc 010050E3 		movls	r3, #0
+ 250 01e0 0030A093 		strls	r3, [sp, #0]
+ 251 01e4 00308D95 	.LVL21:
+ 252              		movls	r7, r2
+ 253 01e8 0270A091 		movls	fp, r3
+ 254 01ec 03B0A091 	.LVL22:
+ 255              		bls	.L33
+ 256 01f0 0C00009A 	.LVL23:
+ 257              	.L34:
+ 258              		.loc 1 75 0
+ 259              		add	sp, sp, #16
+ 260 01f4 10D08DE2 		ldmfd	sp!, {r4, r5, r6, r7, r8, r9, sl, fp, lr}
+ 261 01f8 F04FBDE8 		bx	lr
+ 262 01fc 1EFF2FE1 	.LVL24:
+ 263              	.L49:
+ 264              		ldrb	lr, [sp, #15]	@ zero_extendqisi2
+ 265 0200 0FE0DDE5 	.LVL25:
+ 266              	.L37:
+ 267              		.loc 1 50 0
+ 268              		ldrb	r3, [r7, #254]	@ zero_extendqisi2
+ 269 0204 FE30D7E5 	.LVL26:
+ 270              		.loc 1 68 0
+ 271              		add	r5, r5, lr, lsr #2
+ 272 0208 2E5185E0 	.LVL27:
+ 273              		.loc 1 50 0
+ 274              		cmp	r3, r5
+ 275 020c 050053E1 		bgt	.L36
+ 276 0210 0D0000CA 	.L45:
+ 277              		.loc 1 47 0
+ 278              		ldrb	r3, [r9, #255]	@ zero_extendqisi2
+ 279 0214 FF30D9E5 		cmp	r3, #0
+ 280 0218 000053E3 		.loc 1 50 0
+ 281              		add	r7, r7, #256
+ 282 021c 017C87E2 		.loc 1 47 0
+ 283              		bne	.L46
+ 284 0220 4500001A 		.loc 1 71 0
+ 285              		add	fp, fp, #1
+ 286 0224 01B08BE2 	.L33:
+ 287              		.loc 1 50 0
+ 288              		ldrb	r3, [r7, #254]	@ zero_extendqisi2
+ 289 0228 FE30D7E5 		cmp	r3, #0
+ 290 022c 000053E3 		.loc 1 19 0
+ 291              		mov	r9, r7
+ 292 0230 0790A0E1 		.loc 1 50 0
+ 293              		ble	.L45
+ 294 0234 F6FFFFDA 		ldr	r2, .L52
+ 295 0238 0C219FE5 		ldr	r8, .L52+4
+ 296 023c 0C819FE5 		.loc 1 44 0
+ 297              		mov	r5, #0
+ 298 0240 0050A0E3 		add	sl, sp, #12
+ 299 0244 0CA08DE2 		add	r6, r2, fp, asl #8
+ 300 0248 0B6482E0 	.L36:
+ 301              		.loc 1 52 0
+ 302              		add	r1, r6, r5
+ 303 024c 051086E0 	.LVL28:
+ 304              		mov	r2, #2
+ 305 0250 0220A0E3 		mov	r0, sl
+ 306 0254 0A00A0E1 	.LVL29:
+ 307              		bl	memcpy
+ 308 0258 FEFFFFEB 	.LVL30:
+ 309              		.loc 1 53 0
+ 310              		add	r3, r5, #2
+ 311 025c 023085E2 	.LVL31:
+ 312              		.loc 1 57 0
+ 313              		ldr	r4, [r8, #0]
+ 314 0260 004098E5 		.loc 1 54 0
+ 315              		ldrb	r2, [r6, r3]	@ zero_extendqisi2
+ 316 0264 0320D6E7 		.loc 1 57 0
+ 317              		cmp	r4, #0
+ 318 0268 000054E3 		.loc 1 54 0
+ 319              		strb	r2, [sp, #15]
+ 320 026c 0F20CDE5 		.loc 1 55 0
+ 321              		add	r5, r5, #3
+ 322 0270 035085E2 	.LVL32:
+ 323              		.loc 1 57 0
+ 324              		ble	.L49
+ 325 0274 E1FFFFDA 		.loc 1 58 0
+ 326              		ldr	ip, .L52+8
+ 327 0278 D4C09FE5 		ldrb	r3, [ip, #0]	@ zero_extendqisi2
+ 328 027c 0030DCE5 	.LVL33:
+ 329              		ldrb	r2, [ip, #1]	@ zero_extendqisi2
+ 330 0280 0120DCE5 		ldrsh	lr, [sp, #12]
+ 331 0284 FCE0DDE1 		orr	r3, r3, r2, asl #8
+ 332 0288 023483E1 		cmp	lr, r3
+ 333 028c 03005EE1 		moveq	r1, #0
+ 334 0290 0010A003 	.LVL34:
+ 335              		moveq	r0, r1
+ 336 0294 0100A001 		beq	.L41
+ 337 0298 0E00000A 	.LVL35:
+ 338              		.loc 1 63 0
+ 339              		mov	r1, #0
+ 340 029c 0010A0E3 		b	.L43
+ 341 02a0 040000EA 	.LVL36:
+ 342              	.L42:
+ 343              		.loc 1 58 0
+ 344              		ldrb	r3, [r3, ip]	@ zero_extendqisi2
+ 345 02a4 0C30D3E7 		ldrb	r2, [r2, #1]	@ zero_extendqisi2
+ 346 02a8 0120D2E5 		orr	r3, r3, r2, asl #8
+ 347 02ac 023483E1 		cmp	r3, lr
+ 348 02b0 0E0053E1 		beq	.L41
+ 349 02b4 0700000A 	.L43:
+ 350              		.loc 1 57 0
+ 351              		add	r1, r1, #1
+ 352 02b8 011081E2 		.loc 1 58 0
+ 353              		mov	r0, r1, asl #3
+ 354 02bc 8101A0E1 		add	r3, r0, r1
+ 355 02c0 013080E0 		add	r3, r1, r3, asl #1
+ 356 02c4 833081E0 		.loc 1 57 0
+ 357              		cmp	r1, r4
+ 358 02c8 040051E1 		.loc 1 58 0
+ 359              		add	r2, r3, ip
+ 360 02cc 0C2083E0 		.loc 1 57 0
+ 361              		bne	.L42
+ 362 02d0 F3FFFF1A 		b	.L49
+ 363 02d4 C9FFFFEA 	.LVL37:
+ 364              	.L41:
+ 365              		.loc 1 60 0
+ 366              		add	r3, r0, r1
+ 367 02d8 013080E0 		add	r3, r1, r3, asl #1
+ 368 02dc 833081E0 		add	r3, r3, ip
+ 369 02e0 0C3083E0 		ldrb	r2, [r3, #14]	@ zero_extendqisi2
+ 370 02e4 0E20D3E5 		ldrb	lr, [sp, #15]	@ zero_extendqisi2
+ 371 02e8 0FE0DDE5 		cmp	lr, r2
+ 372 02ec 02005EE1 		bne	.L37
+ 373 02f0 C3FFFF1A 	.LVL38:
+ 374              		.loc 1 62 0
+ 375              		add	r3, r3, #12
+ 376 02f4 0C3083E2 		ldrb	r2, [r3, #4]	@ zero_extendqisi2
+ 377 02f8 0420D3E5 		ldrb	r0, [r3, #3]	@ zero_extendqisi2
+ 378 02fc 0300D3E5 		ldrb	ip, [r3, #5]	@ zero_extendqisi2
+ 379 0300 05C0D3E5 		ldrb	r1, [r3, #6]	@ zero_extendqisi2
+ 380 0304 0610D3E5 	.LVL39:
+ 381              		orr	r0, r0, r2, asl #8
+ 382 0308 020480E1 		orr	r0, r0, ip, asl #16
+ 383 030c 0C0880E1 		mov	r2, lr, lsr #2
+ 384 0310 2E21A0E1 		orr	r0, r0, r1, asl #24
+ 385 0314 010C80E1 		add	r1, r6, r5
+ 386 0318 051086E0 		bl	memcpy
+ 387 031c FEFFFFEB 	.LVL40:
+ 388              		.loc 1 63 0
+ 389              		ldr	r2, [sp, #0]
+ 390 0320 00209DE5 		add	r3, r2, #1
+ 391 0324 013082E2 		mov	r3, r3, asl #16
+ 392 0328 0338A0E1 		ldrb	lr, [sp, #15]	@ zero_extendqisi2
+ 393 032c 0FE0DDE5 		mov	r3, r3, lsr #16
+ 394 0330 2338A0E1 		str	r3, [sp, #0]
+ 395 0334 00308DE5 		b	.L37
+ 396 0338 B1FFFFEA 	.LVL41:
+ 397              	.L46:
+ 398              		.loc 1 74 0
+ 399              		ldr	r2, [sp, #0]
+ 400 033c 00209DE5 		mov	r3, r2, asl #16
+ 401 0340 0238A0E1 		mov	r0, r3, asr #16
+ 402 0344 4308A0E1 		b	.L34
+ 403 0348 A9FFFFEA 	.L53:
+ 404              		.align	2
+ 405              	.L52:
+ 406              		.word	content
+ 407 034c 00000000 		.word	aciListParCount
+ 408 0350 00000000 		.word	aciListPar
+ 409 0354 00000000 	.LFE3:
+ 411              		.align	2
+ 412              		.global	lpc_aci_init
+ 414              	lpc_aci_init:
+ 415              	.LFB2:
+ 416              		.loc 1 8 0
+ 417              		@ Function supports interworking.
+ 418              		@ args = 0, pretend = 0, frame = 0
+ 419              		@ frame_needed = 0, uses_anonymous_args = 0
+ 420              		str	lr, [sp, #-4]!
+ 421 0358 04E02DE5 	.LCFI5:
+ 422              		.loc 1 8 0
+ 423              		ldr	r3, .L60
+ 424 035c 30309FE5 		mvn	r1, #0
+ 425 0360 0010E0E3 		add	r2, r3, #254
+ 426 0364 FE2083E2 	.L55:
+ 427              		.loc 1 12 0
+ 428              		strb	r1, [r3], #1
+ 429 0368 0110C3E4 		cmp	r3, r2
+ 430 036c 020053E1 		bne	.L55
+ 431 0370 FCFFFF1A 		.loc 1 13 0
+ 432              		ldr	r0, .L60+4
+ 433 0374 1C009FE5 		bl	aciSetSaveParaCallback
+ 434 0378 FEFFFFEB 		.loc 1 14 0
+ 435              		ldr	r0, .L60+8
+ 436 037c 18009FE5 		bl	aciSetReadParafromFlashCallback
+ 437 0380 FEFFFFEB 		.loc 1 15 0
+ 438              		ldr	r0, .L60+12
+ 439 0384 14009FE5 		bl	aciSetWriteParatoFlashCallback
+ 440 0388 FEFFFFEB 		.loc 1 16 0
+ 441              		ldr	lr, [sp], #4
+ 442 038c 04E09DE4 		bx	lr
+ 443 0390 1EFF2FE1 	.L61:
+ 444              		.align	2
+ 445              	.L60:
+ 446              		.word	content
+ 447 0394 00000000 		.word	lpc_aci_SavePara
+ 448 0398 00000000 		.word	lpc_aci_ReadParafromFlash
+ 449 039c 00000000 		.word	lpc_aci_WriteParatoFlash
+ 450 03a0 00000000 	.LFE2:
+ 452              		.global	anz_param_saved
+ 453              		.bss
+ 454              		.align	2
+ 457              	anz_param_saved:
+ 458              		.space	4
+ 459 0000 00000000 		.comm	content,256,4
+ 460              		.section	.debug_frame,"",%progbits
+ 582              		.section	.debug_loc,"",%progbits
+DEFINED SYMBOLS
+                            *ABS*:00000000 lpc_aci_eeprom.c
+C:\Users\atnguye2\AppData\Local\Temp/ccSYcaaa.s:13     .text:00000000 lpc_aci_WriteParatoFlash
+C:\Users\atnguye2\AppData\Local\Temp/ccSYcaaa.s:20     .text:00000000 $a
+C:\Users\atnguye2\AppData\Local\Temp/ccSYcaaa.s:69     .text:00000068 $d
+                            *COM*:00000100 content
+C:\Users\atnguye2\AppData\Local\Temp/ccSYcaaa.s:458    .bss:00000000 anz_param_saved
+C:\Users\atnguye2\AppData\Local\Temp/ccSYcaaa.s:76     .text:00000070 lpc_aci_SavePara
+C:\Users\atnguye2\AppData\Local\Temp/ccSYcaaa.s:83     .text:00000070 $a
+C:\Users\atnguye2\AppData\Local\Temp/ccSYcaaa.s:216    .text:000001a0 $d
+C:\Users\atnguye2\AppData\Local\Temp/ccSYcaaa.s:225    .text:000001b0 lpc_aci_ReadParafromFlash
+C:\Users\atnguye2\AppData\Local\Temp/ccSYcaaa.s:231    .text:000001b0 $a
+C:\Users\atnguye2\AppData\Local\Temp/ccSYcaaa.s:407    .text:0000034c $d
+C:\Users\atnguye2\AppData\Local\Temp/ccSYcaaa.s:415    .text:00000358 lpc_aci_init
+C:\Users\atnguye2\AppData\Local\Temp/ccSYcaaa.s:421    .text:00000358 $a
+C:\Users\atnguye2\AppData\Local\Temp/ccSYcaaa.s:447    .text:00000394 $d
+
+UNDEFINED SYMBOLS
+ee_erase
+ee_write
+memcpy
+aciListParCount
+aciListPar
+ee_readn
+aciSetSaveParaCallback
+aciSetReadParafromFlashCallback
+aciSetWriteParatoFlashCallback
