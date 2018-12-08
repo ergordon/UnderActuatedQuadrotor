@@ -31,7 +31,7 @@ function gains = getGains(params,eq)
     Q = diag([1 1 100 100]);
     R = diag([1 1]);
     gains.K_i = dlqr(Ad,Bd,Q,R);
-    K_i = gains.K_i
+    K_i = gains.K_i;
 
     %now lets add the extended motor states
     %u = [f3-f1;f2] so I = eye(2) and O = zeros(2)
@@ -45,7 +45,7 @@ function gains = getGains(params,eq)
     Q = diag([1 1 100 100 0 0]);
     R = diag([1 1]);
     gains.K_i_ext = dlqr(Ad,Bd,Q,R);
-    K_i_ext = gains.K_i_ext
+    K_i_ext = gains.K_i_ext;
     
     %outter loop gains
 
@@ -61,6 +61,6 @@ function gains = getGains(params,eq)
     gains.K_p = 2*params.sigma*params.omega_n;
     gains.K_d = params.omega_n^2;
     
-    K_p = gains.K_p
-    K_d = gains.K_d
+    K_p = gains.K_p;
+    K_d = gains.K_d;
 end

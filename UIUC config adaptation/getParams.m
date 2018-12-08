@@ -3,15 +3,15 @@ function params = getParams(eq)
     params = struct;
     
     %initial conditions
-    params.o0 = [0; 0; -5];
-    params.theta0 = [pi/2; 0; 0];
+    params.o0 = [0; 0; -2];
+    params.theta0 = [0; 0; 0];
     params.v0 = [0; 0; 0];
-    params.w0 = [.1;.1;.1];
+    params.w0 = [0;0;0];
     params.x0 = [params.o0; params.theta0; params.v0; params.w0];
     
     %time
     params.t0 = 0;  %simulation start time
-    params.t1 = 10; %simulation stop time
+    params.t1 = 7; %simulation stop time
     params.dt = 1/1000; %frequency of inner loop
     
     

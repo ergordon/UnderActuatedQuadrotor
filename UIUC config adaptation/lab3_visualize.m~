@@ -123,11 +123,10 @@ if isempty(fig)
     hold on;
     axis off;
     fig.text=text(0.05,0.1,sprintf('t = %6.2f\n',t),'fontsize',10,'verticalalignment','top','fontname','monaco');
-    fig.text2=text(0.05,0.05,'Motor Fails at Random Time','fontsize',10,'verticalalignment','top','fontname','monaco');
+    
     % Create an axis for the view from the room frame
-    %axes();
-    axes('position',[0.1 0.1 .8 .7])
-    axis([-6 6 -6 6 -6 6]);
+    axes();
+    axis([-4 4 -4 4 -3.5 3.5]);
     set(gcf,'Renderer','zbuffer');
     axis equal;
     hold on;
@@ -148,7 +147,6 @@ if isempty(fig)
     fig.roomframe = DrawFrame([], pRoomFrame_InRoom);
     fig.bodyframe = DrawFrame([], pBodyFrame_InRoom);
     
-    
     % Draw the floor
     fig.floor = rectangle('position', [-2.5 -2.5 5 5], 'facecolor', 0.9*[1 1 1]);
     
@@ -166,21 +164,15 @@ if isempty(fig)
     fig.o = DrawTrace([], nan(3,1), [1, 0.6, 0], 50);
 
     % Update Diagnostics
-    fs = 12;
-    fig.x.axis = axes('position',[0.1,0.75,.8,0.2],'fontsize',fs);
-    axis([0,20,-2,1]);
-    hold on;
-    fig.x.od1 = plot(nan,nan,'--k','linewidth',1);
-    fig.x.od2 = plot(nan,nan,'--k','linewidth',1);
-    fig.x.od3 = plot(nan,nan,'--k','linewidth',1);
-    fig.x.o1 = plot(nan,nan,'linewidth',2);
-    fig.x.o2 = plot(nan,nan,'linewidth',2);
-    fig.x.o3 = plot(nan,nan,'linewidth',2);
-    fig.x.legend = legend([fig.x.o1,fig.x.o2,fig.x.o3],'x','y','z');
-    xlabel('Time [s]');
-
-    
-        
+    fs = 14
+    fig.x.axis = axes('position',[0.55,0.6,0.4,0.35],'fontsize',fs);
+        axis([0,t(end),-pi/2,pi/2]);
+        hold on;
+        fig.x.o1 = plot(nan,nan,'linewidth',2);
+        fig.x.o2 = plot(nan,nan,'linewidth',2);
+        fig.x.o3 = plot(nan,nan,'linewidth',2);
+        fig.x.legend = legend('x','y','z');
+        xlabel('time');
 else
     
     % Update figure
@@ -197,18 +189,14 @@ else
     
     % Update Diagnostics
     t = [get(fig.x.o1,'xdata') t];
-    od1 = [get(fig.x.od1,'ydata') odes(1)];
-        set(fig.x.od1,'xdata',t,'ydata',od1);
-    od2 = [get(fig.x.od2,'ydata') odes(2)];
-        set(fig.x.od2,'xdata',t,'ydata',od2);
-    od3 = [get(fig.x.od3,'ydata') odes(3)];
-        set(fig.x.od3,'xdata',t,'ydata',od3); 
-    o1 = [get(fig.x.o1,'ydata') o(1)];
+    o1 = [get(fig.x.o1,'ydata') o()];
         set(fig.x.o1,'xdata',t,'ydata',o1);
-    o2 = [get(fig.x.o2,'ydata') o(2)];
-        set(fig.x.o2,'xdata',t,'ydata',o2);
-    o3 = [get(fig.x.o3,'ydata') o(3)];
-        set(fig.x.o3,'xdata',t,'ydata',o3); 
+    o2 = [get(fig.x.o2,'ydata') process.q2];
+        set(fig.x.o2,'xdata',t,'ydata',q2);
+    o3 = [get(fig.x.o3,'ydata') controller.references.q2];
+        set(fig.x.o3,'xdata',t,'ydata',r);
+    tau1 = [get(fig.u.tau1,'ydata') controller.actuators.tau1];
+        set(fig.u.tau1,'xdata',t,'ydata',tau1);
     
 end
 

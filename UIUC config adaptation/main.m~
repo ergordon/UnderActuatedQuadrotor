@@ -8,7 +8,7 @@ close all;
 %  o(3,:) = -1;
 %  o(2,:) = 0;
 %  o(1,:) = 0;
-moviefile = [];%'MotorFailsRandomTime2';
+moviefile = 'Circle Trajectory';%'working_quad'
 lab3_visualize(t, o, theta, odes, moviefile)
 
 %%

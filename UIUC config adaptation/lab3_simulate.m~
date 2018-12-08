@@ -32,7 +32,7 @@ function [t, o, theta, v, omega, u, odes] = lab3_simulate()
          %odes = [odes [radius*cos(2*pi*ti/T);radius*sin(2*pi*ti/T);-1]];
      end
 
-     randomT = randi([3 4])
+     randomT = randi([5 7])
      
     % Iterate over t1/dt sample intervals.
     for i = 1:(params.t1/params.dt)
@@ -47,7 +47,7 @@ function [t, o, theta, v, omega, u, odes] = lab3_simulate()
 
         
         if(t < randomT)
-            xe = [0;0;-1;0;0;0;0;0;0;0;0;0];
+            xe = [0;0;-1;0;0;0;0;0;0;.1;.1;.1;];
             ue = [0;0;0;0.715*9.81];
             kF = 7.46e-6;              % aerodynamic force coefficient
             kM = 1.23e-7;              % aerodynamic torque coefficient
