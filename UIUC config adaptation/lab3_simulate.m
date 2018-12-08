@@ -10,15 +10,19 @@ function [t, o, theta, v, omega, u, odes] = lab3_simulate()
     
     % Create variables to keep track of time, state, input, and desired position
     t = [params.t0];
-    x = [params.o0; params.theta0; params.v0; params.w0];
+    x = params.x0;
     u = [];
     odes = [];
 
     
+    T = 5;%period
+    radius = 1;
+    
     %set the desired positon for each time step here
      times = params.t0:params.dt:params.t1;
      for i=1:length(times)
-         odes = [odes [0;0;-1]];
+         ti = times(i);
+         odes = [odes [radius*cos(2*pi*ti/T);radius*sin(2*pi*ti/T);-1]];
      end     
 
     % Iterate over t1/dt sample intervals.
@@ -58,11 +62,15 @@ function [t, o, theta, v, omega, u, odes] = lab3_simulate()
            %inner loop set points!!!
            %fsum gets passed into the getbounded inputs function to enforce
            %the total force condition
-           fsum_des = params.m/eq.n(3)*norm(R^(-1)*(a_des-[0;0;params.g]));
+           fsum_des = params.m/eq.n(3)*norm((R')*(a_des-[0;0;params.g]));
+           
            
            %n_des is set as the equilibrium for the inner loop reduced
            %attitude state. 
-           n_des = params.m/(eq.n(3)*fsum_des)*R^(-1)*(a_des-[0;0;params.g]);
+%            n_des = params.m/(eq.n(3)*fsum_des)*R^(-1)*(a_des-[0;0;params.g]);
+           n_des = params.m/(eq.n(3)*fsum_des)*(R')*(a_des-[0;0;params.g]);
+           
+           
            
         end
         
@@ -70,12 +78,6 @@ function [t, o, theta, v, omega, u, odes] = lab3_simulate()
         %%%%%%%%%%%%%%%%%
         % inner loop
         %%%%%%%%%%%%%%%%%
-        
-         %i might need to change the equilibrium forces values??????? 
-         %dont think so, this is the only way to enforce rho, which is a 
-         %tuning factor.
-%         se = [p_eq;q_eq;nx_eq;ny_eq]; %[p;q;nx;ny]
-%         ue = [f1_eq-f3_eq;f2_eq]; %[f1-f3;f2] 
         
         %set equilibrium nx and ny so the inner loop input can try to align
         %the body n with the n_des set in the outter loop
@@ -86,7 +88,11 @@ function [t, o, theta, v, omega, u, odes] = lab3_simulate()
         %current angular velocity
         wB = [xi(10); xi(11); xi(12)];
         %current primary axis of rotation
-        n = wB/norm(wB);
+        if(norm(wB) == 0) %prevent division by zero if not rotating
+            n = [0;0;-1];
+        else
+            n = wB/norm(wB);    
+        end
         
         %current reduced attitude state
         si = [wB(1); wB(2); n(1); n(2)];
@@ -94,25 +100,18 @@ function [t, o, theta, v, omega, u, odes] = lab3_simulate()
         %%%%%%%%%%%%%%%%%%%%%%%%%%
         %not extended motor states
         %%%%%%%%%%%%%%%%%%%%%%%%%%
-%         u_desired = -gains.K_i*(si-eq.s) + eq.u;
-%         ui = GetBoundedInputs(u_desired, fsum_des, params);
+        u_desired = -gains.K_i*(si-eq.s) + eq.u;
+        ui = GetBoundedInputs(u_desired, fsum_des, params);
         
        %%%%%%%%%%%%%%%%%%%%%%%%%%
         %extended motor states
         %%%%%%%%%%%%%%%%%%%%%%%%%%
-        
-        %should i calc u this way or store the u from the last step and use
-        %that???
-        u_desired = -gains.K_i*(si-eq.s);               
-%         %extended state
-        si_ext = [wB(1); wB(2); n(1); n(2); u_desired(1); u_desired(2)];
-
-        u_desired = -gains.K_i_ext*(si_ext) + eq.u;
-        ui = GetBoundedInputs(u_desired(1:2), fsum_des, params);
-
-
+                      
+      
         u(:, i) = ui;
-
+        
+       
+        
         % Get time and state at start of (i+1)'th sample interval
         [tsol, xsol] = ode45(@(t, x) h(t, x, ui, params), [ti ti+params.dt], xi);
    
@@ -129,6 +128,7 @@ function [t, o, theta, v, omega, u, odes] = lab3_simulate()
     omega = x(10:12, :);
 
 end
+
 
 function xdot = h(t, x, u, params)
 
@@ -168,10 +168,6 @@ function xdot = h(t, x, u, params)
     qdot = -1/JBy*(-p*(r*(JBz + 4*JPz) + JPz*(w1 + w2 + w3 + w4)) - l*(kF*w3^2 - kF*w4^2) + p*r*(JBx + 4*JPx));
     rdot = -1/JBz*(- kF*kT*w1^2 - kF*kT*w2^2 + kF*kT*w3^2 + kF*kT*w4^2 + gamma*r - p*q*(JBx + 4*JPx) + p*q*(JBy + 4*JPy));
     
-    
-%     pdot = 1/params.JB(1,1)*(params.kF*(u(1)^2-u(2)^2)*params.el - (params.JT(2,2) - params.JT(3,3))*q*r - params.JP(3,3)*q*(u(1)+u(2)+u(3)+u(4)));
-%     qdot = 1/params.JB(2,2)*(params.kF*(u(3)^2-u(4)^2)*params.el + (params.JT(3,3) - params.JT(1,1))*p*r + params.JP(3,3)*p*(u(1)+u(2)+u(3)+u(4)));
-%     rdot = 1/params.JB(3,3)*(-params.gamma*r + p*q*(params.JT(1,1)-params.JT(2,2)) + params.kT*params.kF*(u(1)^2+u(2)^2-u(3)^2-u(4)^2));
     wdot = [pdot;qdot;rdot];
     
     xdot = [odot;tdot;vdot;wdot];

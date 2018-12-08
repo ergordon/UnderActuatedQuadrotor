@@ -3,15 +3,16 @@ function params = getParams(eq)
     params = struct;
     
     %initial conditions
-    params.o0 = [0; 0; -5];
+    params.o0 = [0; 0; -2];
     params.theta0 = [pi/2; 0; 0];
     params.v0 = [0; 0; 0];
-    params.w0 = [.1;.1;.1];
+    params.w0 = [0;0;0];
     params.x0 = [params.o0; params.theta0; params.v0; params.w0];
+    
     
     %time
     params.t0 = 0;  %simulation start time
-    params.t1 = 10; %simulation stop time
+    params.t1 = 5; %simulation stop time
     params.dt = 1/1000; %frequency of inner loop
     
     
@@ -31,7 +32,7 @@ function params = getParams(eq)
     
     
     %PID gains used for the outter loop (actually only PD)
-    params.sigma = .7;%damping ratio
+    params.sigma = .6;%damping ratio
     params.omega_n = 1;%natural frequency
     
 
