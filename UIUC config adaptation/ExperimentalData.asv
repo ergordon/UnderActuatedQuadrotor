@@ -1,0 +1,13 @@
+function ExperimentalData
+data=csvread('ExperimentalData1.csv',1,0);
+t = data(:,1)
+x = 0*t;
+y = 0*t;
+z = -1+0*t;
+plot(t,data(:,2),t,data(:,3),t,-data(:,4),'',)
+hold on
+plot(t,x,t,y,t,z)
+legend('X Actual','Y Actual','Z Actual','X Desired','Y Desired','Z Desired')
+
+
+end
