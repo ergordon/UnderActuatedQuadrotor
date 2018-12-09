@@ -1,0 +1,2971 @@
+   1              		.file	"lab.c"
+   9              	.Ltext0:
+  10              		.global	mass
+  11              		.data
+  12              		.align	2
+  15              	mass:
+  16 0000 3D0A373F 		.word	1060571709
+  17              		.global	kF
+  18              		.align	2
+  21              	kF:
+  22 0004 E950FA36 		.word	922374377
+  23              		.global	kM
+  24              		.align	2
+  27              	kM:
+  28 0008 FC110434 		.word	872681980
+  29              		.global	l
+  30              		.align	2
+  33              	l:
+  34 000c 7B142E3E 		.word	1043207291
+  35              		.global	MAXPHI2
+  36              		.align	2
+  39              	MAXPHI2:
+  40 0010 7B5E1449 		.word	1226071675
+  41              		.global	MINPHI2
+  42              		.align	2
+  45              	MINPHI2:
+  46 0014 757A4646 		.word	1179023989
+  47              		.global	K_d
+  48              		.align	2
+  51              	K_d:
+  52 0018 0000803F 		.word	1065353216
+  53              		.global	K_p
+  54              		.align	2
+  57              	K_p:
+  58 001c 3333B33F 		.word	1068708659
+  59              		.global	K_i
+  60              		.align	2
+  63              	K_i:
+  64 0020 759303C1 		.word	-1056730251
+  65 0024 A779C73D 		.word	1036482983
+  66 0028 B6849440 		.word	1083475126
+  67 002c 500D10C2 		.word	-1039135408
+  68 0030 9E5EA93D 		.word	1034509982
+  69 0034 A0890241 		.word	1090685344
+  70 0038 93FA0EC2 		.word	-1039205741
+  71 003c F46C90C0 		.word	-1064276748
+  72              		.global	v_desired
+  73              		.bss
+  74              		.align	2
+  77              	v_desired:
+  78 0000 00000000 		.space	12
+  78      00000000 
+  78      00000000 
+  79              		.global	g
+  80              		.data
+  81              		.align	2
+  84              	g:
+  85 0040 C3F51C41 		.word	1092416963
+  86              		.global	outter_count
+  87              		.bss
+  88              		.align	2
+  91              	outter_count:
+  92 000c 00000000 		.space	4
+  93              		.global	epsilon_eq
+  94              		.data
+  95              		.align	2
+  98              	epsilon_eq:
+  99 0044 9983203D 		.word	1025541017
+ 100              		.global	nx_eq
+ 101              		.align	2
+ 104              	nx_eq:
+ 105 0048 34B9D8BD 		.word	-1109870284
+ 106              		.global	ny_eq
+ 107              		.bss
+ 108              		.align	2
+ 111              	ny_eq:
+ 112 0010 00000000 		.space	4
+ 113              		.global	nz_eq
+ 114              		.data
+ 115              		.align	2
+ 118              	nz_eq:
+ 119 004c 04907E3F 		.word	1065259012
+ 120              		.global	p_eq
+ 121              		.align	2
+ 124              	p_eq:
+ 125 0050 20D32CC0 		.word	-1070804192
+ 126              		.global	q_eq
+ 127              		.bss
+ 128              		.align	2
+ 131              	q_eq:
+ 132 0014 00000000 		.space	4
+ 133              		.global	r_eq
+ 134              		.data
+ 135              		.align	2
+ 138              	r_eq:
+ 139 0054 E8FFCA41 		.word	1103822824
+ 140              		.global	pd_eq
+ 141              		.bss
+ 142              		.align	2
+ 145              	pd_eq:
+ 146 0018 00000000 		.space	4
+ 147              		.global	qd_eq
+ 148              		.align	2
+ 151              	qd_eq:
+ 152 001c 00000000 		.space	4
+ 153              		.global	rd_eq
+ 154              		.align	2
+ 157              	rd_eq:
+ 158 0020 00000000 		.space	4
+ 159              		.global	w1_eq
+ 160              		.data
+ 161              		.align	2
+ 164              	w1_eq:
+ 165 0058 9CBF1944 		.word	1142538140
+ 166              		.global	w2_eq
+ 167              		.align	2
+ 170              	w2_eq:
+ 171 005c 9CBF1944 		.word	1142538140
+ 172              		.global	w3_eq
+ 173              		.align	2
+ 176              	w3_eq:
+ 177 0060 E56ED943 		.word	1138323173
+ 178              		.global	w4_eq
+ 179              		.bss
+ 180              		.align	2
+ 183              	w4_eq:
+ 184 0024 00000000 		.space	4
+ 185              		.global	se
+ 186              		.data
+ 187              		.align	2
+ 190              	se:
+ 191 0064 20D32CC0 		.word	-1070804192
+ 192 0068 00000000 		.word	0
+ 193 006c 34B9D8BD 		.word	-1109870284
+ 194 0070 00000000 		.word	0
+ 195              		.global	ue
+ 196              		.align	2
+ 199              	ue:
+ 200 0074 00000000 		.word	0
+ 201 0078 7F93B43F 		.word	1068798847
+ 202              		.global	a_desired
+ 203              		.bss
+ 204              		.align	2
+ 207              	a_desired:
+ 208 0028 00000000 		.space	12
+ 208      00000000 
+ 208      00000000 
+ 209              		.text
+ 210              		.align	2
+ 211              		.global	lab
+ 213              	lab:
+ 214              	.LFB2:
+ 215              		.file 1 "lab.c"
+   1:lab.c         **** /*
+   2:lab.c         ****  * lab.c
+   3:lab.c         ****  *
+   4:lab.c         ****  *  Created on: Jan 26, 2015
+   5:lab.c         ****  *      Author: hanley6
+   6:lab.c         ****  */
+   7:lab.c         **** 
+   8:lab.c         **** /*----------------------------------------------------------------------*/
+   9:lab.c         **** /*------------------------------ Preamble ------------------------------*/
+  10:lab.c         **** /*----------------------------------------------------------------------*/
+  11:lab.c         **** 
+  12:lab.c         **** /*--------------- Includes ---------------*/
+  13:lab.c         **** #include "lab.h"
+  14:lab.c         **** #include "math.h"
+  15:lab.c         **** /*------------- End Includes -------------*/
+  16:lab.c         **** 
+  17:lab.c         **** /*---------- Function Prototypes ---------*/
+  18:lab.c         **** void lab3(void);
+  19:lab.c         **** void convert_input_to_motor_commands(void);
+  20:lab.c         **** void do_sensor_fusion(void);
+  21:lab.c         **** /*-------- End Function Prototypes -------*/
+  22:lab.c         **** 
+  23:lab.c         **** /*--------------- Globals ----------------*/
+  24:lab.c         **** struct imuSensor imusensor;
+  25:lab.c         **** struct U u;
+  26:lab.c         **** struct MOCAP mocap;
+  27:lab.c         **** struct GoalPosYaw goalposyaw;
+  28:lab.c         **** 
+  29:lab.c         **** /////////// HUMMINGBIRD PARAMETERS /////////////
+  30:lab.c         **** float mass = 0.715;
+  31:lab.c         **** float kF = 7.46e-6;
+  32:lab.c         **** float kM = 1.23e-7;
+  33:lab.c         **** float l = 0.17;
+  34:lab.c         **** float MAXPHI2 = 779.5638*779.5638;
+  35:lab.c         **** float MINPHI2 = 112.705875*112.705875;
+  36:lab.c         **** ////////////////////////////////////////////
+  37:lab.c         **** 
+  38:lab.c         **** /////////// CONTROLLER PARAMETERS /////////////
+  39:lab.c         **** // The gain matrix has size 4x12 but is represented in C as an array
+  40:lab.c         **** 
+  41:lab.c         **** 
+  42:lab.c         **** 
+  43:lab.c         **** //trial one
+  44:lab.c         **** //float K_d = 1;
+  45:lab.c         **** //float K_p = 1.4;
+  46:lab.c         **** //float K_i[8] = { -3.137357986974831,  -0.559574426346653 ,  5.934718324391574, -11.05726864651919
+  47:lab.c         **** //		   0.070993619635960 ,  0.996049674973296 , -3.124855672533517,  -3.362203976500002};
+  48:lab.c         **** 
+  49:lab.c         **** 
+  50:lab.c         **** 
+  51:lab.c         **** //trial two and three(with %5)
+  52:lab.c         **** /*
+  53:lab.c         **** float K_d = 2.56;
+  54:lab.c         **** float K_p = 2.24;
+  55:lab.c         **** float K_i[8] = {-2.1894  ,  0.0323  ,  2.7697 ,  -5.3631,
+  56:lab.c         **** 	            0.0141,    2.1881  , -5.3690 ,  -2.7090};
+  57:lab.c         **** */
+  58:lab.c         **** // Trial 3 Different Kd Kp
+  59:lab.c         **** float K_d = 1;
+  60:lab.c         **** float K_p = 1.40;
+  61:lab.c         **** float K_i[8] = {-8.2235 ,   0.0974  ,  4.6412,  -36.0130,
+  62:lab.c         **** 				0.0827 ,   8.1586 , -35.7447,   -4.5133};
+  63:lab.c         **** 
+  64:lab.c         **** 
+  65:lab.c         **** //-6.5 whatever
+  66:lab.c         **** ////////////////////////////////////////////
+  67:lab.c         **** 
+  68:lab.c         **** 
+  69:lab.c         **** // Other variables you'll need to work with
+  70:lab.c         **** float cnt_u[4];
+  71:lab.c         **** float o_desired[3];
+  72:lab.c         **** float v_desired[3] = {0,0,0};
+  73:lab.c         **** float yaw_desired;
+  74:lab.c         **** float g = 9.81;	// Standard Gravity m/s^2
+  75:lab.c         **** float xd[12];   // discrete state (i.e., state error)
+  76:lab.c         **** float xe[12];
+  77:lab.c         **** 
+  78:lab.c         **** float fsum_des;
+  79:lab.c         **** float n_des[3];
+  80:lab.c         **** // Other variables you can ignore for now
+  81:lab.c         **** float Winv[4*4];
+  82:lab.c         **** float omega_cmd2[4];
+  83:lab.c         **** float omega_cmd[4];
+  84:lab.c         **** float cmd[4];
+  85:lab.c         **** int outter_count=0;
+  86:lab.c         **** float epsilon_eq=0.039188;
+  87:lab.c         **** float nx_eq=-0.105822;
+  88:lab.c         **** float ny_eq=0.000000 ;
+  89:lab.c         **** float nz_eq=0.994385 ;
+  90:lab.c         **** float p_eq=-2.700386 ;
+  91:lab.c         **** float q_eq=0.000000 ;
+  92:lab.c         **** float r_eq=25.374955 ;
+  93:lab.c         **** float  pd_eq=0.000000 ;
+  94:lab.c         **** float qd_eq=0.000000 ;
+  95:lab.c         **** float rd_eq=0.000000 ;
+  96:lab.c         **** float w1_eq=614.993890 ;
+  97:lab.c         **** float w2_eq=614.993890 ;
+  98:lab.c         **** float w3_eq=434.866350 ;
+  99:lab.c         **** float w4_eq=0.000000;
+ 100:lab.c         **** float se[4] = {-2.700386, 0, -0.105822, 0};
+ 101:lab.c         **** float ue[2] = {0, (7.46e-6)*(434.866350)*(434.866350)};
+ 102:lab.c         **** float a_desired[3] = {0,0,0};
+ 103:lab.c         **** 
+ 104:lab.c         **** 
+ 105:lab.c         **** 
+ 106:lab.c         **** /*------------- End Globals --------------*/
+ 107:lab.c         **** 
+ 108:lab.c         **** /*----------------------------------------------------------------------*/
+ 109:lab.c         **** /*---------------------------- End Preamble ----------------------------*/
+ 110:lab.c         **** /*----------------------------------------------------------------------*/
+ 111:lab.c         **** 
+ 112:lab.c         **** 
+ 113:lab.c         **** /*----------------------------------------------------------------------*/
+ 114:lab.c         **** /*------------------ Main Loop (called at 1 kHz) -----------------------*/
+ 115:lab.c         **** /*----------------------------------------------------------------------*/
+ 116:lab.c         **** void lab(void)
+ 117:lab.c         **** {
+ 216              	c 1 119 0
+ 217              		ldr	r3, .L3
+ 218              		ldr	r2, [r3, #0]	@ float
+ 219              		ldr	r3, .L3+4
+ 220 0000 0DC0A0E1 		str	r2, [r3, #0]	@ float
+ 221              		.loc 1 120 0
+ 222 0004 00D82DE9 		ldr	r3, .L3
+ 223              		ldr	r2, [r3, #4]	@ float
+ 224 0008 04B04CE2 		ldr	r3, .L3+4
+ 225              		str	r2, [r3, #4]	@ float
+ 118:lab.c         **** 	// Desired Position
+ 119:lab.c         **** 	o_desired[0] = goalposyaw.x;	// x/North (m)
+ 226              	1 0
+ 227 000c 50309FE5 		ldr	r3, .L3
+ 228 0010 002093E5 		ldr	r2, [r3, #8]	@ float
+ 229 0014 4C309FE5 		ldr	r3, .L3+4
+ 230 0018 002083E5 		str	r2, [r3, #8]	@ float
+ 120:lab.c         **** 	o_desired[1] = goalposyaw.y;	// y/East (m)
+ 231              	 1 122 0
+ 232 001c 40309FE5 		ldr	r3, .L3
+ 233 0020 042093E5 		ldr	r2, [r3, #12]	@ float
+ 234 0024 3C309FE5 		ldr	r3, .L3+8
+ 235 0028 042083E5 		str	r2, [r3, #0]	@ float
+ 121:lab.c         **** 	o_desired[2] = goalposyaw.z;	// z/Down (m)
+ 236              	 1 127 0
+ 237 002c 30309FE5 		bl	do_sensor_fusion
+ 238 0030 082093E5 		.loc 1 130 0
+ 239 0034 2C309FE5 		bl	lab3
+ 240 0038 082083E5 		.loc 1 133 0
+ 122:lab.c         **** 	yaw_desired = goalposyaw.yaw;	// yaw (rad)
+ 241              	onvert_input_to_motor_commands
+ 242 003c 20309FE5 		.loc 1 134 0
+ 243 0040 0C2093E5 		sub	sp, fp, #12
+ 244 0044 20309FE5 		ldmfd	sp, {fp, sp, lr}
+ 245 0048 002083E5 		bx	lr
+ 123:lab.c         **** 	//float v_desired[0] = 0;
+ 124:lab.c         **** 	//float v_desired[1] = 0;
+ 125:lab.c         **** 	//float v_desired[2] = 0;
+ 126:lab.c         **** 	// Fuse mocap measurements with IMU measurements
+ 127:lab.c         **** 	do_sensor_fusion();
+ 246              		.align	2
+ 247 004c FEFFFFEB 	.L3:
+ 128:lab.c         **** 
+ 129:lab.c         **** 	// Run controller to choose inputs (modify struct u)
+ 130:lab.c         **** 	lab3();
+ 248              	word	goalposyaw
+ 249 0050 FEFFFFEB 		.word	o_desired
+ 131:lab.c         **** 
+ 132:lab.c         **** 	// Convert inputs to motor commands
+ 133:lab.c         **** 	convert_input_to_motor_commands();
+ 250              	word	yaw_desired
+ 251 0054 FEFFFFEB 	.LFE2:
+ 134:lab.c         **** }
+ 252              	size	lab, .-lab
+ 253 0058 0CD04BE2 		.global	LED1toggle
+ 254 005c 00689DE8 		.bss
+ 255 0060 1EFF2FE1 		.align	2
+ 258              	LED1toggle:
+ 259 0064 00000000 		.space	4
+ 260 0068 00000000 		.global	LED1count
+ 261 006c 00000000 		.align	2
+ 264              	LED1count:
+ 265              		.space	4
+ 266              		.global	numCMDs
+ 267              		.align	2
+ 270 0034 00000000 	numCMDs:
+ 271              		.space	4
+ 272              		.global	__nesf2
+ 273              		.global	__floatsidf
+ 274              		.global	__adddf3
+ 275              		.global	__fixdfsi
+ 276 0038 00000000 		.global	__subsf3
+ 277              		.global	__extendsfdf2
+ 278              		.global	__divdf3
+ 279              		.global	__truncdfsf2
+ 280              		.text
+ 281              		.align	2
+ 282 003c 00000000 		.global	do_sensor_fusion
+ 284              	do_sensor_fusion:
+ 285              	.LFB3:
+ 286              		.loc 1 147 0
+ 287              		@ Function supports interworking.
+ 288              		@ args = 0, pretend = 0, frame = 4
+ 289              		@ frame_needed = 1, uses_anonymous_args = 0
+ 290              		mov	ip, sp
+ 291              	.LCFI3:
+ 292              		stmfd	sp!, {r4, fp, ip, lr, pc}
+ 293              	.LCFI4:
+ 294              		sub	fp, ip, #4
+ 295              	.LCFI5:
+ 296              		sub	sp, sp, #4
+ 135:lab.c         **** /*----------------------------------------------------------------------*/
+ 136:lab.c         **** /*---------------- End Main Loop (called at 1 kHz) ---------------------*/
+ 137:lab.c         **** /*----------------------------------------------------------------------*/
+ 138:lab.c         **** 
+ 139:lab.c         **** /*----------------------------------------------------------------------*/
+ 140:lab.c         **** /*------------------------------ Helpers -------------------------------*/
+ 141:lab.c         **** /*----------------------------------------------------------------------*/
+ 142:lab.c         **** /*---------- Velocity Estimator ----------*/
+ 143:lab.c         **** int LED1toggle = 0;
+ 144:lab.c         **** int LED1count = 0;
+ 145:lab.c         **** int numCMDs = 0.0;
+ 146:lab.c         **** 
+ 147:lab.c         **** void do_sensor_fusion() {
+ 297              	, [r3, #8]	@ float
+ 298              		ldr	r3, .L18+12
+ 299              		ldr	r3, [r3, #0]	@ float
+ 300              		mov	r0, r2
+ 301 0070 0DC0A0E1 		mov	r1, r3
+ 302              		bl	__nesf2
+ 303 0074 10D82DE9 		mov	r3, r0
+ 304              		cmp	r3, #0
+ 305 0078 04B04CE2 		bne	.L6
+ 306              		ldr	r3, .L18+8
+ 307 007c 04D04DE2 		ldr	r2, [r3, #12]	@ float
+ 308              		ldr	r3, .L18+16
+ 148:lab.c         **** 
+ 149:lab.c         ****     // Only proceed if the mocap measurements have changed
+ 150:lab.c         **** 	if ( (previousXMeas != mocap.dX) || (previousYMeas != mocap.dY) || (previousZMeas != mocap.dZ) ) {
+ 309              	, #0]	@ float
+ 310 0080 78339FE5 		mov	r0, r2
+ 311 0084 082093E5 		mov	r1, r3
+ 312 0088 74339FE5 		bl	__nesf2
+ 313 008c 003093E5 		mov	r3, r0
+ 314 0090 0200A0E1 		cmp	r3, #0
+ 315 0094 0310A0E1 		bne	.L6
+ 316 0098 FEFFFFEB 		ldr	r3, .L18+8
+ 317 009c 0030A0E1 		ldr	r2, [r3, #16]	@ float
+ 318 00a0 000053E3 		ldr	r3, .L18+20
+ 319 00a4 1400001A 		ldr	r3, [r3, #0]	@ float
+ 320 00a8 50339FE5 		mov	r0, r2
+ 321 00ac 0C2093E5 		mov	r1, r3
+ 322 00b0 50339FE5 		bl	__nesf2
+ 323 00b4 003093E5 		mov	r3, r0
+ 324 00b8 0200A0E1 		cmp	r3, #0
+ 325 00bc 0310A0E1 		bne	.L6
+ 326 00c0 FEFFFFEB 		b	.L9
+ 327 00c4 0030A0E1 	.L6:
+ 328 00c8 000053E3 		.loc 1 151 0
+ 329 00cc 0A00001A 		ldr	r3, .L18+24
+ 330 00d0 28339FE5 		ldr	r3, [r3, #0]
+ 331 00d4 102093E5 		mov	r0, r3
+ 332 00d8 2C339FE5 		bl	__floatsidf
+ 333 00dc 003093E5 		mov	r3, r0
+ 334 00e0 0200A0E1 		mov	r4, r1
+ 335 00e4 0310A0E1 		mov	r0, r3
+ 336 00e8 FEFFFFEB 		mov	r1, r4
+ 337 00ec 0030A0E1 		mov	r2, #1069547520
+ 338 00f0 000053E3 		add	r2, r2, #3145728
+ 339 00f4 0000001A 		mov	r3, #0
+ 340 00f8 AF0000EA 		bl	__adddf3
+ 341              		mov	r3, r0
+ 151:lab.c         **** 		numCMDs = numCMDs + 1.0;
+ 342              	r4
+ 343 00fc 0C339FE5 		bl	__fixdfsi
+ 344 0100 003093E5 		mov	r2, r0
+ 345 0104 0300A0E1 		ldr	r3, .L18+24
+ 346 0108 FEFFFFEB 		str	r2, [r3, #0]
+ 347 010c 0030A0E1 		.loc 1 152 0
+ 348 0110 0140A0E1 		ldr	r3, .L18+28
+ 349 0114 0300A0E1 		ldr	r3, [r3, #0]
+ 350 0118 0410A0E1 		add	r2, r3, #1
+ 351 011c FF25A0E3 		ldr	r3, .L18+28
+ 352 0120 032682E2 		str	r2, [r3, #0]
+ 353 0124 0030A0E3 		.loc 1 153 0
+ 354 0128 FEFFFFEB 		ldr	r3, .L18+28
+ 355 012c 0030A0E1 		ldr	r1, [r3, #0]
+ 356 0130 0140A0E1 		ldr	r3, .L18+32
+ 357 0134 0300A0E1 		smull	r2, r3, r1, r3
+ 358 0138 0410A0E1 		mov	r2, r3, asr #2
+ 359 013c FEFFFFEB 		mov	r3, r1, asr #31
+ 360 0140 0020A0E1 		rsb	r2, r3, r2
+ 361 0144 C4329FE5 		str	r2, [fp, #-20]
+ 362 0148 002083E5 		ldr	r3, [fp, #-20]
+ 152:lab.c         **** 		LED1count++;
+ 363              	ldr	r2, [fp, #-20]
+ 364 014c C0329FE5 		add	r3, r3, r2
+ 365 0150 003093E5 		mov	r3, r3, asl #1
+ 366 0154 012083E2 		rsb	r1, r3, r1
+ 367 0158 B4329FE5 		str	r1, [fp, #-20]
+ 368 015c 002083E5 		ldr	r3, [fp, #-20]
+ 153:lab.c         **** 		if (0==(LED1count%10)) {
+ 369              	3, #0
+ 370 0160 AC329FE5 		bne	.L11
+ 371 0164 001093E5 		.loc 1 154 0
+ 372 0168 A8329FE5 		ldr	r3, .L18+36
+ 373 016c 9123C3E0 		ldr	r3, [r3, #0]
+ 374 0170 4321A0E1 		cmp	r3, #0
+ 375 0174 C13FA0E1 		bne	.L13
+ 376 0178 022063E0 		.loc 1 155 0
+ 377 017c 14200BE5 		mov	r0, #1
+ 378 0180 14301BE5 		mov	r1, #0
+ 379 0184 0331A0E1 		bl	LED
+ 380 0188 14201BE5 		.loc 1 156 0
+ 381 018c 023083E0 		ldr	r2, .L18+36
+ 382 0190 8330A0E1 		mov	r3, #1
+ 383 0194 011063E0 		str	r3, [r2, #0]
+ 384 0198 14100BE5 		b	.L11
+ 385 019c 14301BE5 	.L13:
+ 386 01a0 000053E3 		.loc 1 158 0
+ 387 01a4 1000001A 		mov	r0, #1
+ 154:lab.c         **** 			if (LED1toggle == 0) {
+ 388              	
+ 389 01a8 6C329FE5 		.loc 1 159 0
+ 390 01ac 003093E5 		ldr	r2, .L18+36
+ 391 01b0 000053E3 		mov	r3, #0
+ 392 01b4 0600001A 		str	r3, [r2, #0]
+ 155:lab.c         **** 				LED(1,OFF);
+ 393              	:
+ 394 01b8 0100A0E3 		.loc 1 163 0
+ 395 01bc 0010A0E3 		ldr	r3, .L18+40
+ 396 01c0 FEFFFFEB 		ldr	r3, [r3, #0]
+ 156:lab.c         **** 				LED1toggle = 1;
+ 397              		r3, #0
+ 398 01c4 50229FE5 		bne	.L15
+ 399 01c8 0130A0E3 		.loc 1 166 0
+ 400 01cc 003082E5 		ldr	r3, .L18+8
+ 401 01d0 050000EA 		ldr	r2, [r3, #8]	@ float
+ 402              		ldr	r3, .L18+8
+ 157:lab.c         **** 			} else {
+ 158:lab.c         **** 				LED(1,ON);
+ 403              	2, [r3, #8]	@ float
+ 404 01d4 0100A0E3 		.loc 1 167 0
+ 405 01d8 0110A0E3 		ldr	r3, .L18+8
+ 406 01dc FEFFFFEB 		ldr	r2, [r3, #12]	@ float
+ 159:lab.c         **** 				LED1toggle = 0;
+ 407              		r3, .L18+8
+ 408 01e0 34229FE5 		str	r2, [r3, #12]	@ float
+ 409 01e4 0030A0E3 		.loc 1 168 0
+ 410 01e8 003082E5 		ldr	r3, .L18+8
+ 411              		ldr	r2, [r3, #16]	@ float
+ 160:lab.c         **** 			}
+ 161:lab.c         **** 		}
+ 162:lab.c         ****  		// Velocity Estimation
+ 163:lab.c         **** 		if (initialize == 0)
+ 412              	r3, .L18+8
+ 413 01ec 2C329FE5 		str	r2, [r3, #16]	@ float
+ 414 01f0 003093E5 		.loc 1 169 0
+ 415 01f4 000053E3 		ldr	r2, .L18+8
+ 416 01f8 1800001A 		ldr	r3, .L18+44	@ float
+ 164:lab.c         **** 		{
+ 165:lab.c         **** 			// Initialization
+ 166:lab.c         **** 			mocap.dX = mocap.dX;
+ 417              	r3, [r2, #32]	@ float
+ 418 01fc FC319FE5 		.loc 1 170 0
+ 419 0200 082093E5 		ldr	r2, .L18+8
+ 420 0204 F4319FE5 		ldr	r3, .L18+44	@ float
+ 421 0208 082083E5 		str	r3, [r2, #36]	@ float
+ 167:lab.c         **** 			mocap.dY = mocap.dY;
+ 422              	 1 171 0
+ 423 020c EC319FE5 		ldr	r2, .L18+8
+ 424 0210 0C2093E5 		ldr	r3, .L18+44	@ float
+ 425 0214 E4319FE5 		str	r3, [r2, #40]	@ float
+ 426 0218 0C2083E5 		.loc 1 173 0
+ 168:lab.c         **** 			mocap.dZ = mocap.dZ;
+ 427              	r2, .L18+40
+ 428 021c DC319FE5 		mov	r3, #1
+ 429 0220 102093E5 		str	r3, [r2, #0]
+ 430 0224 D4319FE5 		b	.L9
+ 431 0228 102083E5 	.L15:
+ 169:lab.c         **** 			mocap.dVx = 0.0;
+ 432              	 1 178 0
+ 433 022c CC219FE5 		ldr	r3, .L18+8
+ 434 0230 EC319FE5 		ldr	r2, [r3, #8]	@ float
+ 435 0234 203082E5 		ldr	r3, .L18+12
+ 170:lab.c         **** 			mocap.dVy = 0.0;
+ 436              		r3, [r3, #0]	@ float
+ 437 0238 C0219FE5 		mov	r0, r2
+ 438 023c E0319FE5 		mov	r1, r3
+ 439 0240 243082E5 		bl	__subsf3
+ 171:lab.c         **** 			mocap.dVz = 0.0;
+ 440              		r3, r0
+ 441 0244 B4219FE5 		mov	r0, r3
+ 442 0248 D4319FE5 		bl	__extendsfdf2
+ 443 024c 283082E5 		mov	r3, r0
+ 172:lab.c         **** 
+ 173:lab.c         **** 			initialize = 1;
+ 444              		r4, r1
+ 445 0250 C8219FE5 		mov	r0, r3
+ 446 0254 0130A0E3 		mov	r1, r4
+ 447 0258 003082E5 		adr	r2, .L18
+ 448 025c 560000EA 		ldmia	r2, {r2-r3}
+ 449              		bl	__divdf3
+ 174:lab.c         **** 		}
+ 175:lab.c         **** 		else
+ 176:lab.c         **** 		{
+ 177:lab.c         **** 
+ 178:lab.c         **** 			mocap.dVx = (mocap.dX - previousXMeas)/0.02;
+ 450              	3, r0
+ 451 0260 98319FE5 		mov	r4, r1
+ 452 0264 082093E5 		mov	r0, r3
+ 453 0268 94319FE5 		mov	r1, r4
+ 454 026c 003093E5 		bl	__truncdfsf2
+ 455 0270 0200A0E1 		mov	r2, r0
+ 456 0274 0310A0E1 		ldr	r3, .L18+8
+ 457 0278 FEFFFFEB 		str	r2, [r3, #32]	@ float
+ 458 027c 0030A0E1 		.loc 1 179 0
+ 459 0280 0300A0E1 		ldr	r3, .L18+8
+ 460 0284 FEFFFFEB 		ldr	r2, [r3, #12]	@ float
+ 461 0288 0030A0E1 		ldr	r3, .L18+16
+ 462 028c 0140A0E1 		ldr	r3, [r3, #0]	@ float
+ 463 0290 0300A0E1 		mov	r0, r2
+ 464 0294 0410A0E1 		mov	r1, r3
+ 465 0298 562F8FE2 		bl	__subsf3
+ 466 029c 0C0092E8 		mov	r3, r0
+ 467 02a0 FEFFFFEB 		mov	r0, r3
+ 468 02a4 0030A0E1 		bl	__extendsfdf2
+ 469 02a8 0140A0E1 		mov	r3, r0
+ 470 02ac 0300A0E1 		mov	r4, r1
+ 471 02b0 0410A0E1 		mov	r0, r3
+ 472 02b4 FEFFFFEB 		mov	r1, r4
+ 473 02b8 0020A0E1 		adr	r2, .L18
+ 474 02bc 3C319FE5 		ldmia	r2, {r2-r3}
+ 475 02c0 202083E5 		bl	__divdf3
+ 179:lab.c         **** 			mocap.dVy = (mocap.dY - previousYMeas)/0.02;
+ 476              	ov	r0, r3
+ 477 02c4 34319FE5 		mov	r1, r4
+ 478 02c8 0C2093E5 		bl	__truncdfsf2
+ 479 02cc 34319FE5 		mov	r2, r0
+ 480 02d0 003093E5 		ldr	r3, .L18+8
+ 481 02d4 0200A0E1 		str	r2, [r3, #36]	@ float
+ 482 02d8 0310A0E1 		.loc 1 180 0
+ 483 02dc FEFFFFEB 		ldr	r3, .L18+8
+ 484 02e0 0030A0E1 		ldr	r2, [r3, #16]	@ float
+ 485 02e4 0300A0E1 		ldr	r3, .L18+20
+ 486 02e8 FEFFFFEB 		ldr	r3, [r3, #0]	@ float
+ 487 02ec 0030A0E1 		mov	r0, r2
+ 488 02f0 0140A0E1 		mov	r1, r3
+ 489 02f4 0300A0E1 		bl	__subsf3
+ 490 02f8 0410A0E1 		mov	r3, r0
+ 491 02fc F4208FE2 		mov	r0, r3
+ 492 0300 0C0092E8 		bl	__extendsfdf2
+ 493 0304 FEFFFFEB 		mov	r3, r0
+ 494 0308 0030A0E1 		mov	r4, r1
+ 495 030c 0140A0E1 		mov	r0, r3
+ 496 0310 0300A0E1 		mov	r1, r4
+ 497 0314 0410A0E1 		adr	r2, .L18
+ 498 0318 FEFFFFEB 		ldmia	r2, {r2-r3}
+ 499 031c 0020A0E1 		bl	__divdf3
+ 500 0320 D8309FE5 		mov	r3, r0
+ 501 0324 242083E5 		mov	r4, r1
+ 180:lab.c         **** 			mocap.dVz = (mocap.dZ - previousZMeas)/0.02;
+ 502              	l	__truncdfsf2
+ 503 0328 D0309FE5 		mov	r2, r0
+ 504 032c 102093E5 		ldr	r3, .L18+8
+ 505 0330 D4309FE5 		str	r2, [r3, #40]	@ float
+ 506 0334 003093E5 		.loc 1 183 0
+ 507 0338 0200A0E1 		ldr	r3, .L18+8
+ 508 033c 0310A0E1 		ldr	r2, [r3, #8]	@ float
+ 509 0340 FEFFFFEB 		ldr	r3, .L18+8
+ 510 0344 0030A0E1 		str	r2, [r3, #8]	@ float
+ 511 0348 0300A0E1 		.loc 1 184 0
+ 512 034c FEFFFFEB 		ldr	r3, .L18+8
+ 513 0350 0030A0E1 		ldr	r2, [r3, #12]	@ float
+ 514 0354 0140A0E1 		ldr	r3, .L18+8
+ 515 0358 0300A0E1 		str	r2, [r3, #12]	@ float
+ 516 035c 0410A0E1 		.loc 1 185 0
+ 517 0360 90208FE2 		ldr	r3, .L18+8
+ 518 0364 0C0092E8 		ldr	r2, [r3, #16]	@ float
+ 519 0368 FEFFFFEB 		ldr	r3, .L18+8
+ 520 036c 0030A0E1 		str	r2, [r3, #16]	@ float
+ 521 0370 0140A0E1 	.L9:
+ 522 0374 0300A0E1 		.loc 1 191 0
+ 523 0378 0410A0E1 		ldr	r3, .L18+8
+ 524 037c FEFFFFEB 		ldr	r2, [r3, #8]	@ float
+ 525 0380 0020A0E1 		ldr	r3, .L18+12
+ 526 0384 74309FE5 		str	r2, [r3, #0]	@ float
+ 527 0388 282083E5 		.loc 1 192 0
+ 181:lab.c         **** 
+ 182:lab.c         **** 			// Set Position
+ 183:lab.c         **** 			mocap.dX = mocap.dX;
+ 528              	r3, #12]	@ float
+ 529 038c 6C309FE5 		ldr	r3, .L18+16
+ 530 0390 082093E5 		str	r2, [r3, #0]	@ float
+ 531 0394 64309FE5 		.loc 1 193 0
+ 532 0398 082083E5 		ldr	r3, .L18+8
+ 184:lab.c         **** 			mocap.dY = mocap.dY;
+ 533              	r2, [r3, #16]	@ float
+ 534 039c 5C309FE5 		ldr	r3, .L18+20
+ 535 03a0 0C2093E5 		str	r2, [r3, #0]	@ float
+ 536 03a4 54309FE5 		.loc 1 195 0
+ 537 03a8 0C2083E5 		sub	sp, fp, #16
+ 185:lab.c         **** 			mocap.dZ = mocap.dZ;
+ 538              	d	sp, {r4, fp, sp, lr}
+ 539 03ac 4C309FE5 		bx	lr
+ 540 03b0 102093E5 	.L19:
+ 541 03b4 44309FE5 		.align	2
+ 542 03b8 102083E5 	.L18:
+ 543              		.word	1066695393
+ 186:lab.c         **** 
+ 187:lab.c         **** 			/*--- End Low Pass Filtering ---*/
+ 188:lab.c         **** 		}
+ 189:lab.c         **** 	}
+ 190:lab.c         **** 	// Save Current MoCap Measurement as Previous Measurement
+ 191:lab.c         **** 	previousXMeas = mocap.dX;
+ 544              		1202590843
+ 545 03bc 3C309FE5 		.word	mocap
+ 546 03c0 082093E5 		.word	previousXMeas
+ 547 03c4 38309FE5 		.word	previousYMeas
+ 548 03c8 002083E5 		.word	previousZMeas
+ 192:lab.c         **** 	previousYMeas = mocap.dY;
+ 549              	d	numCMDs
+ 550 03cc 2C309FE5 		.word	LED1count
+ 551 03d0 0C2093E5 		.word	1717986919
+ 552 03d4 2C309FE5 		.word	LED1toggle
+ 553 03d8 002083E5 		.word	initialize
+ 193:lab.c         **** 	previousZMeas = mocap.dZ;
+ 554              	d	0
+ 555 03dc 1C309FE5 	.LFE3:
+ 557 03e4 20309FE5 		.global	LED0timeCount
+ 558 03e8 002083E5 		.bss
+ 194:lab.c         **** 
+ 195:lab.c         **** }
+ 559              	gn	2
+ 562 03f4 1EFF2FE1 	LED0timeCount:
+ 563              		.space	4
+ 564              		.global	LED0toggle
+ 565              		.align	2
+ 568 0400 00000000 	LED0toggle:
+ 569 0404 00000000 		.space	4
+ 570 0408 00000000 		.section	.rodata
+ 571 040c 00000000 		.align	2
+ 574 0418 67666666 	C.38.2531:
+ 575 041c 00000000 		.word	0
+ 576 0420 00000000 		.word	0
+ 577 0424 00000000 		.word	-1082130432
+ 578              		.align	2
+ 581              	C.25.2467:
+ 582              		.space	12
+ 583              		.global	__mulsf3
+ 584              		.global	__muldf3
+ 585              		.global	__subdf3
+ 586 0040 00000000 		.global	__divsf3
+ 587              		.global	__addsf3
+ 588              		.global	__gtdf2
+ 589              		.global	__ltsf2
+ 590              		.text
+ 591              		.align	2
+ 592 0044 00000000 		.global	lab3
+ 594              	lab3:
+ 595              	.LFB4:
+ 596              		.loc 1 205 0
+ 597              		@ Function supports interworking.
+ 598 0000 00000000 		@ args = 0, pretend = 0, frame = 268
+ 599 0004 00000000 		@ frame_needed = 1, uses_anonymous_args = 0
+ 600 0008 000080BF 		mov	ip, sp
+ 601              	.LCFI7:
+ 602              		stmfd	sp!, {r4, r5, r6, r7, r8, r9, sl, fp, ip, lr, pc}
+ 603              	.LCFI8:
+ 604              		sub	fp, ip, #4
+ 605 000c 00000000 	.LCFI9:
+ 605      00000000 
+ 605      00000000 
+ 606              		sub	sp, sp, #276
+ 607              	.LCFI10:
+ 608              		.loc 1 211 0
+ 609              		ldr	r3, .L40
+ 610              		ldr	r3, [r3, #0]
+ 611              		cmp	r3, #250
+ 612              		bne	.L21
+ 613              		.loc 1 212 0
+ 614              		ldr	r2, .L40
+ 615              		mov	r3, #0
+ 616              		str	r3, [r2, #0]
+ 617              		.loc 1 213 0
+ 618              		ldr	r3, .L40+4
+ 196:lab.c         **** 
+ 197:lab.c         **** /*-------- End Velocity Estimator --------*/
+ 198:lab.c         **** 
+ 199:lab.c         **** 
+ 200:lab.c         **** 
+ 201:lab.c         **** /*-------------- Controller --------------*/
+ 202:lab.c         **** int LED0timeCount = 0;
+ 203:lab.c         **** int LED0toggle = 0;
+ 204:lab.c         **** 
+ 205:lab.c         **** void lab3() {
+ 619              	0, #0
+ 620              		mov	r1, #0
+ 621              		bl	LED
+ 622              		.loc 1 215 0
+ 623 0428 0DC0A0E1 		ldr	r2, .L40+4
+ 624              		mov	r3, #1
+ 625 042c F0DF2DE9 		str	r3, [r2, #0]
+ 626              		b	.L21
+ 627 0430 04B04CE2 	.L23:
+ 628              		.loc 1 217 0
+ 629 0434 45DF4DE2 		mov	r0, #0
+ 630              		mov	r1, #1
+ 206:lab.c         **** 
+ 207:lab.c         ****     ////////////////////////
+ 208:lab.c         ****     // DO NOT MODIFY
+ 209:lab.c         ****     //
+ 210:lab.c         ****     // Turn LEDs on and off for diagnostics
+ 211:lab.c         **** 	if (LED0timeCount == 250) {
+ 631              	c 1 218 0
+ 632 0438 303F9FE5 		ldr	r2, .L40+4
+ 633 043c 003093E5 		mov	r3, #0
+ 634 0440 FA0053E3 		str	r3, [r2, #0]
+ 635 0444 1300001A 	.L21:
+ 212:lab.c         **** 		LED0timeCount = 0;
+ 636              	 1 221 0
+ 637 0448 202F9FE5 		ldr	r3, .L40
+ 638 044c 0030A0E3 		ldr	r3, [r3, #0]
+ 639 0450 003082E5 		add	r2, r3, #1
+ 213:lab.c         **** 		if (LED0toggle == 0) {
+ 640              		r3, .L40
+ 641 0454 183F9FE5 		str	r2, [r3, #0]
+ 642 0458 003093E5 		.loc 1 248 0
+ 643 045c 000053E3 		ldr	r3, .L40+8
+ 644 0460 0600001A 		ldr	r2, [r3, #8]	@ float
+ 214:lab.c         **** 			LED(0,OFF);
+ 645              	r3, .L40+12
+ 646 0464 0000A0E3 		str	r2, [r3, #0]	@ float
+ 647 0468 0010A0E3 		.loc 1 249 0
+ 648 046c FEFFFFEB 		ldr	r3, .L40+8
+ 215:lab.c         **** 			LED0toggle = 1;
+ 649              		r2, [r3, #12]	@ float
+ 650 0470 FC2E9FE5 		ldr	r3, .L40+12
+ 651 0474 0130A0E3 		str	r2, [r3, #4]	@ float
+ 652 0478 003082E5 		.loc 1 250 0
+ 653 047c 050000EA 		ldr	r3, .L40+8
+ 654              		ldr	r2, [r3, #16]	@ float
+ 216:lab.c         **** 		} else {
+ 217:lab.c         **** 			LED(0,ON);
+ 655              	3, .L40+12
+ 656 0480 0000A0E3 		str	r2, [r3, #8]	@ float
+ 657 0484 0110A0E3 		.loc 1 251 0
+ 658 0488 FEFFFFEB 		ldr	r3, .L40+8
+ 218:lab.c         **** 			LED0toggle = 0;
+ 659              		r2, [r3, #28]	@ float
+ 660 048c E02E9FE5 		ldr	r3, .L40+12
+ 661 0490 0030A0E3 		str	r2, [r3, #12]	@ float
+ 662 0494 003082E5 		.loc 1 252 0
+ 663              		ldr	r3, .L40+16
+ 219:lab.c         **** 		}
+ 220:lab.c         **** 	}
+ 221:lab.c         **** 	LED0timeCount++;
+ 664              	r2, [r3, #8]	@ float
+ 665 0498 D03E9FE5 		ldr	r3, .L40+12
+ 666 049c 003093E5 		str	r2, [r3, #16]	@ float
+ 667 04a0 012083E2 		.loc 1 253 0
+ 668 04a4 C43E9FE5 		ldr	r3, .L40+16
+ 669 04a8 002083E5 		ldr	r2, [r3, #4]	@ float
+ 222:lab.c         ****     //
+ 223:lab.c         ****     ////////////////////////
+ 224:lab.c         **** 
+ 225:lab.c         ****     // Compute: xd = x - xe
+ 226:lab.c         ****     //
+ 227:lab.c         ****     //  xd, a 12x1 matrix, is represented in C code as a float array of length 12
+ 228:lab.c         ****     //  If you order states as o, theta, v, w, then:
+ 229:lab.c         ****     //      xd[0] is o1 - o1e
+ 230:lab.c         ****     //      xd[1] is o2 - o2e
+ 231:lab.c         ****     //      ...
+ 232:lab.c         ****     //      xd[11] is w3 - w3e
+ 233:lab.c         ****     //
+ 234:lab.c         ****     //  measurement of o:
+ 235:lab.c         ****     //      mocap.dX, mocap.dY, mocap.dZ
+ 236:lab.c         ****     //  measurement of theta:
+ 237:lab.c         ****     //      mocap.dThetaz, imusensor.dThetay, imusensor.dThetax
+ 238:lab.c         ****     //  measurement of v:
+ 239:lab.c         ****     //      mocap.dVx, mocap.dVy, mocap.dVz
+ 240:lab.c         ****     //  measurement of w:
+ 241:lab.c         ****     //      imusensor.dOmegax, imusensor.dOmegay, imusensor.dOmegaz
+ 242:lab.c         ****     //
+ 243:lab.c         ****     // CHANGE!!!
+ 244:lab.c         **** 
+ 245:lab.c         **** 
+ 246:lab.c         **** 
+ 247:lab.c         **** 
+ 248:lab.c         ****     xd[0] = mocap.dX;
+ 670              	3, .L40+12
+ 671 04ac C43E9FE5 		str	r2, [r3, #20]	@ float
+ 672 04b0 082093E5 		.loc 1 254 0
+ 673 04b4 C03E9FE5 		ldr	r3, .L40+8
+ 674 04b8 002083E5 		ldr	r2, [r3, #32]	@ float
+ 249:lab.c         ****     xd[1] = mocap.dY;
+ 675              	r3, .L40+12
+ 676 04bc B43E9FE5 		str	r2, [r3, #24]	@ float
+ 677 04c0 0C2093E5 		.loc 1 255 0
+ 678 04c4 B03E9FE5 		ldr	r3, .L40+8
+ 679 04c8 042083E5 		ldr	r2, [r3, #36]	@ float
+ 250:lab.c         ****     xd[2] = mocap.dZ;
+ 680              	r3, .L40+12
+ 681 04cc A43E9FE5 		str	r2, [r3, #28]	@ float
+ 682 04d0 102093E5 		.loc 1 256 0
+ 683 04d4 A03E9FE5 		ldr	r3, .L40+8
+ 684 04d8 082083E5 		ldr	r2, [r3, #40]	@ float
+ 251:lab.c         ****     xd[3] =  mocap.dThetaz;
+ 685              	r3, .L40+12
+ 686 04dc 943E9FE5 		str	r2, [r3, #32]	@ float
+ 687 04e0 1C2093E5 		.loc 1 257 0
+ 688 04e4 903E9FE5 		ldr	r3, .L40+16
+ 689 04e8 0C2083E5 		ldr	r2, [r3, #28]	@ float
+ 252:lab.c         ****     xd[4] =  imusensor.dThetay;
+ 690              	r3, .L40+12
+ 691 04ec 8C3E9FE5 		str	r2, [r3, #36]	@ float
+ 692 04f0 082093E5 		.loc 1 258 0
+ 693 04f4 803E9FE5 		ldr	r3, .L40+16
+ 694 04f8 102083E5 		ldr	r2, [r3, #32]	@ float
+ 253:lab.c         ****     xd[5] =  imusensor.dThetax;
+ 695              	r3, .L40+12
+ 696 04fc 7C3E9FE5 		str	r2, [r3, #40]	@ float
+ 697 0500 042093E5 		.loc 1 259 0
+ 698 0504 703E9FE5 		ldr	r3, .L40+16
+ 699 0508 142083E5 		ldr	r2, [r3, #36]	@ float
+ 254:lab.c         ****     xd[6] = mocap.dVx;
+ 700              	r3, .L40+12
+ 701 050c 643E9FE5 		str	r2, [r3, #44]	@ float
+ 702 0510 202093E5 		.loc 1 261 0
+ 703 0514 603E9FE5 		ldr	r3, .L40+20
+ 704 0518 182083E5 		ldr	r2, [r3, #0]	@ float
+ 255:lab.c         ****     xd[7] = mocap.dVy;
+ 705              	r3, .L40+24
+ 706 051c 543E9FE5 		str	r2, [r3, #0]	@ float
+ 707 0520 242093E5 		.loc 1 262 0
+ 708 0524 503E9FE5 		ldr	r3, .L40+20
+ 709 0528 1C2083E5 		ldr	r2, [r3, #4]	@ float
+ 256:lab.c         ****     xd[8] = mocap.dVz;
+ 710              	r3, .L40+24
+ 711 052c 443E9FE5 		str	r2, [r3, #4]	@ float
+ 712 0530 282093E5 		.loc 1 263 0
+ 713 0534 403E9FE5 		ldr	r3, .L40+20
+ 714 0538 202083E5 		ldr	r2, [r3, #8]	@ float
+ 257:lab.c         ****     xd[9] = imusensor.dOmegax;
+ 715              	r3, .L40+24
+ 716 053c 3C3E9FE5 		str	r2, [r3, #8]	@ float
+ 717 0540 1C2093E5 		.loc 1 264 0
+ 718 0544 303E9FE5 		ldr	r2, .L40+24
+ 719 0548 242083E5 		ldr	r3, .L40+120	@ float
+ 258:lab.c         ****     xd[10] = imusensor.dOmegay;
+ 720              	r3, [r2, #12]	@ float
+ 721 054c 2C3E9FE5 		.loc 1 265 0
+ 722 0550 202093E5 		ldr	r2, .L40+24
+ 723 0554 203E9FE5 		ldr	r3, .L40+120	@ float
+ 724 0558 282083E5 		str	r3, [r2, #16]	@ float
+ 259:lab.c         ****     xd[11] = imusensor.dOmegaz;
+ 725              	 1 266 0
+ 726 055c 1C3E9FE5 		ldr	r2, .L40+24
+ 727 0560 242093E5 		ldr	r3, .L40+120	@ float
+ 728 0564 103E9FE5 		str	r3, [r2, #20]	@ float
+ 729 0568 2C2083E5 		.loc 1 267 0
+ 260:lab.c         **** 
+ 261:lab.c         ****     xe[0] = goalposyaw.x;
+ 730              	r2, .L40+24
+ 731 056c 103E9FE5 		ldr	r3, .L40+120	@ float
+ 732 0570 002093E5 		str	r3, [r2, #24]	@ float
+ 733 0574 0C3E9FE5 		.loc 1 268 0
+ 734 0578 002083E5 		ldr	r2, .L40+24
+ 262:lab.c         **** 	xe[1] = goalposyaw.y;
+ 735              	r3, .L40+120	@ float
+ 736 057c 003E9FE5 		str	r3, [r2, #28]	@ float
+ 737 0580 042093E5 		.loc 1 269 0
+ 738 0584 FC3D9FE5 		ldr	r2, .L40+24
+ 739 0588 042083E5 		ldr	r3, .L40+120	@ float
+ 263:lab.c         **** 	xe[2] = goalposyaw.z;
+ 740              	r3, [r2, #32]	@ float
+ 741 058c F03D9FE5 		.loc 1 270 0
+ 742 0590 082093E5 		ldr	r3, .L40+28
+ 743 0594 EC3D9FE5 		ldr	r2, [r3, #0]	@ float
+ 744 0598 082083E5 		ldr	r3, .L40+24
+ 264:lab.c         **** 	xe[3] = 0.0;
+ 745              	r2, [r3, #36]	@ float
+ 746 059c E42D9FE5 		.loc 1 271 0
+ 747 05a0 403E9FE5 		ldr	r3, .L40+32
+ 748 05a4 0C3082E5 		ldr	r2, [r3, #0]	@ float
+ 265:lab.c         **** 	xe[4] = 0.0;
+ 749              		r3, .L40+24
+ 750 05a8 D82D9FE5 		str	r2, [r3, #40]	@ float
+ 751 05ac 343E9FE5 		.loc 1 272 0
+ 752 05b0 103082E5 		ldr	r3, .L40+36
+ 266:lab.c         **** 	xe[5] = 0.0;
+ 753              		r2, [r3, #0]	@ float
+ 754 05b4 CC2D9FE5 		ldr	r3, .L40+24
+ 755 05b8 283E9FE5 		str	r2, [r3, #44]	@ float
+ 756 05bc 143082E5 		.loc 1 290 0
+ 267:lab.c         **** 	xe[6] = 0.0;
+ 757              		r3, .L40+40
+ 758 05c0 C02D9FE5 		ldr	r3, [r3, #0]
+ 759 05c4 1C3E9FE5 		add	r2, r3, #1
+ 760 05c8 183082E5 		ldr	r3, .L40+40
+ 268:lab.c         **** 	xe[7] = 0.0;
+ 761              		r2, [r3, #0]
+ 762 05cc B42D9FE5 		.loc 1 291 0
+ 763 05d0 103E9FE5 		ldr	r3, .L40+40
+ 764 05d4 1C3082E5 		ldr	r1, [r3, #0]
+ 269:lab.c         **** 	xe[8] = 0.0;
+ 765              		r3, .L40+44
+ 766 05d8 A82D9FE5 		smull	r2, r3, r1, r3
+ 767 05dc 043E9FE5 		mov	r2, r3, asr #2
+ 768 05e0 203082E5 		mov	r3, r1, asr #31
+ 270:lab.c         **** 	xe[9] = p_eq;
+ 769              		r2, r3, r2
+ 770 05e4 A03D9FE5 		str	r2, [fp, #-308]
+ 771 05e8 002093E5 		ldr	r3, [fp, #-308]
+ 772 05ec 943D9FE5 		mov	r3, r3, asl #2
+ 773 05f0 242083E5 		ldr	r2, [fp, #-308]
+ 271:lab.c         **** 	xe[10] = q_eq;
+ 774              	r3, r3, r2
+ 775 05f4 943D9FE5 		mov	r3, r3, asl #1
+ 776 05f8 002093E5 		rsb	r1, r3, r1
+ 777 05fc 843D9FE5 		str	r1, [fp, #-308]
+ 778 0600 282083E5 		ldr	r3, [fp, #-308]
+ 272:lab.c         **** 	xe[11] = r_eq;
+ 779              	r3, #0
+ 780 0604 883D9FE5 		bne	.L25
+ 781 0608 002093E5 	.LBB2:
+ 782 060c 743D9FE5 		.loc 1 293 0
+ 783 0610 2C2083E5 		ldr	r3, .L40+48
+ 273:lab.c         **** 
+ 274:lab.c         **** 
+ 275:lab.c         **** 
+ 276:lab.c         ****     //////////////////////////////////////////////////////
+ 277:lab.c         ****     // Start the outer loop this defines 2 parameters from
+ 278:lab.c         ****     // state variables that the inner loop seeks to match.
+ 279:lab.c         ****     //
+ 280:lab.c         ****     // Target orientation vector defined in
+ 281:lab.c         ****     // room frame and rotated to body frame:
+ 282:lab.c         ****     // n_des = [nx ny nz];
+ 283:lab.c         ****     //
+ 284:lab.c         ****     // Target total force:
+ 285:lab.c         ****     // fsum_des
+ 286:lab.c         ****     //
+ 287:lab.c         ****     // Pass to inner loop to control the quadcopter
+ 288:lab.c         ****     //
+ 289:lab.c         ****     //////////////////////////////////////////////////////
+ 290:lab.c         ****     outter_count = outter_count+1;
+ 784              	r3, [r3, #0]	@ float
+ 785 0614 7C3D9FE5 		eor	r4, r3, #-2147483648
+ 786 0618 003093E5 		ldr	r3, .L40+12
+ 787 061c 012083E2 		ldr	r2, [r3, #24]	@ float
+ 788 0620 703D9FE5 		ldr	r3, .L40+24
+ 789 0624 002083E5 		ldr	r3, [r3, #24]	@ float
+ 291:lab.c         **** if (outter_count%10==0) {
+ 790              	0, r2
+ 791 0628 683D9FE5 		mov	r1, r3
+ 792 062c 001093E5 		bl	__subsf3
+ 793 0630 643D9FE5 		mov	r3, r0
+ 794 0634 9123C3E0 		mov	r0, r4
+ 795 0638 4321A0E1 		mov	r1, r3
+ 796 063c C13FA0E1 		bl	__mulsf3
+ 797 0640 022063E0 		mov	r3, r0
+ 798 0644 34210BE5 		mov	r4, r3
+ 799 0648 34311BE5 		ldr	r3, .L40+12
+ 800 064c 0331A0E1 		ldr	r2, [r3, #0]	@ float
+ 801 0650 34211BE5 		ldr	r3, .L40+24
+ 802 0654 023083E0 		ldr	r3, [r3, #0]	@ float
+ 803 0658 8330A0E1 		mov	r0, r2
+ 804 065c 011063E0 		mov	r1, r3
+ 805 0660 34110BE5 		bl	__subsf3
+ 806 0664 34311BE5 		mov	r3, r0
+ 807 0668 000053E3 		mov	r2, r3
+ 808 066c F302001A 		ldr	r3, .L40+52
+ 809              		ldr	r3, [r3, #0]	@ float
+ 292:lab.c         **** 
+ 293:lab.c         ****     a_desired[0] = -K_d*(xd[6]-xe[6]) -K_p*(xd[0]-xe[0]);
+ 810              	 r3
+ 811 0670 283D9FE5 		bl	__mulsf3
+ 812 0674 003093E5 		mov	r3, r0
+ 813 0678 024123E2 		mov	r0, r4
+ 814 067c F83C9FE5 		mov	r1, r3
+ 815 0680 182093E5 		bl	__subsf3
+ 816 0684 FC3C9FE5 		mov	r3, r0
+ 817 0688 183093E5 		mov	r2, r3
+ 818 068c 0200A0E1 		ldr	r3, .L40+56
+ 819 0690 0310A0E1 		str	r2, [r3, #0]	@ float
+ 820 0694 FEFFFFEB 		.loc 1 294 0
+ 821 0698 0030A0E1 		ldr	r3, .L40+48
+ 822 069c 0400A0E1 		ldr	r3, [r3, #0]	@ float
+ 823 06a0 0310A0E1 		eor	r4, r3, #-2147483648
+ 824 06a4 FEFFFFEB 		ldr	r3, .L40+12
+ 825 06a8 0030A0E1 		ldr	r2, [r3, #28]	@ float
+ 826 06ac 0340A0E1 		ldr	r3, .L40+24
+ 827 06b0 C43C9FE5 		ldr	r3, [r3, #28]	@ float
+ 828 06b4 002093E5 		mov	r0, r2
+ 829 06b8 C83C9FE5 		mov	r1, r3
+ 830 06bc 003093E5 		bl	__subsf3
+ 831 06c0 0200A0E1 		mov	r3, r0
+ 832 06c4 0310A0E1 		mov	r0, r4
+ 833 06c8 FEFFFFEB 		mov	r1, r3
+ 834 06cc 0030A0E1 		bl	__mulsf3
+ 835 06d0 0320A0E1 		mov	r3, r0
+ 836 06d4 C83C9FE5 		mov	r4, r3
+ 837 06d8 003093E5 		ldr	r3, .L40+12
+ 838 06dc 0200A0E1 		ldr	r2, [r3, #4]	@ float
+ 839 06e0 0310A0E1 		ldr	r3, .L40+24
+ 840 06e4 FEFFFFEB 		ldr	r3, [r3, #4]	@ float
+ 841 06e8 0030A0E1 		mov	r0, r2
+ 842 06ec 0400A0E1 		mov	r1, r3
+ 843 06f0 0310A0E1 		bl	__subsf3
+ 844 06f4 FEFFFFEB 		mov	r3, r0
+ 845 06f8 0030A0E1 		mov	r2, r3
+ 846 06fc 0320A0E1 		ldr	r3, .L40+52
+ 847 0700 A03C9FE5 		ldr	r3, [r3, #0]	@ float
+ 848 0704 002083E5 		mov	r0, r2
+ 294:lab.c         **** 	a_desired[1] = -K_d*(xd[7]-xe[7]) -K_p*(xd[1]-xe[1]);
+ 849              	ov	r0, r4
+ 850 0708 903C9FE5 		mov	r1, r3
+ 851 070c 003093E5 		bl	__subsf3
+ 852 0710 024123E2 		mov	r3, r0
+ 853 0714 603C9FE5 		mov	r2, r3
+ 854 0718 1C2093E5 		ldr	r3, .L40+56
+ 855 071c 643C9FE5 		str	r2, [r3, #4]	@ float
+ 856 0720 1C3093E5 		.loc 1 295 0
+ 857 0724 0200A0E1 		ldr	r3, .L40+48
+ 858 0728 0310A0E1 		ldr	r3, [r3, #0]	@ float
+ 859 072c FEFFFFEB 		eor	r4, r3, #-2147483648
+ 860 0730 0030A0E1 		ldr	r3, .L40+12
+ 861 0734 0400A0E1 		ldr	r2, [r3, #32]	@ float
+ 862 0738 0310A0E1 		ldr	r3, .L40+24
+ 863 073c FEFFFFEB 		ldr	r3, [r3, #32]	@ float
+ 864 0740 0030A0E1 		mov	r0, r2
+ 865 0744 0340A0E1 		mov	r1, r3
+ 866 0748 2C3C9FE5 		bl	__subsf3
+ 867 074c 042093E5 		mov	r3, r0
+ 868 0750 303C9FE5 		mov	r0, r4
+ 869 0754 043093E5 		mov	r1, r3
+ 870 0758 0200A0E1 		bl	__mulsf3
+ 871 075c 0310A0E1 		mov	r3, r0
+ 872 0760 FEFFFFEB 		mov	r4, r3
+ 873 0764 0030A0E1 		ldr	r3, .L40+12
+ 874 0768 0320A0E1 		ldr	r2, [r3, #8]	@ float
+ 875 076c 303C9FE5 		ldr	r3, .L40+24
+ 876 0770 003093E5 		ldr	r3, [r3, #8]	@ float
+ 877 0774 0200A0E1 		mov	r0, r2
+ 878 0778 0310A0E1 		mov	r1, r3
+ 879 077c FEFFFFEB 		bl	__subsf3
+ 880 0780 0030A0E1 		mov	r3, r0
+ 881 0784 0400A0E1 		mov	r2, r3
+ 882 0788 0310A0E1 		ldr	r3, .L40+52
+ 883 078c FEFFFFEB 		ldr	r3, [r3, #0]	@ float
+ 884 0790 0030A0E1 		mov	r0, r2
+ 885 0794 0320A0E1 		mov	r1, r3
+ 886 0798 083C9FE5 		bl	__mulsf3
+ 887 079c 042083E5 		mov	r3, r0
+ 295:lab.c         **** 	a_desired[2] = -K_d*(xd[8]-xe[8]) -K_p*(xd[2]-xe[2]);
+ 888              	ov	r3, r0
+ 889 07a0 F83B9FE5 		mov	r2, r3
+ 890 07a4 003093E5 		ldr	r3, .L40+56
+ 891 07a8 024123E2 		str	r2, [r3, #8]	@ float
+ 892 07ac C83B9FE5 		.loc 1 298 0
+ 893 07b0 202093E5 		ldr	r3, .L40+12
+ 894 07b4 CC3B9FE5 		ldr	r3, [r3, #12]	@ float
+ 895 07b8 203093E5 		str	r3, [fp, #-52]	@ float
+ 896 07bc 0200A0E1 		.loc 1 299 0
+ 897 07c0 0310A0E1 		ldr	r3, .L40+12
+ 898 07c4 FEFFFFEB 		ldr	r3, [r3, #16]	@ float
+ 899 07c8 0030A0E1 		str	r3, [fp, #-48]	@ float
+ 900 07cc 0400A0E1 		.loc 1 300 0
+ 901 07d0 0310A0E1 		ldr	r3, .L40+12
+ 902 07d4 FEFFFFEB 		ldr	r3, [r3, #20]	@ float
+ 903 07d8 0030A0E1 		str	r3, [fp, #-44]	@ float
+ 904 07dc 0340A0E1 		.loc 1 326 0
+ 905 07e0 943B9FE5 		ldr	r0, [fp, #-52]	@ float
+ 906 07e4 082093E5 		bl	__extendsfdf2
+ 907 07e8 983B9FE5 		mov	r3, r0
+ 908 07ec 083093E5 		mov	r4, r1
+ 909 07f0 0200A0E1 		mov	r0, r3
+ 910 07f4 0310A0E1 		mov	r1, r4
+ 911 07f8 FEFFFFEB 		bl	cos
+ 912 07fc 0030A0E1 		mov	r5, r0
+ 913 0800 0320A0E1 		mov	r6, r1
+ 914 0804 983B9FE5 		ldr	r0, [fp, #-48]	@ float
+ 915 0808 003093E5 		bl	__extendsfdf2
+ 916 080c 0200A0E1 		mov	r3, r0
+ 917 0810 0310A0E1 		mov	r4, r1
+ 918 0814 FEFFFFEB 		mov	r0, r3
+ 919 0818 0030A0E1 		mov	r1, r4
+ 920 081c 0400A0E1 		bl	cos
+ 921 0820 0310A0E1 		mov	r3, r0
+ 922 0824 FEFFFFEB 		mov	r4, r1
+ 923 0828 0030A0E1 		mov	r0, r5
+ 924 082c 0320A0E1 		mov	r1, r6
+ 925 0830 703B9FE5 		mov	r2, r3
+ 926 0834 082083E5 		mov	r3, r4
+ 296:lab.c         **** 
+ 297:lab.c         **** 
+ 298:lab.c         **** 	float th1 = xd[3];
+ 927              	ov	r0, r3
+ 928 0838 3C3B9FE5 		mov	r1, r4
+ 929 083c 0C3093E5 		bl	__truncdfsf2
+ 930 0840 34300BE5 		mov	r3, r0
+ 299:lab.c         **** 	float th2 = xd[4];
+ 931              		r3, [fp, #-304]	@ float
+ 932 0844 303B9FE5 		.loc 1 327 0
+ 933 0848 103093E5 		ldr	r0, [fp, #-48]	@ float
+ 934 084c 30300BE5 		bl	__extendsfdf2
+ 300:lab.c         **** 	float th3 = xd[5];
+ 935              		r3, r0
+ 936 0850 243B9FE5 		mov	r4, r1
+ 937 0854 143093E5 		mov	r0, r3
+ 938 0858 2C300BE5 		mov	r1, r4
+ 301:lab.c         **** 
+ 302:lab.c         **** 	float Rinv[9];
+ 303:lab.c         **** 	/*
+ 304:lab.c         **** 	Rinv[0] = (cos(xd[3])*cos(xd[4]))/(cos(xd[3])*cos(xd[3])*cos(xd[4])*cos(xd[4]) + cos(xd[3])*cos(xd
+ 305:lab.c         **** 	Rinv[1] = (cos(xd[4])*sin(xd[3]))/(cos(xd[3])*cos(xd[3])*cos(xd[4])*cos(xd[4]) + cos(xd[3])*cos(xd
+ 306:lab.c         **** 	Rinv[2] = -sin(xd[4])/(cos(xd[4])*cos(xd[4]) + sin(xd[4])*sin(xd[4]));
+ 307:lab.c         **** 	Rinv[3] = -(cos(xd[4])*cos(xd[4])*cos(xd[5])*sin(xd[3]) - cos(xd[3])*sin(xd[4])*sin(xd[5]) + cos(x
+ 308:lab.c         **** 	Rinv[4] = (cos(xd[3])*cos(xd[5])*cos(xd[4])*cos(xd[4]) + cos(xd[3])*cos(xd[5])*sin(xd[4])*sin(xd[4
+ 309:lab.c         **** 	Rinv[5] = (cos(xd[4])*sin(xd[5]))/(cos(xd[4])*cos(xd[4])*cos(xd[5])*cos(xd[5]) + cos(xd[4])*cos(xd
+ 310:lab.c         **** 	Rinv[6] = (sin(xd[3])*sin(xd[5])*cos(xd[4])*cos(xd[4]) + sin(xd[3])*sin(xd[5])*sin(xd[4])*sin(xd[4
+ 311:lab.c         **** 	Rinv[7] = -(cos(xd[3])*cos(xd[4])*cos(xd[4])*sin(xd[5]) - cos(xd[5])*sin(xd[3])*sin(xd[4]) + cos(x
+ 312:lab.c         **** 	Rinv[8] = -(cos(xd[3])*cos(xd[4])*cos(xd[4])*sin(xd[5]) - cos(xd[5])*sin(xd[3])*sin(xd[4]) + cos(x
+ 313:lab.c         **** 	*/
+ 314:lab.c         **** 	/*
+ 315:lab.c         **** 	Rinv[0] = (cos(th1)*cos(th2))/(cos(th1)*cos(th1)*cos(th2)*cos(th2) + cos(th1)*cos(th1)*sin(th2)*si
+ 316:lab.c         **** 	Rinv[1] = (cos(th2)*sin(th1))/(cos(th1)*cos(th1)*cos(th2)*cos(th2) + cos(th1)*cos(th1)*sin(th2)*si
+ 317:lab.c         **** 	Rinv[2] = -sin(th2)/(cos(th2)*cos(th2) + sin(th2)*sin(th2));
+ 318:lab.c         **** 	Rinv[3] = -(cos(th2)*cos(th2)*cos(th3)*sin(th1) - cos(th1)*sin(th2)*sin(th3) + cos(th3)*sin(th1)*s
+ 319:lab.c         **** 	Rinv[4] = (cos(th1)*cos(th3)*cos(th2)*cos(th2) + cos(th1)*cos(th3)*sin(th2)*sin(th2) + sin(th1)*si
+ 320:lab.c         **** 	Rinv[5] = (cos(th2)*sin(th3))/(cos(th2)*cos(th2)*cos(th3)*cos(th3) + cos(th2)*cos(th2)*sin(th3)*si
+ 321:lab.c         **** 	Rinv[6] =  (sin(th1)*sin(th3)*cos(th2)*cos(th2) + sin(th1)*sin(th3)*sin(th2)*sin(th2) + cos(th1)*c
+ 322:lab.c         **** 	Rinv[7] = -(cos(th1)*cos(th2)*cos(th2)*sin(th3) - cos(th3)*sin(th1)*sin(th2) + cos(th1)*sin(th2)*s
+ 323:lab.c         **** 	Rinv[8] = (cos(th2)*cos(th3))/(cos(th2)*cos(th2)*cos(th3)*cos(th3) + cos(th2)*cos(th2)*sin(th3)*si
+ 324:lab.c         **** 	*/
+ 325:lab.c         **** 
+ 326:lab.c         **** 	Rinv[0] = cos(th1)*cos(th2);
+ 939              	cos
+ 940 085c 34001BE5 		mov	r5, r0
+ 941 0860 FEFFFFEB 		mov	r6, r1
+ 942 0864 0030A0E1 		ldr	r0, [fp, #-52]	@ float
+ 943 0868 0140A0E1 		bl	__extendsfdf2
+ 944 086c 0300A0E1 		mov	r3, r0
+ 945 0870 0410A0E1 		mov	r4, r1
+ 946 0874 FEFFFFEB 		mov	r0, r3
+ 947 0878 0050A0E1 		mov	r1, r4
+ 948 087c 0160A0E1 		bl	sin
+ 949 0880 30001BE5 		mov	r3, r0
+ 950 0884 FEFFFFEB 		mov	r4, r1
+ 951 0888 0030A0E1 		mov	r0, r5
+ 952 088c 0140A0E1 		mov	r1, r6
+ 953 0890 0300A0E1 		mov	r2, r3
+ 954 0894 0410A0E1 		mov	r3, r4
+ 955 0898 FEFFFFEB 		bl	__muldf3
+ 956 089c 0030A0E1 		mov	r3, r0
+ 957 08a0 0140A0E1 		mov	r4, r1
+ 958 08a4 0500A0E1 		mov	r0, r3
+ 959 08a8 0610A0E1 		mov	r1, r4
+ 960 08ac 0320A0E1 		bl	__truncdfsf2
+ 961 08b0 0430A0E1 		mov	r3, r0
+ 962 08b4 FEFFFFEB 		str	r3, [fp, #-300]	@ float
+ 963 08b8 0030A0E1 		.loc 1 328 0
+ 964 08bc 0140A0E1 		ldr	r0, [fp, #-48]	@ float
+ 965 08c0 0300A0E1 		bl	__extendsfdf2
+ 966 08c4 0410A0E1 		mov	r3, r0
+ 967 08c8 FEFFFFEB 		mov	r4, r1
+ 968 08cc 0030A0E1 		mov	r0, r3
+ 969 08d0 30310BE5 		mov	r1, r4
+ 327:lab.c         **** 	Rinv[1] = cos(th2)*sin(th1);
+ 970              	
+ 971 08d4 30001BE5 		mov	r0, r3
+ 972 08d8 FEFFFFEB 		mov	r1, r4
+ 973 08dc 0030A0E1 		bl	__truncdfsf2
+ 974 08e0 0140A0E1 		mov	r3, r0
+ 975 08e4 0300A0E1 		eor	r3, r3, #-2147483648
+ 976 08e8 0410A0E1 		str	r3, [fp, #-296]	@ float
+ 977 08ec FEFFFFEB 		.loc 1 329 0
+ 978 08f0 0050A0E1 		ldr	r0, [fp, #-52]	@ float
+ 979 08f4 0160A0E1 		bl	__extendsfdf2
+ 980 08f8 34001BE5 		mov	r3, r0
+ 981 08fc FEFFFFEB 		mov	r4, r1
+ 982 0900 0030A0E1 		mov	r0, r3
+ 983 0904 0140A0E1 		mov	r1, r4
+ 984 0908 0300A0E1 		bl	cos
+ 985 090c 0410A0E1 		mov	r5, r0
+ 986 0910 FEFFFFEB 		mov	r6, r1
+ 987 0914 0030A0E1 		ldr	r0, [fp, #-48]	@ float
+ 988 0918 0140A0E1 		bl	__extendsfdf2
+ 989 091c 0500A0E1 		mov	r3, r0
+ 990 0920 0610A0E1 		mov	r4, r1
+ 991 0924 0320A0E1 		mov	r0, r3
+ 992 0928 0430A0E1 		mov	r1, r4
+ 993 092c FEFFFFEB 		bl	sin
+ 994 0930 0030A0E1 		mov	r3, r0
+ 995 0934 0140A0E1 		mov	r4, r1
+ 996 0938 0300A0E1 		mov	r0, r5
+ 997 093c 0410A0E1 		mov	r1, r6
+ 998 0940 FEFFFFEB 		mov	r2, r3
+ 999 0944 0030A0E1 		mov	r3, r4
+ 1000 0948 2C310BE5 		bl	__muldf3
+ 328:lab.c         **** 	Rinv[2] = -sin(th2);
+ 1001              	5, r3
+ 1002 094c 30001BE5 		mov	r6, r4
+ 1003 0950 FEFFFFEB 		ldr	r0, [fp, #-44]	@ float
+ 1004 0954 0030A0E1 		bl	__extendsfdf2
+ 1005 0958 0140A0E1 		mov	r3, r0
+ 1006 095c 0300A0E1 		mov	r4, r1
+ 1007 0960 0410A0E1 		mov	r0, r3
+ 1008 0964 FEFFFFEB 		mov	r1, r4
+ 1009 0968 0030A0E1 		bl	sin
+ 1010 096c 0140A0E1 		mov	r3, r0
+ 1011 0970 0300A0E1 		mov	r4, r1
+ 1012 0974 0410A0E1 		mov	r0, r5
+ 1013 0978 FEFFFFEB 		mov	r1, r6
+ 1014 097c 0030A0E1 		mov	r2, r3
+ 1015 0980 023123E2 		mov	r3, r4
+ 1016 0984 28310BE5 		bl	__muldf3
+ 329:lab.c         **** 	Rinv[3] = cos(th1)*sin(th2)*sin(th3) - cos(th3)*sin(th1);
+ 1017              		r4, r1
+ 1018 0988 34001BE5 		mov	r7, r3
+ 1019 098c FEFFFFEB 		mov	r8, r4
+ 1020 0990 0030A0E1 		ldr	r0, [fp, #-44]	@ float
+ 1021 0994 0140A0E1 		bl	__extendsfdf2
+ 1022 0998 0300A0E1 		mov	r3, r0
+ 1023 099c 0410A0E1 		mov	r4, r1
+ 1024 09a0 FEFFFFEB 		mov	r0, r3
+ 1025 09a4 0050A0E1 		mov	r1, r4
+ 1026 09a8 0160A0E1 		bl	cos
+ 1027 09ac 30001BE5 		mov	r5, r0
+ 1028 09b0 FEFFFFEB 		mov	r6, r1
+ 1029 09b4 0030A0E1 		ldr	r0, [fp, #-52]	@ float
+ 1030 09b8 0140A0E1 		bl	__extendsfdf2
+ 1031 09bc 0300A0E1 		mov	r3, r0
+ 1032 09c0 0410A0E1 		mov	r4, r1
+ 1033 09c4 FEFFFFEB 		mov	r0, r3
+ 1034 09c8 0030A0E1 		mov	r1, r4
+ 1035 09cc 0140A0E1 		bl	sin
+ 1036 09d0 0500A0E1 		mov	r3, r0
+ 1037 09d4 0610A0E1 		mov	r4, r1
+ 1038 09d8 0320A0E1 		mov	r0, r5
+ 1039 09dc 0430A0E1 		mov	r1, r6
+ 1040 09e0 FEFFFFEB 		mov	r2, r3
+ 1041 09e4 0030A0E1 		mov	r3, r4
+ 1042 09e8 0140A0E1 		bl	__muldf3
+ 1043 09ec 0350A0E1 		mov	r3, r0
+ 1044 09f0 0460A0E1 		mov	r4, r1
+ 1045 09f4 2C001BE5 		mov	r0, r7
+ 1046 09f8 FEFFFFEB 		mov	r1, r8
+ 1047 09fc 0030A0E1 		mov	r2, r3
+ 1048 0a00 0140A0E1 		mov	r3, r4
+ 1049 0a04 0300A0E1 		bl	__subdf3
+ 1050 0a08 0410A0E1 		mov	r3, r0
+ 1051 0a0c FEFFFFEB 		mov	r4, r1
+ 1052 0a10 0030A0E1 		mov	r0, r3
+ 1053 0a14 0140A0E1 		mov	r1, r4
+ 1054 0a18 0500A0E1 		bl	__truncdfsf2
+ 1055 0a1c 0610A0E1 		mov	r3, r0
+ 1056 0a20 0320A0E1 		str	r3, [fp, #-292]	@ float
+ 1057 0a24 0430A0E1 		.loc 1 330 0
+ 1058 0a28 FEFFFFEB 		ldr	r0, [fp, #-52]	@ float
+ 1059 0a2c 0030A0E1 		bl	__extendsfdf2
+ 1060 0a30 0140A0E1 		mov	r3, r0
+ 1061 0a34 0370A0E1 		mov	r4, r1
+ 1062 0a38 0480A0E1 		mov	r0, r3
+ 1063 0a3c 2C001BE5 		mov	r1, r4
+ 1064 0a40 FEFFFFEB 		bl	cos
+ 1065 0a44 0030A0E1 		mov	r5, r0
+ 1066 0a48 0140A0E1 		mov	r6, r1
+ 1067 0a4c 0300A0E1 		ldr	r0, [fp, #-44]	@ float
+ 1068 0a50 0410A0E1 		bl	__extendsfdf2
+ 1069 0a54 FEFFFFEB 		mov	r3, r0
+ 1070 0a58 0050A0E1 		mov	r4, r1
+ 1071 0a5c 0160A0E1 		mov	r0, r3
+ 1072 0a60 34001BE5 		mov	r1, r4
+ 1073 0a64 FEFFFFEB 		bl	cos
+ 1074 0a68 0030A0E1 		mov	r3, r0
+ 1075 0a6c 0140A0E1 		mov	r4, r1
+ 1076 0a70 0300A0E1 		mov	r0, r5
+ 1077 0a74 0410A0E1 		mov	r1, r6
+ 1078 0a78 FEFFFFEB 		mov	r2, r3
+ 1079 0a7c 0030A0E1 		mov	r3, r4
+ 1080 0a80 0140A0E1 		bl	__muldf3
+ 1081 0a84 0500A0E1 		mov	r3, r0
+ 1082 0a88 0610A0E1 		mov	r4, r1
+ 1083 0a8c 0320A0E1 		mov	r7, r3
+ 1084 0a90 0430A0E1 		mov	r8, r4
+ 1085 0a94 FEFFFFEB 		ldr	r0, [fp, #-52]	@ float
+ 1086 0a98 0030A0E1 		bl	__extendsfdf2
+ 1087 0a9c 0140A0E1 		mov	r3, r0
+ 1088 0aa0 0700A0E1 		mov	r4, r1
+ 1089 0aa4 0810A0E1 		mov	r0, r3
+ 1090 0aa8 0320A0E1 		mov	r1, r4
+ 1091 0aac 0430A0E1 		bl	sin
+ 1092 0ab0 FEFFFFEB 		mov	r5, r0
+ 1093 0ab4 0030A0E1 		mov	r6, r1
+ 1094 0ab8 0140A0E1 		ldr	r0, [fp, #-48]	@ float
+ 1095 0abc 0300A0E1 		bl	__extendsfdf2
+ 1096 0ac0 0410A0E1 		mov	r3, r0
+ 1097 0ac4 FEFFFFEB 		mov	r4, r1
+ 1098 0ac8 0030A0E1 		mov	r0, r3
+ 1099 0acc 24310BE5 		mov	r1, r4
+ 330:lab.c         **** 	Rinv[4] = cos(th1)*cos(th3) + sin(th1)*sin(th2)*sin(th3);
+ 1100              		__muldf3
+ 1101 0ad0 34001BE5 		mov	r3, r0
+ 1102 0ad4 FEFFFFEB 		mov	r4, r1
+ 1103 0ad8 0030A0E1 		mov	r5, r3
+ 1104 0adc 0140A0E1 		mov	r6, r4
+ 1105 0ae0 0300A0E1 		ldr	r0, [fp, #-44]	@ float
+ 1106 0ae4 0410A0E1 		bl	__extendsfdf2
+ 1107 0ae8 FEFFFFEB 		mov	r3, r0
+ 1108 0aec 0050A0E1 		mov	r4, r1
+ 1109 0af0 0160A0E1 		mov	r0, r3
+ 1110 0af4 2C001BE5 		mov	r1, r4
+ 1111 0af8 FEFFFFEB 		bl	sin
+ 1112 0afc 0030A0E1 		mov	r3, r0
+ 1113 0b00 0140A0E1 		mov	r4, r1
+ 1114 0b04 0300A0E1 		mov	r0, r5
+ 1115 0b08 0410A0E1 		mov	r1, r6
+ 1116 0b0c FEFFFFEB 		mov	r2, r3
+ 1117 0b10 0030A0E1 		mov	r3, r4
+ 1118 0b14 0140A0E1 		bl	__muldf3
+ 1119 0b18 0500A0E1 		mov	r3, r0
+ 1120 0b1c 0610A0E1 		mov	r4, r1
+ 1121 0b20 0320A0E1 		mov	r0, r7
+ 1122 0b24 0430A0E1 		mov	r1, r8
+ 1123 0b28 FEFFFFEB 		mov	r2, r3
+ 1124 0b2c 0030A0E1 		mov	r3, r4
+ 1125 0b30 0140A0E1 		bl	__adddf3
+ 1126 0b34 0370A0E1 		mov	r3, r0
+ 1127 0b38 0480A0E1 		mov	r4, r1
+ 1128 0b3c 34001BE5 		mov	r0, r3
+ 1129 0b40 FEFFFFEB 		mov	r1, r4
+ 1130 0b44 0030A0E1 		bl	__truncdfsf2
+ 1131 0b48 0140A0E1 		mov	r3, r0
+ 1132 0b4c 0300A0E1 		str	r3, [fp, #-288]	@ float
+ 1133 0b50 0410A0E1 		.loc 1 331 0
+ 1134 0b54 FEFFFFEB 		ldr	r0, [fp, #-48]	@ float
+ 1135 0b58 0050A0E1 		bl	__extendsfdf2
+ 1136 0b5c 0160A0E1 		mov	r3, r0
+ 1137 0b60 30001BE5 		mov	r4, r1
+ 1138 0b64 FEFFFFEB 		mov	r0, r3
+ 1139 0b68 0030A0E1 		mov	r1, r4
+ 1140 0b6c 0140A0E1 		bl	cos
+ 1141 0b70 0300A0E1 		mov	r5, r0
+ 1142 0b74 0410A0E1 		mov	r6, r1
+ 1143 0b78 FEFFFFEB 		ldr	r0, [fp, #-44]	@ float
+ 1144 0b7c 0030A0E1 		bl	__extendsfdf2
+ 1145 0b80 0140A0E1 		mov	r3, r0
+ 1146 0b84 0500A0E1 		mov	r4, r1
+ 1147 0b88 0610A0E1 		mov	r0, r3
+ 1148 0b8c 0320A0E1 		mov	r1, r4
+ 1149 0b90 0430A0E1 		bl	sin
+ 1150 0b94 FEFFFFEB 		mov	r3, r0
+ 1151 0b98 0030A0E1 		mov	r4, r1
+ 1152 0b9c 0140A0E1 		mov	r0, r5
+ 1153 0ba0 0350A0E1 		mov	r1, r6
+ 1154 0ba4 0460A0E1 		mov	r2, r3
+ 1155 0ba8 2C001BE5 		mov	r3, r4
+ 1156 0bac FEFFFFEB 		bl	__muldf3
+ 1157 0bb0 0030A0E1 		mov	r3, r0
+ 1158 0bb4 0140A0E1 		mov	r4, r1
+ 1159 0bb8 0300A0E1 		mov	r0, r3
+ 1160 0bbc 0410A0E1 		mov	r1, r4
+ 1161 0bc0 FEFFFFEB 		bl	__truncdfsf2
+ 1162 0bc4 0030A0E1 		mov	r3, r0
+ 1163 0bc8 0140A0E1 		str	r3, [fp, #-284]	@ float
+ 1164 0bcc 0500A0E1 		.loc 1 332 0
+ 1165 0bd0 0610A0E1 		ldr	r0, [fp, #-52]	@ float
+ 1166 0bd4 0320A0E1 		bl	__extendsfdf2
+ 1167 0bd8 0430A0E1 		mov	r3, r0
+ 1168 0bdc FEFFFFEB 		mov	r4, r1
+ 1169 0be0 0030A0E1 		mov	r0, r3
+ 1170 0be4 0140A0E1 		mov	r1, r4
+ 1171 0be8 0700A0E1 		bl	sin
+ 1172 0bec 0810A0E1 		mov	r5, r0
+ 1173 0bf0 0320A0E1 		mov	r6, r1
+ 1174 0bf4 0430A0E1 		ldr	r0, [fp, #-44]	@ float
+ 1175 0bf8 FEFFFFEB 		bl	__extendsfdf2
+ 1176 0bfc 0030A0E1 		mov	r3, r0
+ 1177 0c00 0140A0E1 		mov	r4, r1
+ 1178 0c04 0300A0E1 		mov	r0, r3
+ 1179 0c08 0410A0E1 		mov	r1, r4
+ 1180 0c0c FEFFFFEB 		bl	sin
+ 1181 0c10 0030A0E1 		mov	r3, r0
+ 1182 0c14 20310BE5 		mov	r4, r1
+ 331:lab.c         **** 	Rinv[5] = cos(th2)*sin(th3);
+ 1183              	1
+ 1184 0c18 30001BE5 		mov	r7, r3
+ 1185 0c1c FEFFFFEB 		mov	r8, r4
+ 1186 0c20 0030A0E1 		ldr	r0, [fp, #-52]	@ float
+ 1187 0c24 0140A0E1 		bl	__extendsfdf2
+ 1188 0c28 0300A0E1 		mov	r3, r0
+ 1189 0c2c 0410A0E1 		mov	r4, r1
+ 1190 0c30 FEFFFFEB 		mov	r0, r3
+ 1191 0c34 0050A0E1 		mov	r1, r4
+ 1192 0c38 0160A0E1 		bl	cos
+ 1193 0c3c 2C001BE5 		mov	r5, r0
+ 1194 0c40 FEFFFFEB 		mov	r6, r1
+ 1195 0c44 0030A0E1 		ldr	r0, [fp, #-44]	@ float
+ 1196 0c48 0140A0E1 		bl	__extendsfdf2
+ 1197 0c4c 0300A0E1 		mov	r3, r0
+ 1198 0c50 0410A0E1 		mov	r4, r1
+ 1199 0c54 FEFFFFEB 		mov	r0, r3
+ 1200 0c58 0030A0E1 		mov	r1, r4
+ 1201 0c5c 0140A0E1 		bl	cos
+ 1202 0c60 0500A0E1 		mov	r3, r0
+ 1203 0c64 0610A0E1 		mov	r4, r1
+ 1204 0c68 0320A0E1 		mov	r0, r5
+ 1205 0c6c 0430A0E1 		mov	r1, r6
+ 1206 0c70 FEFFFFEB 		mov	r2, r3
+ 1207 0c74 0030A0E1 		mov	r3, r4
+ 1208 0c78 0140A0E1 		bl	__muldf3
+ 1209 0c7c 0300A0E1 		mov	r3, r0
+ 1210 0c80 0410A0E1 		mov	r4, r1
+ 1211 0c84 FEFFFFEB 		mov	r5, r3
+ 1212 0c88 0030A0E1 		mov	r6, r4
+ 1213 0c8c 1C310BE5 		ldr	r0, [fp, #-48]	@ float
+ 332:lab.c         **** 	Rinv[6] = sin(th1)*sin(th3) + cos(th1)*cos(th3)*sin(th2);
+ 1214              	mov	r4, r1
+ 1215 0c90 34001BE5 		mov	r0, r3
+ 1216 0c94 FEFFFFEB 		mov	r1, r4
+ 1217 0c98 0030A0E1 		bl	sin
+ 1218 0c9c 0140A0E1 		mov	r3, r0
+ 1219 0ca0 0300A0E1 		mov	r4, r1
+ 1220 0ca4 0410A0E1 		mov	r0, r5
+ 1221 0ca8 FEFFFFEB 		mov	r1, r6
+ 1222 0cac 0050A0E1 		mov	r2, r3
+ 1223 0cb0 0160A0E1 		mov	r3, r4
+ 1224 0cb4 2C001BE5 		bl	__muldf3
+ 1225 0cb8 FEFFFFEB 		mov	r3, r0
+ 1226 0cbc 0030A0E1 		mov	r4, r1
+ 1227 0cc0 0140A0E1 		mov	r0, r7
+ 1228 0cc4 0300A0E1 		mov	r1, r8
+ 1229 0cc8 0410A0E1 		mov	r2, r3
+ 1230 0ccc FEFFFFEB 		mov	r3, r4
+ 1231 0cd0 0030A0E1 		bl	__adddf3
+ 1232 0cd4 0140A0E1 		mov	r3, r0
+ 1233 0cd8 0500A0E1 		mov	r4, r1
+ 1234 0cdc 0610A0E1 		mov	r0, r3
+ 1235 0ce0 0320A0E1 		mov	r1, r4
+ 1236 0ce4 0430A0E1 		bl	__truncdfsf2
+ 1237 0ce8 FEFFFFEB 		mov	r3, r0
+ 1238 0cec 0030A0E1 		str	r3, [fp, #-280]	@ float
+ 1239 0cf0 0140A0E1 		.loc 1 333 0
+ 1240 0cf4 0370A0E1 		ldr	r0, [fp, #-44]	@ float
+ 1241 0cf8 0480A0E1 		bl	__extendsfdf2
+ 1242 0cfc 34001BE5 		mov	r3, r0
+ 1243 0d00 FEFFFFEB 		mov	r4, r1
+ 1244 0d04 0030A0E1 		mov	r0, r3
+ 1245 0d08 0140A0E1 		mov	r1, r4
+ 1246 0d0c 0300A0E1 		bl	cos
+ 1247 0d10 0410A0E1 		mov	r5, r0
+ 1248 0d14 FEFFFFEB 		mov	r6, r1
+ 1249 0d18 0050A0E1 		ldr	r0, [fp, #-52]	@ float
+ 1250 0d1c 0160A0E1 		bl	__extendsfdf2
+ 1251 0d20 2C001BE5 		mov	r3, r0
+ 1252 0d24 FEFFFFEB 		mov	r4, r1
+ 1253 0d28 0030A0E1 		mov	r0, r3
+ 1254 0d2c 0140A0E1 		mov	r1, r4
+ 1255 0d30 0300A0E1 		bl	sin
+ 1256 0d34 0410A0E1 		mov	r3, r0
+ 1257 0d38 FEFFFFEB 		mov	r4, r1
+ 1258 0d3c 0030A0E1 		mov	r0, r5
+ 1259 0d40 0140A0E1 		mov	r1, r6
+ 1260 0d44 0500A0E1 		mov	r2, r3
+ 1261 0d48 0610A0E1 		mov	r3, r4
+ 1262 0d4c 0320A0E1 		bl	__muldf3
+ 1263 0d50 0430A0E1 		mov	r3, r0
+ 1264 0d54 FEFFFFEB 		mov	r4, r1
+ 1265 0d58 0030A0E1 		mov	r5, r3
+ 1266 0d5c 0140A0E1 		mov	r6, r4
+ 1267 0d60 0350A0E1 		ldr	r0, [fp, #-48]	@ float
+ 1268 0d64 0460A0E1 		bl	__extendsfdf2
+ 1269 0d68 30001BE5 		mov	r3, r0
+ 1270 0d6c FEFFFFEB 		mov	r4, r1
+ 1271 0d70 0030A0E1 		mov	r0, r3
+ 1272 0d74 0140A0E1 		mov	r1, r4
+ 1273 0d78 0300A0E1 		bl	sin
+ 1274 0d7c 0410A0E1 		mov	r3, r0
+ 1275 0d80 FEFFFFEB 		mov	r4, r1
+ 1276 0d84 0030A0E1 		mov	r0, r5
+ 1277 0d88 0140A0E1 		mov	r1, r6
+ 1278 0d8c 0500A0E1 		mov	r2, r3
+ 1279 0d90 0610A0E1 		mov	r3, r4
+ 1280 0d94 0320A0E1 		bl	__muldf3
+ 1281 0d98 0430A0E1 		mov	r3, r0
+ 1282 0d9c FEFFFFEB 		mov	r4, r1
+ 1283 0da0 0030A0E1 		mov	r7, r3
+ 1284 0da4 0140A0E1 		mov	r8, r4
+ 1285 0da8 0700A0E1 		ldr	r0, [fp, #-52]	@ float
+ 1286 0dac 0810A0E1 		bl	__extendsfdf2
+ 1287 0db0 0320A0E1 		mov	r3, r0
+ 1288 0db4 0430A0E1 		mov	r4, r1
+ 1289 0db8 FEFFFFEB 		mov	r0, r3
+ 1290 0dbc 0030A0E1 		mov	r1, r4
+ 1291 0dc0 0140A0E1 		bl	cos
+ 1292 0dc4 0300A0E1 		mov	r5, r0
+ 1293 0dc8 0410A0E1 		mov	r6, r1
+ 1294 0dcc FEFFFFEB 		ldr	r0, [fp, #-44]	@ float
+ 1295 0dd0 0030A0E1 		bl	__extendsfdf2
+ 1296 0dd4 18310BE5 		mov	r3, r0
+ 333:lab.c         **** 	Rinv[7] = cos(th3)*sin(th1)*sin(th2) - cos(th1)*sin(th3);
+ 1297              	v	r1, r6
+ 1298 0dd8 2C001BE5 		mov	r2, r3
+ 1299 0ddc FEFFFFEB 		mov	r3, r4
+ 1300 0de0 0030A0E1 		bl	__muldf3
+ 1301 0de4 0140A0E1 		mov	r3, r0
+ 1302 0de8 0300A0E1 		mov	r4, r1
+ 1303 0dec 0410A0E1 		mov	r0, r7
+ 1304 0df0 FEFFFFEB 		mov	r1, r8
+ 1305 0df4 0050A0E1 		mov	r2, r3
+ 1306 0df8 0160A0E1 		mov	r3, r4
+ 1307 0dfc 34001BE5 		bl	__subdf3
+ 1308 0e00 FEFFFFEB 		mov	r3, r0
+ 1309 0e04 0030A0E1 		mov	r4, r1
+ 1310 0e08 0140A0E1 		mov	r0, r3
+ 1311 0e0c 0300A0E1 		mov	r1, r4
+ 1312 0e10 0410A0E1 		bl	__truncdfsf2
+ 1313 0e14 FEFFFFEB 		mov	r3, r0
+ 1314 0e18 0030A0E1 		str	r3, [fp, #-276]	@ float
+ 1315 0e1c 0140A0E1 		.loc 1 334 0
+ 1316 0e20 0500A0E1 		ldr	r0, [fp, #-48]	@ float
+ 1317 0e24 0610A0E1 		bl	__extendsfdf2
+ 1318 0e28 0320A0E1 		mov	r3, r0
+ 1319 0e2c 0430A0E1 		mov	r4, r1
+ 1320 0e30 FEFFFFEB 		mov	r0, r3
+ 1321 0e34 0030A0E1 		mov	r1, r4
+ 1322 0e38 0140A0E1 		bl	cos
+ 1323 0e3c 0350A0E1 		mov	r5, r0
+ 1324 0e40 0460A0E1 		mov	r6, r1
+ 1325 0e44 30001BE5 		ldr	r0, [fp, #-44]	@ float
+ 1326 0e48 FEFFFFEB 		bl	__extendsfdf2
+ 1327 0e4c 0030A0E1 		mov	r3, r0
+ 1328 0e50 0140A0E1 		mov	r4, r1
+ 1329 0e54 0300A0E1 		mov	r0, r3
+ 1330 0e58 0410A0E1 		mov	r1, r4
+ 1331 0e5c FEFFFFEB 		bl	cos
+ 1332 0e60 0030A0E1 		mov	r3, r0
+ 1333 0e64 0140A0E1 		mov	r4, r1
+ 1334 0e68 0500A0E1 		mov	r0, r5
+ 1335 0e6c 0610A0E1 		mov	r1, r6
+ 1336 0e70 0320A0E1 		mov	r2, r3
+ 1337 0e74 0430A0E1 		mov	r3, r4
+ 1338 0e78 FEFFFFEB 		bl	__muldf3
+ 1339 0e7c 0030A0E1 		mov	r3, r0
+ 1340 0e80 0140A0E1 		mov	r4, r1
+ 1341 0e84 0370A0E1 		mov	r0, r3
+ 1342 0e88 0480A0E1 		mov	r1, r4
+ 1343 0e8c 34001BE5 		bl	__truncdfsf2
+ 1344 0e90 FEFFFFEB 		mov	r3, r0
+ 1345 0e94 0030A0E1 		str	r3, [fp, #-272]	@ float
+ 1346 0e98 0140A0E1 		.loc 1 336 0
+ 1347 0e9c 0300A0E1 		ldr	r3, .L40+68
+ 1348 0ea0 0410A0E1 		sub	ip, fp, #244
+ 1349 0ea4 FEFFFFEB 		ldmia	r3, {r0, r1, r2}
+ 1350 0ea8 0050A0E1 		stmia	ip, {r0, r1, r2}
+ 1351 0eac 0160A0E1 		.loc 1 337 0
+ 1352 0eb0 2C001BE5 		ldr	r3, .L40+56
+ 1353 0eb4 FEFFFFEB 		ldr	r4, [r3, #0]	@ float
+ 1354 0eb8 0030A0E1 		ldr	r3, .L40+56
+ 1355 0ebc 0140A0E1 		ldr	r5, [r3, #4]	@ float
+ 1356 0ec0 0300A0E1 		ldr	r3, .L40+56
+ 1357 0ec4 0410A0E1 		ldr	r2, [r3, #8]	@ float
+ 1358 0ec8 FEFFFFEB 		ldr	r3, .L40+72
+ 1359 0ecc 0030A0E1 		ldr	r3, [r3, #0]	@ float
+ 1360 0ed0 0140A0E1 		mov	r0, r2
+ 1361 0ed4 0500A0E1 		mov	r1, r3
+ 1362 0ed8 0610A0E1 		bl	__subsf3
+ 1363 0edc 0320A0E1 		mov	r3, r0
+ 1364 0ee0 0430A0E1 		str	r4, [fp, #-256]	@ float
+ 1365 0ee4 FEFFFFEB 		str	r5, [fp, #-252]	@ float
+ 1366 0ee8 0030A0E1 		str	r3, [fp, #-248]	@ float
+ 1367 0eec 0140A0E1 		.loc 1 338 0
+ 1368 0ef0 0700A0E1 		sub	ip, fp, #304
+ 1369 0ef4 0810A0E1 		sub	r3, fp, #256
+ 1370 0ef8 0320A0E1 		str	r3, [sp, #0]
+ 1371 0efc 0430A0E1 		sub	r3, fp, #244
+ 1372 0f00 FEFFFFEB 		str	r3, [sp, #4]
+ 1373 0f04 0030A0E1 		mov	r0, #3
+ 1374 0f08 0140A0E1 		mov	r1, #3
+ 1375 0f0c 0300A0E1 		mov	r2, #1
+ 1376 0f10 0410A0E1 		mov	r3, ip
+ 1377 0f14 FEFFFFEB 		bl	matrix_multiply
+ 1378 0f18 0030A0E1 		.loc 1 339 0
+ 1379 0f1c 14310BE5 		ldr	r3, .L40+76
+ 334:lab.c         **** 	Rinv[8] = cos(th2)*cos(th3);
+ 1380              	ov	r1, r3
+ 1381 0f20 30001BE5 		bl	__divsf3
+ 1382 0f24 FEFFFFEB 		mov	r3, r0
+ 1383 0f28 0030A0E1 		mov	r0, r3
+ 1384 0f2c 0140A0E1 		bl	__extendsfdf2
+ 1385 0f30 0300A0E1 		mov	r5, r0
+ 1386 0f34 0410A0E1 		mov	r6, r1
+ 1387 0f38 FEFFFFEB 		ldr	r3, [fp, #-244]	@ float
+ 1388 0f3c 0050A0E1 		ldr	r2, [fp, #-244]	@ float
+ 1389 0f40 0160A0E1 		mov	r0, r3
+ 1390 0f44 2C001BE5 		mov	r1, r2
+ 1391 0f48 FEFFFFEB 		bl	__mulsf3
+ 1392 0f4c 0030A0E1 		mov	r3, r0
+ 1393 0f50 0140A0E1 		mov	r4, r3
+ 1394 0f54 0300A0E1 		ldr	r3, [fp, #-240]	@ float
+ 1395 0f58 0410A0E1 		ldr	r2, [fp, #-240]	@ float
+ 1396 0f5c FEFFFFEB 		mov	r0, r3
+ 1397 0f60 0030A0E1 		mov	r1, r2
+ 1398 0f64 0140A0E1 		bl	__mulsf3
+ 1399 0f68 0500A0E1 		mov	r3, r0
+ 1400 0f6c 0610A0E1 		mov	r0, r4
+ 1401 0f70 0320A0E1 		mov	r1, r3
+ 1402 0f74 0430A0E1 		bl	__addsf3
+ 1403 0f78 FEFFFFEB 		mov	r3, r0
+ 1404 0f7c 0030A0E1 		mov	r4, r3
+ 1405 0f80 0140A0E1 		ldr	r3, [fp, #-236]	@ float
+ 1406 0f84 0300A0E1 		ldr	r2, [fp, #-236]	@ float
+ 1407 0f88 0410A0E1 		mov	r0, r3
+ 1408 0f8c FEFFFFEB 		mov	r1, r2
+ 1409 0f90 0030A0E1 		bl	__mulsf3
+ 1410 0f94 10310BE5 		mov	r3, r0
+ 335:lab.c         **** 
+ 336:lab.c         **** 	float tmp_result[3] = {0,0,0};
+ 1411              	ddsf3
+ 1412 0f98 14349FE5 		mov	r3, r0
+ 1413 0f9c F4C04BE2 		mov	r0, r3
+ 1414 0fa0 070093E8 		bl	__extendsfdf2
+ 1415 0fa4 07008CE8 		mov	r3, r0
+ 337:lab.c         **** 	float a_desired_temp[3] = {a_desired[0],a_desired[1],a_desired[2]-g};
+ 1416              	r4, r1
+ 1417 0fa8 F8339FE5 		mov	r0, r3
+ 1418 0fac 004093E5 		mov	r1, r4
+ 1419 0fb0 F0339FE5 		bl	sqrt
+ 1420 0fb4 045093E5 		mov	r3, r0
+ 1421 0fb8 E8339FE5 		mov	r4, r1
+ 1422 0fbc 082093E5 		mov	r0, r5
+ 1423 0fc0 F0339FE5 		mov	r1, r6
+ 1424 0fc4 003093E5 		mov	r2, r3
+ 1425 0fc8 0200A0E1 		mov	r3, r4
+ 1426 0fcc 0310A0E1 		bl	__muldf3
+ 1427 0fd0 FEFFFFEB 		mov	r3, r0
+ 1428 0fd4 0030A0E1 		mov	r4, r1
+ 1429 0fd8 00410BE5 		mov	r0, r3
+ 1430 0fdc FC500BE5 		mov	r1, r4
+ 1431 0fe0 F8300BE5 		bl	__truncdfsf2
+ 338:lab.c         **** 	matrix_multiply(3,3,1,Rinv,a_desired_temp,tmp_result);
+ 1432              		r3, .L40+104
+ 1433 0fe4 13CE4BE2 		str	r2, [r3, #0]	@ float
+ 1434 0fe8 013C4BE2 		.loc 1 342 0
+ 1435 0fec 00308DE5 		sub	ip, fp, #304
+ 1436 0ff0 F4304BE2 		sub	r3, fp, #256
+ 1437 0ff4 04308DE5 		str	r3, [sp, #0]
+ 1438 0ff8 0300A0E3 		sub	r3, fp, #268
+ 1439 0ffc 0310A0E3 		str	r3, [sp, #4]
+ 1440 1000 0120A0E3 		mov	r0, #3
+ 1441 1004 0C30A0E1 		mov	r1, #3
+ 1442 1008 FEFFFFEB 		mov	r2, #1
+ 339:lab.c         **** 	fsum_des = mass/nz_eq * sqrt(tmp_result[0]*tmp_result[0] + tmp_result[1]*tmp_result[1] + tmp_resul
+ 1443              	
+ 1444 100c A8339FE5 		bl	matrix_multiply
+ 1445 1010 002093E5 		.loc 1 343 0
+ 1446 1014 A4339FE5 		ldr	r2, [fp, #-268]	@ float
+ 1447 1018 003093E5 		ldr	r3, .L40+76
+ 1448 101c 0200A0E1 		ldr	r3, [r3, #0]	@ float
+ 1449 1020 0310A0E1 		mov	r0, r2
+ 1450 1024 FEFFFFEB 		mov	r1, r3
+ 1451 1028 0030A0E1 		bl	__mulsf3
+ 1452 102c 0300A0E1 		mov	r3, r0
+ 1453 1030 FEFFFFEB 		mov	r4, r3
+ 1454 1034 0050A0E1 		ldr	r3, .L40+80
+ 1455 1038 0160A0E1 		ldr	r2, [r3, #0]	@ float
+ 1456 103c F4301BE5 		ldr	r3, .L40+104
+ 1457 1040 F4201BE5 		ldr	r3, [r3, #0]	@ float
+ 1458 1044 0300A0E1 		mov	r0, r2
+ 1459 1048 0210A0E1 		mov	r1, r3
+ 1460 104c FEFFFFEB 		bl	__mulsf3
+ 1461 1050 0030A0E1 		mov	r3, r0
+ 1462 1054 0340A0E1 		mov	r0, r4
+ 1463 1058 F0301BE5 		mov	r1, r3
+ 1464 105c F0201BE5 		bl	__divsf3
+ 1465 1060 0300A0E1 		mov	r3, r0
+ 1466 1064 0210A0E1 		mov	r2, r3
+ 1467 1068 FEFFFFEB 		ldr	r3, .L40+84
+ 1468 106c 0030A0E1 		str	r2, [r3, #0]	@ float
+ 1469 1070 0400A0E1 		.loc 1 344 0
+ 1470 1074 0310A0E1 		ldr	r2, [fp, #-264]	@ float
+ 1471 1078 FEFFFFEB 		ldr	r3, .L40+76
+ 1472 107c 0030A0E1 		ldr	r3, [r3, #0]	@ float
+ 1473 1080 0340A0E1 		mov	r0, r2
+ 1474 1084 EC301BE5 		mov	r1, r3
+ 1475 1088 EC201BE5 		bl	__mulsf3
+ 1476 108c 0300A0E1 		mov	r3, r0
+ 1477 1090 0210A0E1 		mov	r4, r3
+ 1478 1094 FEFFFFEB 		ldr	r3, .L40+80
+ 1479 1098 0030A0E1 		ldr	r2, [r3, #0]	@ float
+ 1480 109c 0400A0E1 		ldr	r3, .L40+104
+ 1481 10a0 0310A0E1 		ldr	r3, [r3, #0]	@ float
+ 1482 10a4 FEFFFFEB 		mov	r0, r2
+ 1483 10a8 0030A0E1 		mov	r1, r3
+ 1484 10ac 0300A0E1 		bl	__mulsf3
+ 1485 10b0 FEFFFFEB 		mov	r3, r0
+ 1486 10b4 0030A0E1 		mov	r0, r4
+ 1487 10b8 0140A0E1 		mov	r1, r3
+ 1488 10bc 0300A0E1 		bl	__divsf3
+ 1489 10c0 0410A0E1 		mov	r3, r0
+ 1490 10c4 FEFFFFEB 		mov	r2, r3
+ 1491 10c8 0030A0E1 		ldr	r3, .L40+84
+ 1492 10cc 0140A0E1 		str	r2, [r3, #4]	@ float
+ 1493 10d0 0500A0E1 		.loc 1 345 0
+ 1494 10d4 0610A0E1 		ldr	r2, [fp, #-260]	@ float
+ 1495 10d8 0320A0E1 		ldr	r3, .L40+76
+ 1496 10dc 0430A0E1 		ldr	r3, [r3, #0]	@ float
+ 1497 10e0 FEFFFFEB 		mov	r0, r2
+ 1498 10e4 0030A0E1 		mov	r1, r3
+ 1499 10e8 0140A0E1 		bl	__mulsf3
+ 1500 10ec 0300A0E1 		mov	r3, r0
+ 1501 10f0 0410A0E1 		mov	r4, r3
+ 1502 10f4 FEFFFFEB 		ldr	r3, .L40+80
+ 1503 10f8 0020A0E1 		ldr	r2, [r3, #0]	@ float
+ 1504 10fc D4329FE5 		ldr	r3, .L40+104
+ 1505 1100 002083E5 		ldr	r3, [r3, #0]	@ float
+ 340:lab.c         **** 
+ 341:lab.c         **** 	float n_des_temp[3];
+ 342:lab.c         **** 	matrix_multiply(3,3,1,Rinv,a_desired_temp,n_des_temp);
+ 1506              	mov	r1, r3
+ 1507 1104 13CE4BE2 		bl	__divsf3
+ 1508 1108 013C4BE2 		mov	r3, r0
+ 1509 110c 00308DE5 		mov	r2, r3
+ 1510 1110 433F4BE2 		ldr	r3, .L40+84
+ 1511 1114 04308DE5 		str	r2, [r3, #8]	@ float
+ 1512 1118 0300A0E3 	.L25:
+ 1513 111c 0310A0E3 	.LBE2:
+ 1514 1120 0120A0E3 		.loc 1 352 0
+ 1515 1124 0C30A0E1 		ldr	r3, .L40+84
+ 1516 1128 FEFFFFEB 		ldr	r2, [r3, #0]	@ float
+ 343:lab.c         **** 	n_des[0] = n_des_temp[0] *mass/(nz_eq*fsum_des);
+ 1517              	40+92
+ 1518 112c 0C211BE5 		str	r2, [r3, #8]	@ float
+ 1519 1130 84329FE5 		.loc 1 353 0
+ 1520 1134 003093E5 		ldr	r3, .L40+84
+ 1521 1138 0200A0E1 		ldr	r2, [r3, #4]	@ float
+ 1522 113c 0310A0E1 		ldr	r3, .L40+92
+ 1523 1140 FEFFFFEB 		str	r2, [r3, #12]	@ float
+ 1524 1144 0030A0E1 		.loc 1 356 0
+ 1525 1148 0340A0E1 		ldr	r3, .L40+12
+ 1526 114c 6C329FE5 		ldr	r2, [r3, #36]	@ float
+ 1527 1150 002093E5 		ldr	r3, .L40+12
+ 1528 1154 7C329FE5 		ldr	r1, [r3, #40]	@ float
+ 1529 1158 003093E5 		ldr	r3, .L40+12
+ 1530 115c 0200A0E1 		ldr	r3, [r3, #44]	@ float
+ 1531 1160 0310A0E1 		str	r2, [fp, #-92]	@ float
+ 1532 1164 FEFFFFEB 		str	r1, [fp, #-88]	@ float
+ 1533 1168 0030A0E1 		str	r3, [fp, #-84]	@ float
+ 1534 116c 0400A0E1 		.loc 1 357 0
+ 1535 1170 0310A0E1 		ldr	r3, [fp, #-92]	@ float
+ 1536 1174 FEFFFFEB 		ldr	r2, [fp, #-92]	@ float
+ 1537 1178 0030A0E1 		mov	r0, r3
+ 1538 117c 0320A0E1 		mov	r1, r2
+ 1539 1180 3C329FE5 		bl	__mulsf3
+ 1540 1184 002083E5 		mov	r3, r0
+ 344:lab.c         **** 	n_des[1] = n_des_temp[1] *mass/(nz_eq*fsum_des);
+ 1541              	, #-88]	@ float
+ 1542 1188 08211BE5 		ldr	r2, [fp, #-88]	@ float
+ 1543 118c 28329FE5 		mov	r0, r3
+ 1544 1190 003093E5 		mov	r1, r2
+ 1545 1194 0200A0E1 		bl	__mulsf3
+ 1546 1198 0310A0E1 		mov	r3, r0
+ 1547 119c FEFFFFEB 		mov	r0, r4
+ 1548 11a0 0030A0E1 		mov	r1, r3
+ 1549 11a4 0340A0E1 		bl	__addsf3
+ 1550 11a8 10329FE5 		mov	r3, r0
+ 1551 11ac 002093E5 		mov	r4, r3
+ 1552 11b0 20329FE5 		ldr	r3, [fp, #-84]	@ float
+ 1553 11b4 003093E5 		ldr	r2, [fp, #-84]	@ float
+ 1554 11b8 0200A0E1 		mov	r0, r3
+ 1555 11bc 0310A0E1 		mov	r1, r2
+ 1556 11c0 FEFFFFEB 		bl	__mulsf3
+ 1557 11c4 0030A0E1 		mov	r3, r0
+ 1558 11c8 0400A0E1 		mov	r0, r4
+ 1559 11cc 0310A0E1 		mov	r1, r3
+ 1560 11d0 FEFFFFEB 		bl	__addsf3
+ 1561 11d4 0030A0E1 		mov	r3, r0
+ 1562 11d8 0320A0E1 		mov	r0, r3
+ 1563 11dc E0319FE5 		bl	__extendsfdf2
+ 1564 11e0 042083E5 		mov	r3, r0
+ 345:lab.c         **** 	n_des[2] = n_des_temp[2] *mass/(nz_eq*fsum_des);
+ 1565              		mov	r1, r4
+ 1566 11e4 04211BE5 		bl	sqrt
+ 1567 11e8 CC319FE5 		mov	r3, r0
+ 1568 11ec 003093E5 		mov	r4, r1
+ 1569 11f0 0200A0E1 		mov	r0, r3
+ 1570 11f4 0310A0E1 		mov	r1, r4
+ 1571 11f8 FEFFFFEB 		bl	__truncdfsf2
+ 1572 11fc 0030A0E1 		mov	r3, r0
+ 1573 1200 0340A0E1 		str	r3, [fp, #-80]	@ float
+ 1574 1204 B4319FE5 		.loc 1 359 0
+ 1575 1208 002093E5 		ldr	r3, .L40+88
+ 1576 120c C4319FE5 		sub	ip, fp, #104
+ 1577 1210 003093E5 		ldmia	r3, {r0, r1, r2}
+ 1578 1214 0200A0E1 		stmia	ip, {r0, r1, r2}
+ 1579 1218 0310A0E1 		.loc 1 360 0
+ 1580 121c FEFFFFEB 		ldr	r0, [fp, #-80]	@ float
+ 1581 1220 0030A0E1 		bl	__extendsfdf2
+ 1582 1224 0400A0E1 		mov	r3, r0
+ 1583 1228 0310A0E1 		mov	r4, r1
+ 1584 122c FEFFFFEB 		mov	r0, r3
+ 1585 1230 0030A0E1 		mov	r1, r4
+ 1586 1234 0320A0E1 		adr	r2, .L40+60
+ 1587 1238 84319FE5 		ldmia	r2, {r2-r3}
+ 1588 123c 082083E5 		bl	__gtdf2
+ 1589              		mov	r3, r0
+ 1590              		cmp	r3, #0
+ 346:lab.c         **** }
+ 347:lab.c         **** 
+ 348:lab.c         **** 	/////////////////////////////////
+ 349:lab.c         **** 	// Begin inner loop to match the target n_des and fsum_des.
+ 350:lab.c         **** 
+ 351:lab.c         **** 	/////////////////////////////////
+ 352:lab.c         **** 	se[2] = n_des[0];
+ 1591              	align	2
+ 1592 1240 7C319FE5 	.L40:
+ 1593 1244 002093E5 		.word	LED0timeCount
+ 1594 1248 7C319FE5 		.word	LED0toggle
+ 1595 124c 082083E5 		.word	mocap
+ 353:lab.c         **** 	se[3] = n_des[1];
+ 1596              	d	xd
+ 1597 1250 6C319FE5 		.word	imusensor
+ 1598 1254 042093E5 		.word	goalposyaw
+ 1599 1258 6C319FE5 		.word	xe
+ 1600 125c 0C2083E5 		.word	p_eq
+ 354:lab.c         **** 
+ 355:lab.c         **** 
+ 356:lab.c         **** 	float wB[3] = {xd[9], xd[10], xd[11]};
+ 1601              	d	q_eq
+ 1602 1260 14319FE5 		.word	r_eq
+ 1603 1264 242093E5 		.word	outter_count
+ 1604 1268 0C319FE5 		.word	1717986919
+ 1605 126c 281093E5 		.word	K_d
+ 1606 1270 04319FE5 		.word	K_p
+ 1607 1274 2C3093E5 		.word	a_desired
+ 1608 1278 5C200BE5 		.word	1051772663
+ 1609 127c 58100BE5 		.word	-1598689907
+ 1610 1280 54300BE5 		.word	C.25.2467
+ 357:lab.c         **** 	float wBnorm = sqrt(wB[0]*wB[0] + wB[1]*wB[1] + wB[2]*wB[2]);
+ 1611              	.word	mass
+ 1612 1284 5C301BE5 		.word	nz_eq
+ 1613 1288 5C201BE5 		.word	n_des
+ 1614 128c 0300A0E1 		.word	C.38.2531
+ 1615 1290 0210A0E1 		.word	se
+ 1616 1294 FEFFFFEB 		.word	K_i
+ 1617 1298 0030A0E1 		.word	ue
+ 1618 129c 0340A0E1 		.word	fsum_des
+ 1619 12a0 58301BE5 		.word	l
+ 1620 12a4 58201BE5 		.word	kM
+ 1621 12a8 0300A0E1 		.word	kF
+ 1622 12ac 0210A0E1 		.word	0
+ 1623 12b0 FEFFFFEB 		.word	cnt_u
+ 1624 12b4 0030A0E1 		.word	u
+ 1625 12b8 0400A0E1 	.L29:
+ 1626 12bc 0310A0E1 		.loc 1 362 0
+ 1627 12c0 FEFFFFEB 		ldr	r3, [fp, #-92]	@ float
+ 1628 12c4 0030A0E1 		mov	r0, r3
+ 1629 12c8 0340A0E1 		ldr	r1, [fp, #-80]	@ float
+ 1630 12cc 54301BE5 		bl	__divsf3
+ 1631 12d0 54201BE5 		mov	r3, r0
+ 1632 12d4 0300A0E1 		str	r3, [fp, #-104]	@ float
+ 1633 12d8 0210A0E1 		.loc 1 363 0
+ 1634 12dc FEFFFFEB 		ldr	r3, [fp, #-88]	@ float
+ 1635 12e0 0030A0E1 		mov	r0, r3
+ 1636 12e4 0400A0E1 		ldr	r1, [fp, #-80]	@ float
+ 1637 12e8 0310A0E1 		bl	__divsf3
+ 1638 12ec FEFFFFEB 		mov	r3, r0
+ 1639 12f0 0030A0E1 		str	r3, [fp, #-100]	@ float
+ 1640 12f4 0300A0E1 		.loc 1 364 0
+ 1641 12f8 FEFFFFEB 		ldr	r3, [fp, #-84]	@ float
+ 1642 12fc 0030A0E1 		mov	r0, r3
+ 1643 1300 0140A0E1 		ldr	r1, [fp, #-80]	@ float
+ 1644 1304 0300A0E1 		bl	__divsf3
+ 1645 1308 0410A0E1 		mov	r3, r0
+ 1646 130c FEFFFFEB 		str	r3, [fp, #-96]	@ float
+ 1647 1310 0030A0E1 	.L27:
+ 1648 1314 0140A0E1 		.loc 1 368 0
+ 1649 1318 0300A0E1 		ldr	r3, [fp, #-92]	@ float
+ 1650 131c 0410A0E1 		ldr	r2, [fp, #-88]	@ float
+ 1651 1320 FEFFFFEB 		ldr	r1, [fp, #-104]	@ float
+ 1652 1324 0030A0E1 		ldr	r0, [fp, #-100]	@ float
+ 1653 1328 50300BE5 		str	r3, [fp, #-120]	@ float
+ 358:lab.c         **** 
+ 359:lab.c         **** 	float n[3] = {0, 0, -1};
+ 1654              	#-112]	@ float
+ 1655 132c 94309FE5 		str	r0, [fp, #-108]	@ float
+ 1656 1330 68C04BE2 		.loc 1 372 0
+ 1657 1334 070093E8 		ldr	r2, [fp, #-120]	@ float
+ 1658 1338 07008CE8 		ldr	r3, .L40+92
+ 360:lab.c         **** 	if(wBnorm > 0.000001)
+ 1659              	r3, [r3, #0]	@ float
+ 1660 133c 50001BE5 		mov	r0, r2
+ 1661 1340 FEFFFFEB 		mov	r1, r3
+ 1662 1344 0030A0E1 		bl	__subsf3
+ 1663 1348 0140A0E1 		mov	r3, r0
+ 1664 134c 0300A0E1 		str	r3, [fp, #-144]	@ float
+ 1665 1350 0410A0E1 		.loc 1 373 0
+ 1666 1354 50208FE2 		ldr	r2, [fp, #-116]	@ float
+ 1667 1358 0C0092E8 		ldr	r3, .L40+92
+ 1668 135c FEFFFFEB 		ldr	r3, [r3, #4]	@ float
+ 1669 1360 0030A0E1 		mov	r0, r2
+ 1670 1364 000053E3 		mov	r1, r3
+ 1671 1368 210000CA 		bl	__subsf3
+ 1672 136c 320000EA 		mov	r3, r0
+ 1673              		str	r3, [fp, #-140]	@ float
+ 1674              		.loc 1 374 0
+ 1675              		ldr	r2, [fp, #-112]	@ float
+ 1676 1370 00000000 		ldr	r3, .L40+92
+ 1677 1374 00000000 		ldr	r3, [r3, #8]	@ float
+ 1678 1378 00000000 		mov	r0, r2
+ 1679 137c 00000000 		mov	r1, r3
+ 1680 1380 00000000 		bl	__subsf3
+ 1681 1384 00000000 		mov	r3, r0
+ 1682 1388 00000000 		str	r3, [fp, #-136]	@ float
+ 1683 138c 00000000 		.loc 1 375 0
+ 1684 1390 00000000 		ldr	r2, [fp, #-108]	@ float
+ 1685 1394 00000000 		ldr	r3, .L40+92
+ 1686 1398 00000000 		ldr	r3, [r3, #12]	@ float
+ 1687 139c 67666666 		mov	r0, r2
+ 1688 13a0 00000000 		mov	r1, r3
+ 1689 13a4 00000000 		bl	__subsf3
+ 1690 13a8 00000000 		mov	r3, r0
+ 1691 13ac F7C6B03E 		str	r3, [fp, #-132]	@ float
+ 1692 13b0 8DEDB5A0 		.loc 1 376 0
+ 1693 13b4 0C000000 		sub	r3, fp, #144
+ 1694 13b8 00000000 		str	r3, [sp, #0]
+ 1695 13bc 00000000 		sub	r3, fp, #128
+ 1696 13c0 00000000 		str	r3, [sp, #4]
+ 1697 13c4 00000000 		mov	r0, #2
+ 1698 13c8 00000000 		mov	r1, #4
+ 1699 13cc 00000000 		mov	r2, #1
+ 1700 13d0 00000000 		ldr	r3, .L40+96
+ 1701 13d4 00000000 		bl	matrix_multiply
+ 1702 13d8 00000000 		.loc 1 377 0
+ 1703 13dc 00000000 		ldr	r3, .L40+100
+ 1704 13e0 00000000 		ldr	r3, [r3, #0]	@ float
+ 1705 13e4 00000000 		ldr	r2, [fp, #-128]	@ float
+ 1706 13e8 00000000 		mov	r0, r3
+ 1707 13ec 00000000 		mov	r1, r2
+ 1708 13f0 00000000 		bl	__subsf3
+ 1709              		mov	r3, r0
+ 361:lab.c         **** 	{
+ 362:lab.c         **** 		n[0] = wB[0]/wBnorm;
+ 1710              	 .L40+100
+ 1711 13f4 5C301BE5 		ldr	r3, [r3, #4]	@ float
+ 1712 13f8 0300A0E1 		ldr	r2, [fp, #-124]	@ float
+ 1713 13fc 50101BE5 		mov	r0, r3
+ 1714 1400 FEFFFFEB 		mov	r1, r2
+ 1715 1404 0030A0E1 		bl	__subsf3
+ 1716 1408 68300BE5 		mov	r3, r0
+ 363:lab.c         **** 		n[1] = wB[1]/wBnorm;
+ 1717              	, [fp, #-148]	@ float
+ 1718 140c 58301BE5 		.loc 1 379 0
+ 1719 1410 0300A0E1 		ldr	r3, [fp, #-148]	@ float
+ 1720 1414 50101BE5 		str	r3, [fp, #-76]	@ float
+ 1721 1418 FEFFFFEB 		.loc 1 380 0
+ 1722 141c 0030A0E1 		ldr	r2, [fp, #-152]	@ float
+ 1723 1420 64300BE5 		ldr	r3, .L40+104
+ 364:lab.c         **** 		n[2] = wB[2]/wBnorm;
+ 1724              	, [r3, #0]	@ float
+ 1725 1424 54301BE5 		mov	r0, r2
+ 1726 1428 0300A0E1 		mov	r1, r3
+ 1727 142c 50101BE5 		bl	__addsf3
+ 1728 1430 FEFFFFEB 		mov	r3, r0
+ 1729 1434 0030A0E1 		mov	r0, r3
+ 1730 1438 60300BE5 		ldr	r1, [fp, #-72]	@ float
+ 1731              		bl	__subsf3
+ 365:lab.c         **** 	}
+ 366:lab.c         **** 
+ 367:lab.c         **** 
+ 368:lab.c         **** 	float si[4] = {wB[0], wB[1], n[0], n[1]};
+ 1732              	 r0
+ 1733 143c 5C301BE5 		mov	r0, r3
+ 1734 1440 58201BE5 		ldr	r1, .L40+120	@ float
+ 1735 1444 68101BE5 		bl	__mulsf3
+ 1736 1448 64001BE5 		mov	r3, r0
+ 1737 144c 78300BE5 		str	r3, [fp, #-72]	@ float
+ 1738 1450 74200BE5 		.loc 1 381 0
+ 1739 1454 70100BE5 		ldr	r3, .L40+104
+ 1740 1458 6C000BE5 		ldr	r3, [r3, #0]	@ float
+ 369:lab.c         **** 	float u_des_temp[2];
+ 370:lab.c         **** 	float si_less_se[4];
+ 371:lab.c         **** 	float u_desired[2];
+ 372:lab.c         **** 	si_less_se[0] = si[0]-se[0];
+ 1741              	r3
+ 1742 145c 78201BE5 		ldr	r1, [fp, #-72]	@ float
+ 1743 1460 9C301FE5 		bl	__subsf3
+ 1744 1464 003093E5 		mov	r3, r0
+ 1745 1468 0200A0E1 		mov	r0, r3
+ 1746 146c 0310A0E1 		ldr	r1, [fp, #-76]	@ float
+ 1747 1470 FEFFFFEB 		bl	__subsf3
+ 1748 1474 0030A0E1 		mov	r3, r0
+ 1749 1478 90300BE5 		str	r3, [fp, #-68]	@ float
+ 373:lab.c         **** 	si_less_se[1] = si[1]-se[1];
+ 1750              	83 0
+ 1751 147c 74201BE5 		ldr	r0, [fp, #-68]	@ float
+ 1752 1480 BC301FE5 		ldr	r1, .L40+120	@ float
+ 1753 1484 043093E5 		bl	__ltsf2
+ 1754 1488 0200A0E1 		mov	r3, r0
+ 1755 148c 0310A0E1 		cmp	r3, #0
+ 1756 1490 FEFFFFEB 		blt	.L32
+ 1757 1494 0030A0E1 		b	.L30
+ 1758 1498 8C300BE5 	.L32:
+ 374:lab.c         **** 	si_less_se[2] = si[2]-se[2];
+ 1759              	85 0
+ 1760 149c 70201BE5 		ldr	r3, .L40+120	@ float
+ 1761 14a0 DC301FE5 		str	r3, [fp, #-68]	@ float
+ 1762 14a4 083093E5 	.L30:
+ 1763 14a8 0200A0E1 		.loc 1 387 0
+ 1764 14ac 0310A0E1 		ldr	r0, [fp, #-76]	@ float
+ 1765 14b0 FEFFFFEB 		ldr	r1, .L40+120	@ float
+ 1766 14b4 0030A0E1 		bl	__ltsf2
+ 1767 14b8 88300BE5 		mov	r3, r0
+ 375:lab.c         **** 	si_less_se[3] = si[3]-se[3];
+ 1768              	#0
+ 1769 14bc 6C201BE5 		blt	.L35
+ 1770 14c0 FC301FE5 		b	.L33
+ 1771 14c4 0C3093E5 	.L35:
+ 1772 14c8 0200A0E1 		.loc 1 389 0
+ 1773 14cc 0310A0E1 		ldr	r3, .L40+120	@ float
+ 1774 14d0 FEFFFFEB 		str	r3, [fp, #-76]	@ float
+ 1775 14d4 0030A0E1 	.L33:
+ 1776 14d8 84300BE5 		.loc 1 391 0
+ 376:lab.c         **** 	matrix_multiply(2,4,1,K_i,si_less_se,u_des_temp);
+ 1777              	[fp, #-72]	@ float
+ 1778 14dc 90304BE2 		ldr	r1, .L40+120	@ float
+ 1779 14e0 00308DE5 		bl	__ltsf2
+ 1780 14e4 80304BE2 		mov	r3, r0
+ 1781 14e8 04308DE5 		cmp	r3, #0
+ 1782 14ec 0200A0E3 		blt	.L38
+ 1783 14f0 0410A0E3 		b	.L36
+ 1784 14f4 0120A0E3 	.L38:
+ 1785 14f8 30311FE5 		.loc 1 393 0
+ 1786 14fc FEFFFFEB 		ldr	r3, .L40+120	@ float
+ 377:lab.c         **** 	u_desired[0] = -u_des_temp[0] + ue[0];
+ 1787              	fp, #-72]	@ float
+ 1788 1500 34311FE5 	.L36:
+ 1789 1504 003093E5 		.loc 1 396 0
+ 1790 1508 80201BE5 		ldr	r3, .L40+116
+ 1791 150c 0300A0E1 		ldr	r3, [r3, #0]	@ float
+ 1792 1510 0210A0E1 		ldr	r0, [fp, #-68]	@ float
+ 1793 1514 FEFFFFEB 		mov	r1, r3
+ 1794 1518 0030A0E1 		bl	__divsf3
+ 1795 151c 98300BE5 		mov	r3, r0
+ 378:lab.c         **** 	u_desired[1] = -u_des_temp[1] + ue[1];
+ 1796              	[fp, #-64]	@ float
+ 1797 1520 54311FE5 		.loc 1 397 0
+ 1798 1524 043093E5 		ldr	r3, .L40+116
+ 1799 1528 7C201BE5 		ldr	r3, [r3, #0]	@ float
+ 1800 152c 0300A0E1 		ldr	r0, [fp, #-76]	@ float
+ 1801 1530 0210A0E1 		mov	r1, r3
+ 1802 1534 FEFFFFEB 		bl	__divsf3
+ 1803 1538 0030A0E1 		mov	r3, r0
+ 1804 153c 94300BE5 		str	r3, [fp, #-60]	@ float
+ 379:lab.c         **** 	float f2 = u_desired[1];
+ 1805              	98 0
+ 1806 1540 94301BE5 		ldr	r3, .L40+116
+ 1807 1544 4C300BE5 		ldr	r3, [r3, #0]	@ float
+ 380:lab.c         **** 	float f3 = 1/2 * (fsum_des + u_desired[0] - f3);
+ 1808              	r	r0, [fp, #-72]	@ float
+ 1809 1548 98201BE5 		mov	r1, r3
+ 1810 154c 7C311FE5 		bl	__divsf3
+ 1811 1550 003093E5 		mov	r3, r0
+ 1812 1554 0200A0E1 		str	r3, [fp, #-56]	@ float
+ 1813 1558 0310A0E1 		.loc 1 400 0
+ 1814 155c FEFFFFEB 		ldr	r3, [fp, #-64]	@ float
+ 1815 1560 0030A0E1 		str	r3, [fp, #-168]	@ float
+ 1816 1564 0300A0E1 		ldr	r3, [fp, #-60]	@ float
+ 1817 1568 48101BE5 		str	r3, [fp, #-164]	@ float
+ 1818 156c FEFFFFEB 		ldr	r3, [fp, #-56]	@ float
+ 1819 1570 0030A0E1 		str	r3, [fp, #-160]	@ float
+ 1820 1574 0300A0E1 		ldr	r3, .L40+120	@ float
+ 1821 1578 98111FE5 		str	r3, [fp, #-156]	@ float
+ 1822 157c FEFFFFEB 		.loc 1 401 0
+ 1823 1580 0030A0E1 		ldr	r3, .L40+108
+ 1824 1584 48300BE5 		ldr	r2, [r3, #0]	@ float
+ 381:lab.c         **** 	float f1 = fsum_des - f3 - f2;
+ 1825              	
+ 1826 1588 B8311FE5 		ldr	r3, [r3, #0]	@ float
+ 1827 158c 003093E5 		mov	r0, r2
+ 1828 1590 0300A0E1 		mov	r1, r3
+ 1829 1594 48101BE5 		bl	__mulsf3
+ 1830 1598 FEFFFFEB 		mov	r3, r0
+ 1831 159c 0030A0E1 		mov	r4, r3
+ 1832 15a0 0300A0E1 		ldr	r3, .L40+108
+ 1833 15a4 4C101BE5 		ldr	r3, [r3, #0]	@ float
+ 1834 15a8 FEFFFFEB 		eor	r2, r3, #-2147483648
+ 1835 15ac 0030A0E1 		ldr	r3, .L40+116
+ 1836 15b0 44300BE5 		ldr	r3, [r3, #0]	@ float
+ 382:lab.c         **** 
+ 383:lab.c         **** 	if(f1 < 0)
+ 1837              	
+ 1838 15b4 44001BE5 		mov	r1, r3
+ 1839 15b8 D8111FE5 		bl	__mulsf3
+ 1840 15bc FEFFFFEB 		mov	r3, r0
+ 1841 15c0 0030A0E1 		mov	r5, r3
+ 1842 15c4 000053E3 		ldr	r3, .L40+108
+ 1843 15c8 000000BA 		ldr	r2, [r3, #0]	@ float
+ 1844 15cc 010000EA 		ldr	r3, .L40+116
+ 1845              		ldr	r3, [r3, #0]	@ float
+ 384:lab.c         **** 	{
+ 385:lab.c         **** 		f1 = 0;
+ 1846              	 r2
+ 1847 15d0 F0311FE5 		mov	r1, r3
+ 1848 15d4 44300BE5 		bl	__mulsf3
+ 1849              		mov	r3, r0
+ 386:lab.c         **** 	}
+ 387:lab.c         **** 	if(f2 < 0)
+ 1850              		r6, r3
+ 1851 15d8 4C001BE5 		ldr	r3, .L40+108
+ 1852 15dc FC111FE5 		ldr	r3, [r3, #0]	@ float
+ 1853 15e0 FEFFFFEB 		eor	r2, r3, #-2147483648
+ 1854 15e4 0030A0E1 		ldr	r3, .L40+116
+ 1855 15e8 000053E3 		ldr	r3, [r3, #0]	@ float
+ 1856 15ec 000000BA 		mov	r0, r2
+ 1857 15f0 010000EA 		mov	r1, r3
+ 1858              		bl	__mulsf3
+ 388:lab.c         **** 	{
+ 389:lab.c         **** 		f2 = 0;
+ 1859              	r0
+ 1860 15f4 14321FE5 		mov	r2, r3
+ 1861 15f8 4C300BE5 		ldr	r3, .L40+112
+ 1862              		ldr	r1, [r3, #0]	@ float
+ 390:lab.c         **** 	}
+ 391:lab.c         **** 	if(f3 < 0)
+ 1863              		r3, .L40+112
+ 1864 15fc 48001BE5 		ldr	r0, [r3, #0]	@ float
+ 1865 1600 20121FE5 		ldr	r3, .L40+112
+ 1866 1604 FEFFFFEB 		ldr	r3, [r3, #0]	@ float
+ 1867 1608 0030A0E1 		eor	ip, r3, #-2147483648
+ 1868 160c 000053E3 		ldr	r3, .L40+112
+ 1869 1610 000000BA 		ldr	r3, [r3, #0]	@ float
+ 1870 1614 010000EA 		eor	lr, r3, #-2147483648
+ 1871              		ldr	r3, .L40+116
+ 392:lab.c         **** 	{
+ 393:lab.c         **** 		f3 = 0;
+ 1872              	[r3, #0]	@ float
+ 1873 1618 38321FE5 		ldr	r3, .L40+116
+ 1874 161c 48300BE5 		ldr	r8, [r3, #0]	@ float
+ 1875              		ldr	r3, .L40+116
+ 394:lab.c         **** 	}
+ 395:lab.c         **** 
+ 396:lab.c         **** 	float w1sqrd = f1/kF;
+ 1876              		sl, [r3, #0]	@ float
+ 1877 1620 44321FE5 		ldr	r3, .L40+116
+ 1878 1624 003093E5 		ldr	r9, [r3, #0]	@ float
+ 1879 1628 44001BE5 		str	r4, [fp, #-232]	@ float
+ 1880 162c 0310A0E1 		str	r5, [fp, #-228]	@ float
+ 1881 1630 FEFFFFEB 		ldr	r3, .L40+120	@ float
+ 1882 1634 0030A0E1 		str	r3, [fp, #-224]	@ float
+ 1883 1638 40300BE5 		ldr	r3, .L40+120	@ float
+ 397:lab.c         **** 	float w2sqrd = f2/kF;
+ 1884              	 [fp, #-220]	@ float
+ 1885 163c 60321FE5 		ldr	r3, .L40+120	@ float
+ 1886 1640 003093E5 		str	r3, [fp, #-216]	@ float
+ 1887 1644 4C001BE5 		ldr	r3, .L40+120	@ float
+ 1888 1648 0310A0E1 		str	r3, [fp, #-212]	@ float
+ 1889 164c FEFFFFEB 		str	r6, [fp, #-208]	@ float
+ 1890 1650 0030A0E1 		str	r2, [fp, #-204]	@ float
+ 1891 1654 3C300BE5 		str	r1, [fp, #-200]	@ float
+ 398:lab.c         **** 	float w3sqrd = f3/kF;
+ 1892              	 [fp, #-196]	@ float
+ 1893 1658 7C321FE5 		str	ip, [fp, #-192]	@ float
+ 1894 165c 003093E5 		str	lr, [fp, #-188]	@ float
+ 1895 1660 48001BE5 		str	r7, [fp, #-184]	@ float
+ 1896 1664 0310A0E1 		str	r8, [fp, #-180]	@ float
+ 1897 1668 FEFFFFEB 		str	sl, [fp, #-176]	@ float
+ 1898 166c 0030A0E1 		str	r9, [fp, #-172]	@ float
+ 1899 1670 38300BE5 		.loc 1 404 0
+ 399:lab.c         **** 
+ 400:lab.c         **** 	float sigmasqrd[4] = {w1sqrd,w2sqrd,w3sqrd,0};
+ 1900              	 fp, #232
+ 1901 1674 40301BE5 		sub	r3, fp, #168
+ 1902 1678 A8300BE5 		str	r3, [sp, #0]
+ 1903 167c 3C301BE5 		ldr	r3, .L40+124
+ 1904 1680 A4300BE5 		str	r3, [sp, #4]
+ 1905 1684 38301BE5 		mov	r0, #4
+ 1906 1688 A0300BE5 		mov	r1, #4
+ 1907 168c AC321FE5 		mov	r2, #1
+ 1908 1690 9C300BE5 		mov	r3, ip
+ 401:lab.c         **** 	float Wmatrix[16] = {l*kF, -l*kF, 0, 0, 0, 0, l*kF, -l*kF, kM, kM, -kM, -kM, kF, kF, kF, kF};
+ 1909              	x_multiply
+ 1910 1694 C0321FE5 		.loc 1 410 0
+ 1911 1698 002093E5 		ldr	r3, .L40+124
+ 1912 169c C0321FE5 		ldr	r2, [r3, #0]	@ float
+ 1913 16a0 003093E5 		ldr	r3, .L40+128
+ 1914 16a4 0200A0E1 		str	r2, [r3, #0]	@ float
+ 1915 16a8 0310A0E1 		.loc 1 411 0
+ 1916 16ac FEFFFFEB 		ldr	r3, .L40+124
+ 1917 16b0 0030A0E1 		ldr	r2, [r3, #4]	@ float
+ 1918 16b4 0340A0E1 		ldr	r3, .L40+128
+ 1919 16b8 E4321FE5 		str	r2, [r3, #4]	@ float
+ 1920 16bc 003093E5 		.loc 1 412 0
+ 1921 16c0 022123E2 		ldr	r3, .L40+124
+ 1922 16c4 E8321FE5 		ldr	r2, [r3, #8]	@ float
+ 1923 16c8 003093E5 		ldr	r3, .L40+128
+ 1924 16cc 0200A0E1 		str	r2, [r3, #8]	@ float
+ 1925 16d0 0310A0E1 		.loc 1 413 0
+ 1926 16d4 FEFFFFEB 		ldr	r3, .L40+124
+ 1927 16d8 0030A0E1 		ldr	r2, [r3, #12]	@ float
+ 1928 16dc 0350A0E1 		ldr	r3, .L40+128
+ 1929 16e0 0C331FE5 		str	r2, [r3, #12]	@ float
+ 1930 16e4 002093E5 		.loc 1 416 0
+ 1931 16e8 0C331FE5 		sub	sp, fp, #40
+ 1932 16ec 003093E5 		ldmfd	sp, {r4, r5, r6, r7, r8, r9, sl, fp, sp, lr}
+ 1933 16f0 0200A0E1 		bx	lr
+ 1934 16f4 0310A0E1 	.LFE4:
+ 1936 16fc 0030A0E1 		.global	__gtsf2
+ 1937 1700 0360A0E1 		.global	__fixunssfsi
+ 1938 1704 30331FE5 		.align	2
+ 1939 1708 003093E5 		.global	convert_input_to_motor_commands
+ 1941 1710 34331FE5 	convert_input_to_motor_commands:
+ 1942 1714 003093E5 	.LFB5:
+ 1943 1718 0200A0E1 		.loc 1 422 0
+ 1944 171c 0310A0E1 		@ Function supports interworking.
+ 1945 1720 FEFFFFEB 		@ args = 0, pretend = 0, frame = 16
+ 1946 1724 0030A0E1 		@ frame_needed = 1, uses_anonymous_args = 0
+ 1947 1728 0320A0E1 		mov	ip, sp
+ 1948 172c 54331FE5 	.LCFI11:
+ 1949 1730 001093E5 		stmfd	sp!, {r4, r5, r6, fp, ip, lr, pc}
+ 1950 1734 5C331FE5 	.LCFI12:
+ 1951 1738 000093E5 		sub	fp, ip, #4
+ 1952 173c 64331FE5 	.LCFI13:
+ 1953 1740 003093E5 		sub	sp, sp, #24
+ 1954 1744 02C123E2 	.LCFI14:
+ 1955 1748 70331FE5 		.loc 1 424 0
+ 1956 174c 003093E5 		ldr	r2, .L58+16
+ 1957 1750 02E123E2 		mov	r3, #0
+ 1958 1754 78331FE5 		strb	r3, [r2, #0]
+ 1959 1758 007093E5 		.loc 1 430 0
+ 1960 175c 80331FE5 		ldr	r2, .L58+16
+ 1961 1760 008093E5 		mov	r3, #1
+ 1962 1764 88331FE5 		strb	r3, [r2, #1]
+ 1963 1768 00A093E5 		.loc 1 437 0
+ 1964 176c 90331FE5 		ldr	r3, .L58+20
+ 1965 1770 009093E5 		ldr	r3, [r3, #0]	@ float
+ 1966 1774 E8400BE5 		mov	r0, r3
+ 1967 1778 E4500BE5 		bl	__extendsfdf2
+ 1968 177c 9C331FE5 		mov	r3, r0
+ 1969 1780 E0300BE5 		mov	r4, r1
+ 1970 1784 A4331FE5 		mov	r0, r3
+ 1971 1788 DC300BE5 		mov	r1, r4
+ 1972 178c AC331FE5 		mov	r2, r3
+ 1973 1790 D8300BE5 		mov	r3, r4
+ 1974 1794 B4331FE5 		bl	__adddf3
+ 1975 1798 D4300BE5 		mov	r3, r0
+ 1976 179c D0600BE5 		mov	r4, r1
+ 1977 17a0 CC200BE5 		mov	r5, r3
+ 1978 17a4 C8100BE5 		mov	r6, r4
+ 1979 17a8 C4000BE5 		ldr	r3, .L58+24
+ 1980 17ac C0C00BE5 		ldr	r3, [r3, #0]	@ float
+ 1981 17b0 BCE00BE5 		mov	r0, r3
+ 1982 17b4 B8700BE5 		bl	__extendsfdf2
+ 1983 17b8 B4800BE5 		mov	r3, r0
+ 1984 17bc B0A00BE5 		mov	r4, r1
+ 1985 17c0 AC900BE5 		mov	r0, r5
+ 402:lab.c         **** 
+ 403:lab.c         **** 
+ 404:lab.c         **** 	matrix_multiply(4,4,1,Wmatrix,sigmasqrd,cnt_u);
+ 1986              		r0, #1069547520
+ 1987 17c4 E8C04BE2 		add	r0, r0, #3145728
+ 1988 17c8 A8304BE2 		mov	r1, #0
+ 1989 17cc 00308DE5 		mov	r2, r3
+ 1990 17d0 EC331FE5 		mov	r3, r4
+ 1991 17d4 04308DE5 		bl	__divdf3
+ 1992 17d8 0400A0E3 		mov	r3, r0
+ 1993 17dc 0410A0E3 		mov	r4, r1
+ 1994 17e0 0120A0E3 		mov	r0, r3
+ 1995 17e4 0C30A0E1 		mov	r1, r4
+ 1996 17e8 FEFFFFEB 		bl	__truncdfsf2
+ 405:lab.c         **** 
+ 406:lab.c         **** 	////////////////////////
+ 407:lab.c         ****     // DO NOT MODIFY
+ 408:lab.c         ****     //
+ 409:lab.c         **** 	// Store result
+ 410:lab.c         **** 	u.u1 = cnt_u[0];
+ 1997              	
+ 1998 17ec 08341FE5 		str	r3, [fp, #-40]	@ float
+ 1999 17f0 002093E5 		.loc 1 438 0
+ 2000 17f4 0C341FE5 		ldr	r3, .L58+24
+ 2001 17f8 002083E5 		ldr	r3, [r3, #0]	@ float
+ 411:lab.c         **** 	u.u2 = cnt_u[1];
+ 2002              		r0, r3
+ 2003 17fc 18341FE5 		bl	__extendsfdf2
+ 2004 1800 042093E5 		mov	r3, r0
+ 2005 1804 1C341FE5 		mov	r4, r1
+ 2006 1808 042083E5 		mov	r0, r3
+ 412:lab.c         **** 	u.u3 = cnt_u[2];
+ 2007              	r1, r4
+ 2008 180c 28341FE5 		mov	r2, #1073741824
+ 2009 1810 082093E5 		add	r2, r2, #1048576
+ 2010 1814 2C341FE5 		mov	r3, #0
+ 2011 1818 082083E5 		bl	__muldf3
+ 413:lab.c         **** 	u.u4 = cnt_u[3];
+ 2012              	r3, r0
+ 2013 181c 38341FE5 		mov	r4, r1
+ 2014 1820 0C2093E5 		mov	r0, #1069547520
+ 2015 1824 3C341FE5 		add	r0, r0, #3145728
+ 2016 1828 0C2083E5 		mov	r1, #0
+ 414:lab.c         ****     //
+ 415:lab.c         ****     ////////////////////////
+ 416:lab.c         **** }
+ 2017              	r2, r3
+ 2018 182c 28D04BE2 		mov	r3, r4
+ 2019 1830 F06F9DE8 		bl	__divdf3
+ 2020 1834 1EFF2FE1 		mov	r3, r0
+ 2021              		mov	r4, r1
+ 2022              		mov	r0, r3
+ 2023              		mov	r1, r4
+ 2024              		bl	__truncdfsf2
+ 2025              		mov	r3, r0
+ 2026              		str	r3, [fp, #-36]	@ float
+ 2027              		.loc 1 439 0
+ 2028              		ldr	r3, .L58+28
+ 2029              		ldr	r3, [r3, #0]	@ float
+ 417:lab.c         **** /*------------ End Lab 3 ------------*/
+ 418:lab.c         **** 
+ 419:lab.c         **** /*------------ End Controller ------------*/
+ 420:lab.c         **** 
+ 421:lab.c         **** /*---------------- Command ---------------*/
+ 422:lab.c         **** void convert_input_to_motor_commands() {
+ 2030              	bl	__extendsfdf2
+ 2031              		mov	r3, r0
+ 2032              		mov	r4, r1
+ 2033              		mov	r0, r3
+ 2034 1838 0DC0A0E1 		mov	r1, r4
+ 2035              		mov	r2, #1073741824
+ 2036 183c 70D82DE9 		add	r2, r2, #1048576
+ 2037              		mov	r3, #0
+ 2038 1840 04B04CE2 		bl	__muldf3
+ 2039              		mov	r3, r0
+ 2040 1844 18D04DE2 		mov	r4, r1
+ 2041              		mov	r0, #1069547520
+ 423:lab.c         **** 	/////////////// Controller Settings ////////////
+ 424:lab.c         **** 	WO_SDK.ctrl_mode=0x00;  //0x00: direct individual motor control (individual commands for motors 0.
+ 2042              	 #3145728
+ 2043 1848 D0249FE5 		mov	r1, #0
+ 2044 184c 0030A0E3 		mov	r2, r3
+ 2045 1850 0030C2E5 		mov	r3, r4
+ 425:lab.c         **** 				//0x01: direct motor control using standard output mapping: commands are interpreted as pitch, 
+ 426:lab.c         **** 				//      and thrust inputs; no attitude controller active
+ 427:lab.c         **** 				//0x02: attitude and throttle control: commands are input for standard attitude controller
+ 428:lab.c         **** 				//0x03: GPS waypoint control
+ 429:lab.c         **** 
+ 430:lab.c         **** 	WO_SDK.ctrl_enabled=1;	//0: disable control by HL processor
+ 2046              	__divdf3
+ 2047 1854 C4249FE5 		mov	r3, r0
+ 2048 1858 0130A0E3 		mov	r4, r1
+ 2049 185c 0130C2E5 		mov	r0, r3
+ 431:lab.c         **** 				//1: enable control by HL processor
+ 432:lab.c         **** 	////////////////////////////////////////////////
+ 433:lab.c         **** 
+ 434:lab.c         **** 	//////// Translate commanded torques and thrust into rotor speed and commands ////////////
+ 435:lab.c         **** 	// NOTE METHOD BELOW ASSUMES THAT CG IS IN THE SAME PLANE AS THE ROTORS
+ 436:lab.c         **** 	
+ 437:lab.c         **** 	float twolkF = 1.0/(2.0*l*kF);
+ 2050              		r1, r4
+ 2051 1860 BC349FE5 		bl	__truncdfsf2
+ 2052 1864 003093E5 		mov	r3, r0
+ 2053 1868 0300A0E1 		str	r3, [fp, #-32]	@ float
+ 2054 186c FEFFFFEB 		.loc 1 442 0
+ 2055 1870 0030A0E1 		ldr	r2, .L58+32
+ 2056 1874 0140A0E1 		ldr	r3, .L58+36	@ float
+ 2057 1878 0300A0E1 		str	r3, [r2, #0]	@ float
+ 2058 187c 0410A0E1 		.loc 1 443 0
+ 2059 1880 0320A0E1 		ldr	r2, .L58+32
+ 2060 1884 0430A0E1 		ldr	r3, [fp, #-40]	@ float
+ 2061 1888 FEFFFFEB 		str	r3, [r2, #4]	@ float
+ 2062 188c 0030A0E1 		.loc 1 444 0
+ 2063 1890 0140A0E1 		ldr	r3, [fp, #-32]
+ 2064 1894 0350A0E1 		eor	r2, r3, #-2147483648
+ 2065 1898 0460A0E1 		ldr	r3, .L58+32
+ 2066 189c 84349FE5 		str	r2, [r3, #8]	@ float
+ 2067 18a0 003093E5 		.loc 1 445 0
+ 2068 18a4 0300A0E1 		ldr	r2, .L58+32
+ 2069 18a8 FEFFFFEB 		ldr	r3, [fp, #-36]	@ float
+ 2070 18ac 0030A0E1 		str	r3, [r2, #12]	@ float
+ 2071 18b0 0140A0E1 		.loc 1 446 0
+ 2072 18b4 0500A0E1 		ldr	r3, [fp, #-40]
+ 2073 18b8 0610A0E1 		eor	r2, r3, #-2147483648
+ 2074 18bc 0320A0E1 		ldr	r3, .L58+32
+ 2075 18c0 0430A0E1 		str	r2, [r3, #16]	@ float
+ 2076 18c4 FEFFFFEB 		.loc 1 447 0
+ 2077 18c8 0030A0E1 		ldr	r2, .L58+32
+ 2078 18cc 0140A0E1 		ldr	r3, .L58+36	@ float
+ 2079 18d0 FF05A0E3 		str	r3, [r2, #20]	@ float
+ 2080 18d4 030680E2 		.loc 1 448 0
+ 2081 18d8 0010A0E3 		ldr	r2, .L58+32
+ 2082 18dc 0320A0E1 		ldr	r3, [fp, #-32]	@ float
+ 2083 18e0 0430A0E1 		str	r3, [r2, #24]	@ float
+ 2084 18e4 FEFFFFEB 		.loc 1 449 0
+ 2085 18e8 0030A0E1 		ldr	r2, .L58+32
+ 2086 18ec 0140A0E1 		ldr	r3, [fp, #-36]	@ float
+ 2087 18f0 0300A0E1 		str	r3, [r2, #28]	@ float
+ 2088 18f4 0410A0E1 		.loc 1 450 0
+ 2089 18f8 FEFFFFEB 		ldr	r2, .L58+32
+ 2090 18fc 0030A0E1 		ldr	r3, .L58+36	@ float
+ 2091 1900 28300BE5 		str	r3, [r2, #32]	@ float
+ 438:lab.c         **** 	float fourkF = 1.0/(4.0*kF);
+ 2092              	 r3, #-2147483648
+ 2093 1904 1C349FE5 		ldr	r3, .L58+32
+ 2094 1908 003093E5 		str	r2, [r3, #36]	@ float
+ 2095 190c 0300A0E1 		.loc 1 452 0
+ 2096 1910 FEFFFFEB 		ldr	r3, [fp, #-32]
+ 2097 1914 0030A0E1 		eor	r2, r3, #-2147483648
+ 2098 1918 0140A0E1 		ldr	r3, .L58+32
+ 2099 191c 0300A0E1 		str	r2, [r3, #40]	@ float
+ 2100 1920 0410A0E1 		.loc 1 453 0
+ 2101 1924 0121A0E3 		ldr	r2, .L58+32
+ 2102 1928 012682E2 		ldr	r3, [fp, #-36]	@ float
+ 2103 192c 0030A0E3 		str	r3, [r2, #44]	@ float
+ 2104 1930 FEFFFFEB 		.loc 1 454 0
+ 2105 1934 0030A0E1 		ldr	r2, .L58+32
+ 2106 1938 0140A0E1 		ldr	r3, [fp, #-40]	@ float
+ 2107 193c FF05A0E3 		str	r3, [r2, #48]	@ float
+ 2108 1940 030680E2 		.loc 1 455 0
+ 2109 1944 0010A0E3 		ldr	r2, .L58+32
+ 2110 1948 0320A0E1 		ldr	r3, .L58+36	@ float
+ 2111 194c 0430A0E1 		str	r3, [r2, #52]	@ float
+ 2112 1950 FEFFFFEB 		.loc 1 456 0
+ 2113 1954 0030A0E1 		ldr	r2, .L58+32
+ 2114 1958 0140A0E1 		ldr	r3, [fp, #-32]	@ float
+ 2115 195c 0300A0E1 		str	r3, [r2, #56]	@ float
+ 2116 1960 0410A0E1 		.loc 1 457 0
+ 2117 1964 FEFFFFEB 		ldr	r2, .L58+32
+ 2118 1968 0030A0E1 		ldr	r3, [fp, #-36]	@ float
+ 2119 196c 24300BE5 		str	r3, [r2, #60]	@ float
+ 439:lab.c         **** 	float fourkM = 1.0/(4.0*kM);
+ 2120              	40
+ 2121 1970 B4339FE5 		str	r3, [sp, #0]
+ 2122 1974 003093E5 		ldr	r3, .L58+44
+ 2123 1978 0300A0E1 		str	r3, [sp, #4]
+ 2124 197c FEFFFFEB 		mov	r0, #4
+ 2125 1980 0030A0E1 		mov	r1, #4
+ 2126 1984 0140A0E1 		mov	r2, #1
+ 2127 1988 0300A0E1 		ldr	r3, .L58+32
+ 2128 198c 0410A0E1 		bl	matrix_multiply
+ 2129 1990 0121A0E3 		.loc 1 463 0
+ 2130 1994 012682E2 		mov	r3, #0
+ 2131 1998 0030A0E3 		str	r3, [fp, #-28]
+ 2132 199c FEFFFFEB 		b	.L43
+ 2133 19a0 0030A0E1 	.L44:
+ 2134 19a4 0140A0E1 		.loc 1 464 0
+ 2135 19a8 FF05A0E3 		ldr	r2, [fp, #-28]
+ 2136 19ac 030680E2 		ldr	r3, .L58+44
+ 2137 19b0 0010A0E3 		ldr	r2, [r3, r2, asl #2]	@ float
+ 2138 19b4 0320A0E1 		ldr	r3, .L58+48
+ 2139 19b8 0430A0E1 		ldr	r3, [r3, #0]	@ float
+ 2140 19bc FEFFFFEB 		mov	r0, r2
+ 2141 19c0 0030A0E1 		mov	r1, r3
+ 2142 19c4 0140A0E1 		bl	__gtsf2
+ 2143 19c8 0300A0E1 		mov	r3, r0
+ 2144 19cc 0410A0E1 		cmp	r3, #0
+ 2145 19d0 FEFFFFEB 		bgt	.L47
+ 2146 19d4 0030A0E1 		b	.L45
+ 2147 19d8 20300BE5 	.L47:
+ 440:lab.c         **** 
+ 441:lab.c         **** 
+ 442:lab.c         **** 	Winv[0] = 0;
+ 2148              	#-28]
+ 2149 19dc 4C239FE5 		ldr	r3, .L58+48
+ 2150 19e0 4C339FE5 		ldr	r2, [r3, #0]	@ float
+ 2151 19e4 003082E5 		ldr	r3, .L58+44
+ 443:lab.c         **** 	Winv[1] = twolkF;
+ 2152              		r2, [r3, r1, asl #2]	@ float
+ 2153 19e8 40239FE5 	.L45:
+ 2154 19ec 28301BE5 		.loc 1 470 0
+ 2155 19f0 043082E5 		ldr	r5, [fp, #-28]
+ 444:lab.c         **** 	Winv[2] = -fourkM;
+ 2156              		r2, [fp, #-28]
+ 2157 19f4 20301BE5 		ldr	r3, .L58+44
+ 2158 19f8 022123E2 		ldr	r3, [r3, r2, asl #2]	@ float
+ 2159 19fc 2C339FE5 		mov	r0, r3
+ 2160 1a00 082083E5 		bl	__extendsfdf2
+ 445:lab.c         **** 	Winv[3] = fourkF;
+ 2161              	r3, r0
+ 2162 1a04 24239FE5 		mov	r4, r1
+ 2163 1a08 24301BE5 		mov	r0, r3
+ 2164 1a0c 0C3082E5 		mov	r1, r4
+ 446:lab.c         **** 	Winv[1*4+0] = -twolkF;
+ 2165              	sqrt
+ 2166 1a10 28301BE5 		mov	r3, r0
+ 2167 1a14 022123E2 		mov	r4, r1
+ 2168 1a18 10339FE5 		mov	r0, r3
+ 2169 1a1c 102083E5 		mov	r1, r4
+ 447:lab.c         **** 	Winv[1*4+1] = 0;
+ 2170              	_truncdfsf2
+ 2171 1a20 08239FE5 		mov	r2, r0
+ 2172 1a24 08339FE5 		ldr	r3, .L58+52
+ 2173 1a28 143082E5 		str	r2, [r3, r5, asl #2]	@ float
+ 448:lab.c         **** 	Winv[1*4+2] = fourkM;
+ 2174              	c 1 473 0
+ 2175 1a2c FC229FE5 		ldr	r5, [fp, #-28]
+ 2176 1a30 20301BE5 		ldr	r2, [fp, #-28]
+ 2177 1a34 183082E5 		ldr	r3, .L58+52
+ 449:lab.c         **** 	Winv[1*4+3] = fourkF;
+ 2178              		r3, [r3, r2, asl #2]	@ float
+ 2179 1a38 F0229FE5 		mov	r0, r3
+ 2180 1a3c 24301BE5 		bl	__extendsfdf2
+ 2181 1a40 1C3082E5 		mov	r3, r0
+ 450:lab.c         **** 	Winv[2*4+0] = 0;
+ 2182              		r4, r1
+ 2183 1a44 E4229FE5 		mov	r0, r3
+ 2184 1a48 E4329FE5 		mov	r1, r4
+ 2185 1a4c 203082E5 		adr	r2, .L58
+ 451:lab.c         **** 	Winv[2*4+1] = -twolkF;
+ 2186              	ia	r2, {r2-r3}
+ 2187 1a50 28301BE5 		bl	__muldf3
+ 2188 1a54 022123E2 		mov	r3, r0
+ 2189 1a58 D0329FE5 		mov	r4, r1
+ 2190 1a5c 242083E5 		mov	r0, r3
+ 452:lab.c         **** 	Winv[2*4+2] = -fourkM;
+ 2191              	r1, r4
+ 2192 1a60 20301BE5 		adr	r2, .L58+8
+ 2193 1a64 022123E2 		ldmia	r2, {r2-r3}
+ 2194 1a68 C0329FE5 		bl	__subdf3
+ 2195 1a6c 282083E5 		mov	r3, r0
+ 453:lab.c         **** 	Winv[2*4+3] = fourkF;
+ 2196              	r4, r1
+ 2197 1a70 B8229FE5 		mov	r0, r3
+ 2198 1a74 24301BE5 		mov	r1, r4
+ 2199 1a78 2C3082E5 		bl	__truncdfsf2
+ 454:lab.c         **** 	Winv[3*4+0] = twolkF;
+ 2200              		r2, r0
+ 2201 1a7c AC229FE5 		ldr	r3, .L58+56
+ 2202 1a80 28301BE5 		str	r2, [r3, r5, asl #2]	@ float
+ 2203 1a84 303082E5 		.loc 1 480 0
+ 455:lab.c         **** 	Winv[3*4+1] = 0;
+ 2204              		r2, [fp, #-28]
+ 2205 1a88 A0229FE5 		ldr	r3, .L58+56
+ 2206 1a8c A0329FE5 		ldr	r3, [r3, r2, asl #2]	@ float
+ 2207 1a90 343082E5 		mov	r0, r3
+ 456:lab.c         **** 	Winv[3*4+2] = fourkM;
+ 2208              		r1, .L58+60	@ float
+ 2209 1a94 94229FE5 		bl	__ltsf2
+ 2210 1a98 20301BE5 		mov	r3, r0
+ 2211 1a9c 383082E5 		cmp	r3, #0
+ 457:lab.c         **** 	Winv[3*4+3] = fourkF;
+ 2212              		.L50
+ 2213 1aa0 88229FE5 		b	.L48
+ 2214 1aa4 24301BE5 	.L50:
+ 2215 1aa8 3C3082E5 		.loc 1 481 0
+ 458:lab.c         **** 
+ 459:lab.c         **** 	matrix_multiply(4,4,1,Winv,cnt_u,omega_cmd2);
+ 2216              		r1, [fp, #-28]
+ 2217 1aac 84329FE5 		ldr	r2, .L58+56
+ 2218 1ab0 00308DE5 		ldr	r3, .L58+60	@ float
+ 2219 1ab4 80329FE5 		str	r3, [r2, r1, asl #2]	@ float
+ 2220 1ab8 04308DE5 		.loc 1 482 0
+ 2221 1abc 0400A0E3 		ldr	r3, [fp, #-28]
+ 2222 1ac0 0410A0E3 		cmp	r3, #3
+ 2223 1ac4 0120A0E3 		bne	.L53
+ 2224 1ac8 60329FE5 		.loc 1 484 0
+ 2225 1acc FEFFFFEB 		ldr	r1, [fp, #-28]
+ 460:lab.c         **** 
+ 461:lab.c         **** 
+ 462:lab.c         **** 	int i;
+ 463:lab.c         **** 	for (i=0; i<4; i++) {
+ 2226              	L58+56
+ 2227 1ad0 0030A0E3 		ldr	r3, .L58+36	@ float
+ 2228 1ad4 1C300BE5 		str	r3, [r2, r1, asl #2]	@ float
+ 2229 1ad8 660000EA 		b	.L53
+ 2230              	.L48:
+ 464:lab.c         **** 		if (omega_cmd2[i] > MAXPHI2) {
+ 2231              	 1 487 0
+ 2232 1adc 1C201BE5 		ldr	r2, [fp, #-28]
+ 2233 1ae0 54329FE5 		ldr	r3, .L58+56
+ 2234 1ae4 022193E7 		ldr	r3, [r3, r2, asl #2]	@ float
+ 2235 1ae8 50329FE5 		mov	r0, r3
+ 2236 1aec 003093E5 		ldr	r1, .L58+64	@ float
+ 2237 1af0 0200A0E1 		bl	__gtsf2
+ 2238 1af4 0310A0E1 		mov	r3, r0
+ 2239 1af8 FEFFFFEB 		cmp	r3, #0
+ 2240 1afc 0030A0E1 		bgt	.L55
+ 2241 1b00 000053E3 		b	.L53
+ 2242 1b04 000000CA 	.L55:
+ 2243 1b08 040000EA 		.loc 1 488 0
+ 2244              		ldr	r1, [fp, #-28]
+ 465:lab.c         **** 			omega_cmd2[i] = MAXPHI2;
+ 2245              	56
+ 2246 1b0c 1C101BE5 		ldr	r3, .L58+64	@ float
+ 2247 1b10 28329FE5 		str	r3, [r2, r1, asl #2]	@ float
+ 2248 1b14 002093E5 	.L53:
+ 2249 1b18 1C329FE5 		.loc 1 463 0
+ 2250 1b1c 012183E7 		ldr	r3, [fp, #-28]
+ 2251              		add	r3, r3, #1
+ 466:lab.c         **** 		}
+ 467:lab.c         **** 		//else if (omega_cmd2[i] < MINPHI2) {
+ 468:lab.c         **** 		//	omega_cmd2[i] = MINPHI2;
+ 469:lab.c         **** 		//}
+ 470:lab.c         **** 		omega_cmd[i] = sqrt(omega_cmd2[i]);
+ 2252              	, [fp, #-28]
+ 2253 1b20 1C501BE5 	.L43:
+ 2254 1b24 1C201BE5 		ldr	r3, [fp, #-28]
+ 2255 1b28 0C329FE5 		cmp	r3, #3
+ 2256 1b2c 023193E7 		ble	.L44
+ 2257 1b30 0300A0E1 		.loc 1 494 0
+ 2258 1b34 FEFFFFEB 		ldr	r3, .L58+56
+ 2259 1b38 0030A0E1 		ldr	r3, [r3, #0]	@ float
+ 2260 1b3c 0140A0E1 		mov	r0, r3
+ 2261 1b40 0300A0E1 		bl	__fixunssfsi
+ 2262 1b44 0410A0E1 		mov	r3, r0
+ 2263 1b48 FEFFFFEB 		and	r3, r3, #255
+ 2264 1b4c 0030A0E1 		ldr	r2, .L58+68
+ 2265 1b50 0140A0E1 		strb	r3, [r2, #0]
+ 2266 1b54 0300A0E1 		.loc 1 495 0
+ 2267 1b58 0410A0E1 		ldr	r3, .L58+56
+ 2268 1b5c FEFFFFEB 		ldr	r3, [r3, #4]	@ float
+ 2269 1b60 0020A0E1 		mov	r0, r3
+ 2270 1b64 D8319FE5 		bl	__fixunssfsi
+ 2271 1b68 052183E7 		mov	r3, r0
+ 471:lab.c         **** 		// Translate Desired Rotor Speed into Motor Commands
+ 472:lab.c         **** 		// NOTE: THIS IS FOR THE PELICAN
+ 473:lab.c         **** 		cmd[i] = 0.238432*omega_cmd[i] - 25.872642;	// Verify
+ 2272              	dr	r2, .L58+68
+ 2273 1b6c 1C501BE5 		strb	r3, [r2, #3]
+ 2274 1b70 1C201BE5 		.loc 1 496 0
+ 2275 1b74 C8319FE5 		ldr	r3, .L58+56
+ 2276 1b78 023193E7 		ldr	r3, [r3, #8]	@ float
+ 2277 1b7c 0300A0E1 		mov	r0, r3
+ 2278 1b80 FEFFFFEB 		bl	__fixunssfsi
+ 2279 1b84 0030A0E1 		mov	r3, r0
+ 2280 1b88 0140A0E1 		and	r3, r3, #255
+ 2281 1b8c 0300A0E1 		ldr	r2, .L58+68
+ 2282 1b90 0410A0E1 		strb	r3, [r2, #1]
+ 2283 1b94 5D2F8FE2 		.loc 1 497 0
+ 2284 1b98 0C0092E8 		ldr	r3, .L58+56
+ 2285 1b9c FEFFFFEB 		ldr	r3, [r3, #12]	@ float
+ 2286 1ba0 0030A0E1 		mov	r0, r3
+ 2287 1ba4 0140A0E1 		bl	__fixunssfsi
+ 2288 1ba8 0300A0E1 		mov	r3, r0
+ 2289 1bac 0410A0E1 		and	r3, r3, #255
+ 2290 1bb0 162E8FE2 		ldr	r2, .L58+68
+ 2291 1bb4 0C0092E8 		strb	r3, [r2, #2]
+ 2292 1bb8 FEFFFFEB 		.loc 1 499 0
+ 2293 1bbc 0030A0E1 		sub	sp, fp, #24
+ 2294 1bc0 0140A0E1 		ldmfd	sp, {r4, r5, r6, fp, sp, lr}
+ 2295 1bc4 0300A0E1 		bx	lr
+ 2296 1bc8 0410A0E1 	.L59:
+ 2297 1bcc FEFFFFEB 		.align	2
+ 2298 1bd0 0020A0E1 	.L58:
+ 2299 1bd4 6C319FE5 		.word	1070499056
+ 2300 1bd8 052183E7 		.word	-1792478831
+ 474:lab.c         **** 
+ 475:lab.c         **** 		// Below is a safety measure. We want to make sure the motor
+ 476:lab.c         **** 		// commands are never 0 so that the motors will always keep
+ 477:lab.c         **** 		// spinning. Also makes sure that motor commands stay within range.
+ 478:lab.c         **** 		// NOTE: THIS SHOULD BE UNNECESSARY. I IMPLEMENTED THIS AS AN EXTRA
+ 479:lab.c         **** 		// SAFETY MEASURE
+ 480:lab.c         **** 		if (cmd[i] < 1.0) {
+ 2301              	935796
+ 2302 1bdc 1C201BE5 		.word	WO_SDK
+ 2303 1be0 60319FE5 		.word	l
+ 2304 1be4 023193E7 		.word	kF
+ 2305 1be8 0300A0E1 		.word	kM
+ 2306 1bec 58119FE5 		.word	Winv
+ 2307 1bf0 FEFFFFEB 		.word	0
+ 2308 1bf4 0030A0E1 		.word	cnt_u
+ 2309 1bf8 000053E3 		.word	omega_cmd2
+ 2310 1bfc 000000BA 		.word	MAXPHI2
+ 2311 1c00 0B0000EA 		.word	omega_cmd
+ 2312              		.word	cmd
+ 481:lab.c         **** 			cmd[i] = 1.0;
+ 2313              	53216
+ 2314 1c04 1C101BE5 		.word	1128792064
+ 2315 1c08 38219FE5 		.word	WO_Direct_Individual_Motor_Control
+ 2316 1c0c 38319FE5 	.LFE5:
+ 482:lab.c         **** 			if(i==3)
+ 2318              	m	GPS_timeout,4,4
+ 2319 1c14 1C301BE5 		.comm	SYSTEM_initialized,1,1
+ 2320 1c18 030053E3 		.comm	imusensor,68,4
+ 2321 1c1c 1200001A 		.comm	mocap,44,4
+ 483:lab.c         **** 			{
+ 484:lab.c         **** 				cmd[i] = 0;
+ 2322              	mm	takeoff2,4,4
+ 2323 1c20 1C101BE5 		.comm	initialize,4,4
+ 2324 1c24 1C219FE5 		.comm	velocityEstHolder,4,4
+ 2325 1c28 04319FE5 		.comm	VelEstX,4,4
+ 2326 1c2c 013182E7 		.comm	VelEstY,4,4
+ 2327 1c30 0D0000EA 		.comm	VelEstZ,4,4
+ 2328              		.comm	previousXMeas,4,4
+ 485:lab.c         **** 			}
+ 486:lab.c         **** 		}
+ 487:lab.c         **** 		else if (cmd[i] > 200.0) {
+ 2329              	previousYMeas,4,4
+ 2330 1c34 1C201BE5 		.comm	previousZMeas,4,4
+ 2331 1c38 08319FE5 		.comm	errorcum,12,4
+ 2332 1c3c 023193E7 		.comm	IntegralHolder,4,4
+ 2333 1c40 0300A0E1 		.comm	u,16,4
+ 2334 1c44 04119FE5 		.comm	goalposyaw,16,4
+ 2335 1c48 FEFFFFEB 		.comm	cnt_u,16,4
+ 2336 1c4c 0030A0E1 		.comm	o_desired,12,4
+ 2337 1c50 000053E3 		.comm	yaw_desired,4,4
+ 2338 1c54 000000CA 		.comm	xd,48,4
+ 2339 1c58 030000EA 		.comm	xe,48,4
+ 2340              		.comm	fsum_des,4,4
+ 488:lab.c         **** 			cmd[i] = 200.0;
+ 2341              	,12,4
+ 2342 1c5c 1C101BE5 		.comm	Winv,64,4
+ 2343 1c60 E0209FE5 		.comm	omega_cmd2,16,4
+ 2344 1c64 E4309FE5 		.comm	omega_cmd,16,4
+ 2345 1c68 013182E7 		.comm	cmd,16,4
+ 2346              		.section	.debug_frame,"",%progbits
+ 2347              	.Lframe0:
+ 2348 1c6c 1C301BE5 		.4byte	.LECIE0-.LSCIE0
+ 2349 1c70 013083E2 	.LSCIE0:
+ 2350 1c74 1C300BE5 		.4byte	0xffffffff
+ 2351              		.byte	0x1
+ 2352 1c78 1C301BE5 		.ascii	"\000"
+ 2353 1c7c 030053E3 		.uleb128 0x1
+ 2354 1c80 95FFFFDA 		.sleb128 -4
+ 489:lab.c         **** 		}
+ 490:lab.c         **** 	}
+ 491:lab.c         **** 	/////////////////////////////////////////////////////////////////////////////////////////////
+ 492:lab.c         **** 
+ 493:lab.c         **** 	/////// Send Motor Commands ///////////
+ 494:lab.c         **** 	WO_Direct_Individual_Motor_Control.motor[0] = cmd[0];
+ 2355              	yte	0xc
+ 2356 1c84 BC309FE5 		.uleb128 0xd
+ 2357 1c88 003093E5 		.uleb128 0x0
+ 2358 1c8c 0300A0E1 		.align	2
+ 2359 1c90 FEFFFFEB 	.LECIE0:
+ 2360 1c94 0030A0E1 	.LSFDE0:
+ 2361 1c98 FF3003E2 		.4byte	.LEFDE0-.LASFDE0
+ 2362 1c9c B0209FE5 	.LASFDE0:
+ 2363 1ca0 0030C2E5 		.4byte	.Lframe0
+ 495:lab.c         **** 	WO_Direct_Individual_Motor_Control.motor[3] = cmd[1];
+ 2364              	LFB2
+ 2365 1ca4 9C309FE5 		.4byte	.LFE2-.LFB2
+ 2366 1ca8 043093E5 		.byte	0x4
+ 2367 1cac 0300A0E1 		.4byte	.LCFI0-.LFB2
+ 2368 1cb0 FEFFFFEB 		.byte	0xd
+ 2369 1cb4 0030A0E1 		.uleb128 0xc
+ 2370 1cb8 FF3003E2 		.byte	0x4
+ 2371 1cbc 90209FE5 		.4byte	.LCFI1-.LCFI0
+ 2372 1cc0 0330C2E5 		.byte	0x8e
+ 496:lab.c         **** 	WO_Direct_Individual_Motor_Control.motor[1] = cmd[2];
+ 2373              	 0x2
+ 2374 1cc4 7C309FE5 		.byte	0x8d
+ 2375 1cc8 083093E5 		.uleb128 0x3
+ 2376 1ccc 0300A0E1 		.byte	0x8b
+ 2377 1cd0 FEFFFFEB 		.uleb128 0x4
+ 2378 1cd4 0030A0E1 		.byte	0x4
+ 2379 1cd8 FF3003E2 		.4byte	.LCFI2-.LCFI1
+ 2380 1cdc 70209FE5 		.byte	0xc
+ 2381 1ce0 0130C2E5 		.uleb128 0xb
+ 497:lab.c         **** 	WO_Direct_Individual_Motor_Control.motor[2] = cmd[3];
+ 2382              	 0x4
+ 2383 1ce4 5C309FE5 		.align	2
+ 2384 1ce8 0C3093E5 	.LEFDE0:
+ 2385 1cec 0300A0E1 	.LSFDE2:
+ 2386 1cf0 FEFFFFEB 		.4byte	.LEFDE2-.LASFDE2
+ 2387 1cf4 0030A0E1 	.LASFDE2:
+ 2388 1cf8 FF3003E2 		.4byte	.Lframe0
+ 2389 1cfc 50209FE5 		.4byte	.LFB3
+ 2390 1d00 0230C2E5 		.4byte	.LFE3-.LFB3
+ 498:lab.c         **** 	///////////////////////////////////////
+ 499:lab.c         **** }
+ 2391              	4
+ 2392 1d04 18D04BE2 		.4byte	.LCFI3-.LFB3
+ 2393 1d08 70689DE8 		.byte	0xd
+ 2394 1d0c 1EFF2FE1 		.uleb128 0xc
+ 2395              		.byte	0x4
+ 2396              		.4byte	.LCFI4-.LCFI3
+ 2397              		.byte	0x8e
+ 2398 1d10 F084CE3F 		.uleb128 0x2
+ 2399 1d14 91F12895 		.byte	0x8d
+ 2400 1d18 65DF3940 		.uleb128 0x3
+ 2401 1d1c B41D5377 		.byte	0x8b
+ 2402 1d20 00000000 		.uleb128 0x4
+ 2403 1d24 00000000 		.byte	0x84
+ 2404 1d28 00000000 		.uleb128 0x5
+ 2405 1d2c 00000000 		.byte	0x4
+ 2406 1d30 00000000 		.4byte	.LCFI5-.LCFI4
+ 2407 1d34 00000000 		.byte	0xc
+ 2408 1d38 00000000 		.uleb128 0xb
+ 2409 1d3c 00000000 		.uleb128 0x4
+ 2410 1d40 00000000 		.align	2
+ 2411 1d44 00000000 	.LEFDE2:
+ 2412 1d48 00000000 	.LSFDE4:
+ 2413 1d4c 0000803F 		.4byte	.LEFDE4-.LASFDE4
+ 2414 1d50 00004843 	.LASFDE4:
+ 2415 1d54 00000000 		.4byte	.Lframe0
+ 2416              		.4byte	.LFB4
+ 2417              		.4byte	.LFE4-.LFB4
+ 2418              		.byte	0x4
+ 2419              		.4byte	.LCFI7-.LFB4
+ 2420              		.byte	0xd
+ 2421              		.uleb128 0xc
+ 2422              		.byte	0x4
+ 2423              		.4byte	.LCFI8-.LCFI7
+ 2424              		.byte	0x8e
+ 2425              		.uleb128 0x2
+ 2426              		.byte	0x8d
+ 2427              		.uleb128 0x3
+ 2428              		.byte	0x8b
+ 2429              		.uleb128 0x4
+ 2430              		.byte	0x8a
+ 2431              		.uleb128 0x5
+ 2432              		.byte	0x89
+ 2433              		.uleb128 0x6
+ 2434              		.byte	0x88
+ 2435              		.uleb128 0x7
+ 2436              		.byte	0x87
+ 2437              		.uleb128 0x8
+ 2438              		.byte	0x86
+ 2439              		.uleb128 0x9
+ 2440              		.byte	0x85
+ 2441              		.uleb128 0xa
+ 2442              		.byte	0x84
+ 2443              		.uleb128 0xb
+ 2444              		.byte	0x4
+ 2445              		.4byte	.LCFI9-.LCFI8
+ 2588              		.byte	0x5
+DEFINED SYMBOLS
+                            *ABS*:00000000 lab.c
+C:\Users\stier2\AppData\Local\Temp/ccITaaaa.s:15     .data:00000000 mass
+C:\Users\stier2\AppData\Local\Temp/ccITaaaa.s:16     .data:00000000 $d
+C:\Users\stier2\AppData\Local\Temp/ccITaaaa.s:21     .data:00000004 kF
+C:\Users\stier2\AppData\Local\Temp/ccITaaaa.s:27     .data:00000008 kM
+C:\Users\stier2\AppData\Local\Temp/ccITaaaa.s:33     .data:0000000c l
+C:\Users\stier2\AppData\Local\Temp/ccITaaaa.s:39     .data:00000010 MAXPHI2
+C:\Users\stier2\AppData\Local\Temp/ccITaaaa.s:45     .data:00000014 MINPHI2
+C:\Users\stier2\AppData\Local\Temp/ccITaaaa.s:51     .data:00000018 K_d
+C:\Users\stier2\AppData\Local\Temp/ccITaaaa.s:57     .data:0000001c K_p
+C:\Users\stier2\AppData\Local\Temp/ccITaaaa.s:63     .data:00000020 K_i
+C:\Users\stier2\AppData\Local\Temp/ccITaaaa.s:77     .bss:00000000 v_desired
+C:\Users\stier2\AppData\Local\Temp/ccITaaaa.s:84     .data:00000040 g
+C:\Users\stier2\AppData\Local\Temp/ccITaaaa.s:91     .bss:0000000c outter_count
+C:\Users\stier2\AppData\Local\Temp/ccITaaaa.s:98     .data:00000044 epsilon_eq
+C:\Users\stier2\AppData\Local\Temp/ccITaaaa.s:104    .data:00000048 nx_eq
+C:\Users\stier2\AppData\Local\Temp/ccITaaaa.s:111    .bss:00000010 ny_eq
+C:\Users\stier2\AppData\Local\Temp/ccITaaaa.s:118    .data:0000004c nz_eq
+C:\Users\stier2\AppData\Local\Temp/ccITaaaa.s:124    .data:00000050 p_eq
+C:\Users\stier2\AppData\Local\Temp/ccITaaaa.s:131    .bss:00000014 q_eq
+C:\Users\stier2\AppData\Local\Temp/ccITaaaa.s:138    .data:00000054 r_eq
+C:\Users\stier2\AppData\Local\Temp/ccITaaaa.s:145    .bss:00000018 pd_eq
+C:\Users\stier2\AppData\Local\Temp/ccITaaaa.s:151    .bss:0000001c qd_eq
+C:\Users\stier2\AppData\Local\Temp/ccITaaaa.s:157    .bss:00000020 rd_eq
+C:\Users\stier2\AppData\Local\Temp/ccITaaaa.s:164    .data:00000058 w1_eq
+C:\Users\stier2\AppData\Local\Temp/ccITaaaa.s:170    .data:0000005c w2_eq
+C:\Users\stier2\AppData\Local\Temp/ccITaaaa.s:176    .data:00000060 w3_eq
+C:\Users\stier2\AppData\Local\Temp/ccITaaaa.s:183    .bss:00000024 w4_eq
+C:\Users\stier2\AppData\Local\Temp/ccITaaaa.s:190    .data:00000064 se
+C:\Users\stier2\AppData\Local\Temp/ccITaaaa.s:199    .data:00000074 ue
+C:\Users\stier2\AppData\Local\Temp/ccITaaaa.s:207    .bss:00000028 a_desired
+C:\Users\stier2\AppData\Local\Temp/ccITaaaa.s:213    .text:00000000 lab
+C:\Users\stier2\AppData\Local\Temp/ccITaaaa.s:220    .text:00000000 $a
+C:\Users\stier2\AppData\Local\Temp/ccITaaaa.s:295    .text:00000070 do_sensor_fusion
+C:\Users\stier2\AppData\Local\Temp/ccITaaaa.s:617    .text:00000428 lab3
+C:\Users\stier2\AppData\Local\Temp/ccITaaaa.s:2028   .text:00001838 convert_input_to_motor_commands
+C:\Users\stier2\AppData\Local\Temp/ccITaaaa.s:259    .text:00000064 $d
+                            *COM*:00000010 goalposyaw
+                            *COM*:0000000c o_desired
+                            *COM*:00000004 yaw_desired
+C:\Users\stier2\AppData\Local\Temp/ccITaaaa.s:269    .bss:00000034 LED1toggle
+C:\Users\stier2\AppData\Local\Temp/ccITaaaa.s:275    .bss:00000038 LED1count
+C:\Users\stier2\AppData\Local\Temp/ccITaaaa.s:281    .bss:0000003c numCMDs
+C:\Users\stier2\AppData\Local\Temp/ccITaaaa.s:301    .text:00000070 $a
+C:\Users\stier2\AppData\Local\Temp/ccITaaaa.s:566    .text:000003f8 $d
+                            *COM*:0000002c mocap
+                            *COM*:00000004 previousXMeas
+                            *COM*:00000004 previousYMeas
+                            *COM*:00000004 previousZMeas
+                            *COM*:00000004 initialize
+C:\Users\stier2\AppData\Local\Temp/ccITaaaa.s:585    .bss:00000040 LED0timeCount
+C:\Users\stier2\AppData\Local\Temp/ccITaaaa.s:591    .bss:00000044 LED0toggle
+C:\Users\stier2\AppData\Local\Temp/ccITaaaa.s:597    .rodata:00000000 C.38.2531
+C:\Users\stier2\AppData\Local\Temp/ccITaaaa.s:598    .rodata:00000000 $d
+C:\Users\stier2\AppData\Local\Temp/ccITaaaa.s:604    .rodata:0000000c C.25.2467
+C:\Users\stier2\AppData\Local\Temp/ccITaaaa.s:623    .text:00000428 $a
+C:\Users\stier2\AppData\Local\Temp/ccITaaaa.s:1676   .text:00001370 $d
+                            *COM*:00000030 xd
+                            *COM*:00000044 imusensor
+                            *COM*:00000030 xe
+                            *COM*:0000000c n_des
+                            *COM*:00000004 fsum_des
+                            *COM*:00000010 cnt_u
+                            *COM*:00000010 u
+C:\Users\stier2\AppData\Local\Temp/ccITaaaa.s:1711   .text:000013f4 $a
+C:\Users\stier2\AppData\Local\Temp/ccITaaaa.s:2398   .text:00001d10 $d
+                            *COM*:00000040 Winv
+                            *COM*:00000010 omega_cmd2
+                            *COM*:00000010 omega_cmd
+                            *COM*:00000010 cmd
+                            *COM*:00000004 GPS_timeout
+                            *COM*:00000001 SYSTEM_initialized
+                            *COM*:00000004 takeoff2
+                            *COM*:00000004 velocityEstHolder
+                            *COM*:00000004 VelEstX
+                            *COM*:00000004 VelEstY
+                            *COM*:00000004 VelEstZ
+                            *COM*:0000000c errorcum
+                            *COM*:00000004 IntegralHolder
+
+UNDEFINED SYMBOLS
+__nesf2
+__floatsidf
+__adddf3
+__fixdfsi
+__subsf3
+__extendsfdf2
+__divdf3
+__truncdfsf2
+LED
+__mulsf3
+__muldf3
+__subdf3
+__divsf3
+__addsf3
+__gtdf2
+__ltsf2
+cos
+sin
+matrix_multiply
+sqrt
+__gtsf2
+__fixunssfsi
+WO_SDK
+WO_Direct_Individual_Motor_Control
