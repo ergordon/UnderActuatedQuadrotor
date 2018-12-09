@@ -20,31 +20,26 @@ clc; clear; close all;
 % var_guess = [.03 0 .289 .958 0 5.69 18.89 0 0 0 500 500 250 0]';
 var_guess = [.03 0 .289 .76 0 5.69 18.89 0 0 0 700 700 500 0]';
 
-% equilibRoot(var_guess)'
-
-fun = @equilibRoot;
-sol = fsolve(fun,var_guess)
+equilibRoot(var_guess)'
 
 %%
 clc; clear; close all;
 
 %[epsilon nx ny nz p q r pdot qdot rdot w1 w2 w3 w4]
- epsilon_eq=0.023779; 
- nx_eq=0.000000 ;
- ny_eq=0.000000 ;
- nz_eq=1.000000 ;
- p_eq=0.000000 ;
- q_eq=0.000000 ;
- r_eq=42.054129 ;
- pd_eq=0.000000 ;
- qd_eq=0.000000 ;
- rd_eq=0.000000 ;
- w1_eq=685.650999 ;
- w2_eq=685.650999 ;
- w3_eq=0.128098 ;
- w4_eq=0.000000;
+kF = 7.46e-6;
+epsilon_eq = 0.039188 ;
+ nx_eq = -0.105822 ;
+ ny_eq = 0.000000 ;
+ nz_eq = 0.994385 ;
+ p_eq = -2.700386 ;
+ q_eq = 0.000000 ;
+ r_eq = 25.374955 ;
+ w1_eq = 614.993890 ;
+ w2_eq = 614.993890 ;
+ w3_eq = 434.866350 ;
+ w4_eq = 0.000000 ;
  
- kF = 7.46e-6;
+ 
  f1_eq = kF*w1_eq^2;
  f2_eq = kF*w2_eq^2;
  f3_eq = kF*w3_eq^2;

@@ -14,5 +14,6 @@ function eq = getEquilibrium()
     eq.s = [p_eq;q_eq;nx_eq;ny_eq]; %[p;q;nx;ny]
     eq.u = [f2_eq-f1_eq;f3_eq]; %equilibrium (force) input for inner loop reduced state
     eq.a = [0;0;0]; %equilibrium input (acceleration) for outter loop
+    eq.s_ext = [p_eq;q_eq;nx_eq;ny_eq;f2_eq-f1_eq;f3_eq]; %[p;q;nx;ny;f2-f1;f1]
     
 end

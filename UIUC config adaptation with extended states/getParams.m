@@ -3,21 +3,22 @@ function params = getParams(eq)
     params = struct;
     
     %initial conditions
-    params.o0 = [0; 0; -.08];
-    params.theta0 = [0; 0; 0];
+    params.o0 = [0; 0; -1];
+    params.theta0 = [pi/2; 0; 0];
     params.v0 = [0; 0; 0];
     params.w0 = [0;0;0];
-    params.x0 = [params.o0; params.theta0; params.v0; params.w0];
+    params.motorRates0 = [0;0;0;0];
+    params.x0 = [params.o0; params.theta0; params.v0; params.w0;params.motorRates0];
     
     
     %time
     params.t0 = 0;  %simulation start time
-    params.t1 = 10; %simulation stop time
+    params.t1 = 5; %simulation stop time
     params.dt = 1/1000; %frequency of inner loop
     
     
     
-    params.frequencyRatio = 20; %ratio of outter to inner loop frequencies
+    params.frequencyRatio = 5; %ratio of outter to inner loop frequencies
     params.sigma_mot = .015; %time constant for motors
     params.el = .17; %quadrotor spar length
     params.kF = 7.46e-6; %motor->force coefficient
@@ -32,8 +33,14 @@ function params = getParams(eq)
     
     
     %PID gains used for the outter loop (actually only PD)
-    params.sigma = .7;%damping ratio
-    params.omega_n = 1;%natural frequency
+    params.sigmax = .5;%damping ratio
+    params.omega_nx = .5;%natural frequency
+    
+    params.sigmay = .5;%damping ratio
+    params.omega_ny = .5;%natural frequency
+    
+    params.sigmaz = .7;%damping ratio
+    params.omega_nz = 1;%natural frequency
     
 
 end

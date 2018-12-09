@@ -22,8 +22,8 @@ function gains = getGains(params,eq)
 
     [Ad, Bd] = make_discrete(A,B,params.dt);
 
-    Q = diag([5 5 20 20]);
-    R = diag([1 1]);
+    Q = diag([1 1 20 20]);
+    R = diag([.01 .01]);
     gains.K_i = dlqr(Ad,Bd,Q,R);
     K_i = gains.K_i
 

@@ -48,7 +48,7 @@ Tres = [l*(f1-f2)+td(1);
         l*(f3-f4)+td(2);
         t1+t2+t3+t4+td(3)];
     
-rho = 0;
+rho = 0.5;
     
 eq123 = JB*wBdot + cross(wB, JT*wB + JP*(wP1+wP2+wP3+wP4)) - Tres
 eq456 = epsilon*wB - n;
